@@ -97,8 +97,47 @@
 
     
     <!-- Footer -->
-    <footer class="bg-blue-600 text-white text-center py-6 mt-12 rounded-t-lg">
-        <p>&copy; 2025 TOEIC - Politeknik Negeri Malang</p>
-    </footer>
+<footer class="bg-blue-600 text-white py-8 mt-12 rounded-t-lg">
+    <!-- Logo di tengah -->
+    <div class="flex justify-center mb-4">
+      <img src="logo.png" alt="Logo" class="h-12"> <!-- Ganti 'logo.png' dengan path logo sebenarnya -->
+    </div>
+  
+    <!-- Konten utama footer -->
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 text-sm gap-6 text-center md:text-left">
+      <!-- Alamat -->
+      <div>
+        <h2 class="font-bold mb-2">Layanan TOEIC</h2>
+        <p>Politeknik Negeri Malang<br>
+          Jl. Soekarno - Hatta No.9,<br>
+          Jatimulyo, Kec. Lowokwaru,<br>
+          Kota Malang, Jawa Timur 65141</p>
+      </div>
+  
+      <!-- Jam Operasional -->
+      <div>
+        <h2 class="font-bold mb-2">Jam Operasional Layanan</h2>
+        <p>Senin - Jumat: 08.00 - 16.00 WIB<br>
+          Sabtu - Minggu: Libur</p>
+      </div>
+  
+      <!-- Media Sosial -->
+      <div>
+        <h2 class="font-bold mb-2">Media Sosial</h2>
+        <div class="flex justify-center md:justify-start gap-4 text-xl mt-2">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Website"><i class="fas fa-globe"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Garis pemisah -->
+    <div class="border-t border-white mt-6 pt-4 text-center text-sm">
+      <p>Copyright &copy; 2025 TOEIC</p>
+    </div>
+  </footer>
+  
 </body>
 </html>
