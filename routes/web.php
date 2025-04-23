@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [LandingController::class, 'index']);
+
+use App\Http\Controllers\Auth\LoginController;
+
+// Halaman login
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+
+// Proses login
+Route::post('login', [LoginController::class, 'login']);
+
+// Route untuk request reset password
+Route::get('password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
