@@ -42,11 +42,11 @@
         </div>
         <ul class="flex space-x-6">
             <li><a href="#" class="hover:underline">Home</a></li>
-            <li><a href="#" class="hover:underline">Registrasi</a></li>
-            <li><a href="#" class="hover:underline">Jadwal</a></li>
-            <li><a href="#" class="hover:underline">Hasil</a></li>
-            <li><a href="#" class="hover:underline">Panduan</a></li>
-            <li><a href="#" class="hover:underline">Kontak</a></li>
+            <li><a href="#" class="hover:underline">Registrasion</a></li>
+            <li><a href="#" class="hover:underline">Schedule</a></li>
+            <li><a href="#" class="hover:underline">results</a></li>
+            <li><a href="#" class="hover:underline">Guide</a></li>
+            <li><a href="#" class="hover:underline">Contact</a></li>
         </ul>
     </nav>
     
@@ -73,24 +73,24 @@
     <!-- Informasi & Fitur -->
     <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Registrasi TOEIC</h3>
-            <p class="mt-2 text-gray-600">Isi formulir pendaftaran dengan informasi valid.</p>
+            <h3 class="text-lg font-bold">TOEIC Registration</h3>
+            <p class="mt-2 text-gray-600">Fill out the registration form with valid information.</p>
             <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Register</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Jadwal Ujian</h3>
-            <p class="mt-2 text-gray-600">Lihat jadwal terbaru ujian TOEIC.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lihat Jadwal</a>
+            <h3 class="text-lg font-bold">Exam Schedule</h3>
+            <p class="mt-2 text-gray-600">View the latest TOEIC exam schedule.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Schedule</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Cek Hasil Ujian</h3>
-            <p class="mt-2 text-gray-600">Cek hasil TOEIC Anda secara online.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lihat Hasil</a>
+            <h3 class="text-lg font-bold">check exam results</h3>
+            <p class="mt-2 text-gray-600">Check your TOEIC results online.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Results</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Panduan Lengkap</h3>
-            <p class="mt-2 text-gray-600">Pelajari panduan TOEIC secara lengkap.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Baca Panduan</a>
+            <h3 class="text-lg font-bold">Complete Guide</h3>
+            <p class="mt-2 text-gray-600">Learn the complete TOEIC guide.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Read the Guide</a>
         </div>
     </section>
     
