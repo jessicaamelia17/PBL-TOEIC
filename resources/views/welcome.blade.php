@@ -42,11 +42,11 @@
         </div>
         <ul class="flex space-x-6">
             <li><a href="#" class="hover:underline">Home</a></li>
-            <li><a href="#" class="hover:underline">Registrasi</a></li>
-            <li><a href="#" class="hover:underline">Jadwal</a></li>
-            <li><a href="#" class="hover:underline">Hasil</a></li>
-            <li><a href="#" class="hover:underline">Panduan</a></li>
-            <li><a href="#" class="hover:underline">Kontak</a></li>
+            <li><a href="#" class="hover:underline">Registrasion</a></li>
+            <li><a href="#" class="hover:underline">Schedule</a></li>
+            <li><a href="#" class="hover:underline">results</a></li>
+            <li><a href="#" class="hover:underline">Guide</a></li>
+            <li><a href="#" class="hover:underline">Contact</a></li>
         </ul>
     </nav>
     
@@ -73,32 +73,71 @@
     <!-- Informasi & Fitur -->
     <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Registrasi TOEIC</h3>
-            <p class="mt-2 text-gray-600">Isi formulir pendaftaran dengan informasi valid.</p>
+            <h3 class="text-lg font-bold">TOEIC Registration</h3>
+            <p class="mt-2 text-gray-600">Fill out the registration form with valid information.</p>
             <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Register</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Jadwal Ujian</h3>
-            <p class="mt-2 text-gray-600">Lihat jadwal terbaru ujian TOEIC.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lihat Jadwal</a>
+            <h3 class="text-lg font-bold">Exam Schedule</h3>
+            <p class="mt-2 text-gray-600">View the latest TOEIC exam schedule.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Schedule</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Cek Hasil Ujian</h3>
-            <p class="mt-2 text-gray-600">Cek hasil TOEIC Anda secara online.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lihat Hasil</a>
+            <h3 class="text-lg font-bold">check exam results</h3>
+            <p class="mt-2 text-gray-600">Check your TOEIC results online.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Results</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Panduan Lengkap</h3>
-            <p class="mt-2 text-gray-600">Pelajari panduan TOEIC secara lengkap.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Baca Panduan</a>
+            <h3 class="text-lg font-bold">Complete Guide</h3>
+            <p class="mt-2 text-gray-600">Learn the complete TOEIC guide.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Read the Guide</a>
         </div>
     </section>
     
 
     
     <!-- Footer -->
-    <footer class="bg-blue-600 text-white text-center py-6 mt-12 rounded-t-lg">
-        <p>&copy; 2025 TOEIC - Politeknik Negeri Malang</p>
-    </footer>
+<footer class="bg-blue-600 text-white py-8 mt-12 rounded-t-lg">
+    <!-- Logo di tengah -->
+    <div class="flex justify-center mb-4">
+      <img src="logo.png" alt="Logo" class="h-12"> <!-- Ganti 'logo.png' dengan path logo sebenarnya -->
+    </div>
+  
+    <!-- Konten utama footer -->
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 text-sm gap-6 text-center md:text-left">
+      <!-- Alamat -->
+      <div>
+        <h2 class="font-bold mb-2">Layanan TOEIC</h2>
+        <p>Politeknik Negeri Malang<br>
+          Jl. Soekarno - Hatta No.9,<br>
+          Jatimulyo, Kec. Lowokwaru,<br>
+          Kota Malang, Jawa Timur 65141</p>
+      </div>
+  
+      <!-- Jam Operasional -->
+      <div>
+        <h2 class="font-bold mb-2">Jam Operasional Layanan</h2>
+        <p>Senin - Jumat: 08.00 - 16.00 WIB<br>
+          Sabtu - Minggu: Libur</p>
+      </div>
+  
+      <!-- Media Sosial -->
+      <div>
+        <h2 class="font-bold mb-2">Media Sosial</h2>
+        <div class="flex justify-center md:justify-start gap-4 text-xl mt-2">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Website"><i class="fas fa-globe"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Garis pemisah -->
+    <div class="border-t border-white mt-6 pt-4 text-center text-sm">
+      <p>Copyright &copy; 2025 TOEIC</p>
+    </div>
+  </footer>
+  
 </body>
 </html>
