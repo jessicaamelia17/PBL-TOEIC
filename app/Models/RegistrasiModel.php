@@ -28,11 +28,11 @@ class RegistrasiModel extends Model
 
     public function jurusan()
     {
-        return $this->belongsTo(JurusanModel::class, 'id_Jurusan', 'Id_Jurusan');
+        return $this->belongsTo(JurusanModel::class, 'Id_Jurusan', 'Id_Jurusan');
     }
 
     public function prodi()
     {
-        return $this->belongsTo(ProdiModel::class, 'id_Prodi', 'Id_Prodi');
+        return $this->belongsTo(ProdiModel::class, 'Id_Prodi', 'Id_Prodi');
     }
 }
