@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RegistrastiModel extends Model
+class RegistrasiModel extends Model
 {
     use HasFactory;
 
@@ -24,6 +24,15 @@ class RegistrastiModel extends Model
         'Scan_KTM',
         'Pas_Foto',
         'Tanggal_Pendaftaran',
-        'ID_Jadwal',
     ];
+
+    public function jurusan()
+    {
+        return $this->belongsTo(JurusanModel::class, 'id_Jurusan', 'Id_Jurusan');
+    }
+
+    public function prodi()
+    {
+        return $this->belongsTo(ProdiModel::class, 'id_Prodi', 'Id_Prodi');
+    }
 }

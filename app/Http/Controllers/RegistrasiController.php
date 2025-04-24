@@ -4,15 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\JurusanModel;
 use App\Models\ProdiModel;
-use App\Models\RegistrastiModel;
+use App\Models\Pendaftaran;
+use App\Models\RegistrasiModel;
 use Illuminate\Http\Request;
 
 class RegistrasiController extends Controller
 {
-    public function index()
-    {
-        return view('registrasi.index');
-    }
     public function create()
     {
         $jurusan = JurusanModel::all();
@@ -27,37 +24,40 @@ class RegistrasiController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi dan Simpan Data
-        $request->validate([
-            'NIM' => 'required',
-            'Nama' => 'required',
-            'No_WA' => 'required',
-            'email' => 'required|email',
-            'Id_Jurusan' => 'required',
-            'Id_Prodi' => 'required',
-            'Scan_KTP' => 'required|file|mimes:jpg,jpeg,png,pdf',
-            'Scan_KTM' => 'required|file|mimes:jpg,jpeg,png,pdf',
-            'Pas_Foto' => 'required|file|mimes:jpg,jpeg,png',
+        $validated = $request->validate([
+            'NIM' => 'required|string|max:20',
+            'Nama' => 'required|string|max:100',
+            'No_WA' => 'required|string|max:15',
+            'email' => 'required|email|max:25',
+            'Id_Jurusan' => 'required|exists:jurusan,Id_Jurusan',
+            'Id_Prodi' => 'required|exists:prodi,Id_Prodi',
+            'Scan_KTP' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'Scan_KTM' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'Pas_Foto' => 'required|file|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         // Simpan file
-        $ktpPath = $request->file('ktp')->store('uploads/ktp', 'public');
-        $ktmPath = $request->file('ktm')->store('uploads/ktm', 'public');
-        $pasFotoPath = $request->file('pas_foto')->store('uploads/pas_foto', 'public');
+        $ktpPath = $request->file('Scan_KTP')->store('uploads/ktp', 'public');
+        $ktmPath = $request->file('Scan_KTM')->store('uploads/ktm', 'public');
+        $pasFotoPath = $request->file('Pas_Foto')->store('uploads/pas_foto', 'public');
 
-        // Simpan ke DB
-        RegistrastiModel::create([
-            'NIM' => $request->NIM,
-            'Nama' => $request->Nama,
-            'No_WA' => $request->No_WA,
-            'email' => $request->email,
-            'Id_Jurusan' => $request->Id_Jurusan,
-            'Id_Prodi' => $request->Id_Prodi,
+        // Simpan ke database
+        RegistrasiModel::create([
+            'NIM' => $validated['NIM'],
+            'Nama' => $validated['Nama'],
+            'No_WA' => $validated['No_WA'],
+            'email' => $validated['email'],
+            'id_Jurusan' => $validated['Id_Jurusan'],
+            'id_Prodi' => $validated['Id_Prodi'],
             'Scan_KTP' => $ktpPath,
             'Scan_KTM' => $ktmPath,
-            'Pas_Foto' => $pasFotoPath
+            'Pas_Foto' => $pasFotoPath,
+            'Tanggal_Pendaftaran' => now(),
         ]);
 
-        return redirect()->route('registrasi.create')->with('success', 'Pendaftaran berhasil!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Pendaftaran berhasil!'
+        ]);
     }
 }
