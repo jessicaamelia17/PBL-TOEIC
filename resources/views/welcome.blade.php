@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -140,4 +140,38 @@
   </footer>
   
 </body>
-</html>
+</html> --}}
+@extends('layouts.app')
+
+@section('content')
+<section class="text-center px-4">
+    <h2 class="text-4xl font-bold text-blue-900">TOEIC Service</h2>
+    <h3 class="text-2xl font-bold text-blue-800 mt-2">POLITEKNIK NEGERI MALANG</h3>
+    <p class="mt-4 text-gray-700">Get complete information about TOEIC registration, schedule and exam results.</p>
+    <img src="https://jti.polinema.ac.id/wp-content/uploads/2021/07/Banner-002.jpg" class="w-full max-w-3xl mx-auto my-6 rounded-lg shadow-lg" alt="TOEIC Banner">
+    <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-6 rounded shadow-md transition">Register now</a>
+
+        <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
+            <h3 class="text-lg font-bold">TOEIC Registration</h3>
+            <p class="mt-2 text-gray-600">Fill out the registration form with valid information.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Register</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
+            <h3 class="text-lg font-bold">Exam Schedule</h3>
+            <p class="mt-2 text-gray-600">View the latest TOEIC exam schedule.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Schedule</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
+            <h3 class="text-lg font-bold">check exam results</h3>
+            <p class="mt-2 text-gray-600">Check your TOEIC results online.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Results</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
+            <h3 class="text-lg font-bold">Complete Guide</h3>
+            <p class="mt-2 text-gray-600">Learn the complete TOEIC guide.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Read the Guide</a>
+        </div>
+    </section>
+</section>
+@endsection
