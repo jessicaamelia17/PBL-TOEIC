@@ -28,7 +28,7 @@ class RegistrasiController extends Controller
             'NIM' => 'required|string|max:20',
             'Nama' => 'required|string|max:100',
             'No_WA' => 'required|string|max:15',
-            'email' => 'required|email|max:25',
+            'email' => 'required|email|max:100',
             'Id_Jurusan' => 'required|exists:jurusan,Id_Jurusan',
             'Id_Prodi' => 'required|exists:prodi,Id_Prodi',
             'Scan_KTP' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
