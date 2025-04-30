@@ -17,12 +17,39 @@ class LoginController extends Controller
     // Proses login
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
         $credentials = $request->only('email', 'password');
-
+    
+        // Cek apakah kredensial benar
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/home');
-        }
+            // Regenerasi session untuk keamanan
+            $request->session()->regenerate();
 
-        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
+            // Redirect ke dashboard setelah login berhasil
+            return redirect()->intended('/dashboard');
+        }
+    
+        // Jika login gagal, kembalikan pesan error
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput();
+    }    
+
+    // Logout user
+    public function logout(Request $request)
+    {
+        // Logout user
+        Auth::logout();
+
+        // Invalidasi session dan regenerasi CSRF token
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Redirect ke halaman login setelah logout
+        return redirect()->route('login');
     }
 }
