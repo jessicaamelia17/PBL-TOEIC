@@ -1,47 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Login UPA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - TOEIC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 </head>
+<body class="bg-gradient-to-br from-gray-100 via-white to-gray-200 min-h-screen flex items-center justify-center px-4">
 
-<body class="bg-gray-100 h-screen flex items-center justify-center">
-    <div class="flex w-full max-w-5xl h-[500px] rounded-xl shadow-lg overflow-hidden">
-        <!-- Kiri: Form Login -->
-        <div class="w-1/2 bg-blue-600 p-8 flex flex-col justify-center items-center text-white">
-            <h2 class="text-3xl font-bold mb-6">Login</h2>
-            <form method="POST" action="{{ route('login') }}" class="w-full">
-                @csrf
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium">Email</label>
-                    <input type="email" id="email" name="email" class="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Email" required>
-                </div>
+  <div class="flex flex-col md:flex-row w-full max-w-5xl bg-white shadow-2xl rounded-3xl overflow-hidden transition-all">
+    
+    <!-- Form Section -->
+    <div class="md:w-1/2 bg-gradient-to-br from-blue-700 to-blue-500 text-white px-10 py-16 flex flex-col justify-center">
+      <div class="flex items-center mb-6">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 mr-3 rounded-full bg-white p-1 shadow" />
+        <h2 class="text-2xl font-bold tracking-wide">TOEIC</h2>
+      </div>
 
-                <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium">Password</label>
-                    <input type="password" id="password" name="password" class="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Password" required>
-                </div>
+      <h3 class="text-3xl font-bold mb-2">Welcome Back</h3>
+      <p class="mb-6 text-sm text-blue-100">Please enter your login details below.</p>
 
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <input type="checkbox" id="remember" name="remember" class="text-blue-600">
-                        <label for="remember" class="text-sm text-white ml-2">Remember me</label>
-                    </div>
-                    <a href="{{ route('password.request') }}" class="text-sm text-white">Forgot Password?</a>
-                </div>
+      {{-- Alert untuk status sukses/gagal --}}
+      @if (session('status'))
+        <div class="mb-4 text-sm text-green-200 bg-green-600 px-4 py-2 rounded">
+          {{ session('status') }}
+        </div>
+      @endif
 
-                <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 focus:outline-none">Login</button>
-            </form>
+      @if ($errors->any())
+        <div class="mb-4 text-sm text-red-200 bg-red-600 px-4 py-2 rounded">
+          <ul class="list-disc ml-5">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
+
+        {{-- Email --}}
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your email"
+            class="w-full mt-1 p-3 rounded-lg text-black bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white shadow transition"
+            value="{{ old('email') }}" />
         </div>
 
-        <!-- Kanan: Gambar / Konten -->
-        <div class="w-1/2 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/600x500');">
-            <!-- Image or other content can go here -->
+        {{-- Password --}}
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium">Password</label>
+          <input type="password" id="password" name="password" required placeholder="Enter your password"
+            class="w-full mt-1 p-3 rounded-lg text-black bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white shadow transition" />
         </div>
+
+        {{-- Show Password + Lupa Password --}}
+        <div class="flex justify-between items-center text-sm mb-6">
+          <label class="flex items-center text-white">
+            <input type="checkbox" id="showPassword" class="mr-2"> Show Password
+          </label>
+          <a href="{{ route('password.request') }}" class="text-white underline hover:text-blue-200">Forgot Password?</a>
+        </div>
+
+        {{-- Tombol Submit --}}
+        <button type="submit"
+          class="w-full py-3 bg-white text-blue-700 font-semibold rounded-md hover:bg-gray-200 transition transform hover:scale-105">
+          LOGIN
+        </button>
+      </form>
     </div>
-</body>
 
+    <!-- Image Section -->
+    <div class="md:w-1/2 h-64 md:h-auto">
+      <img src="{{ asset('images/gedung.png') }}" alt="Gedung" class="object-cover w-full h-full" />
+    </div>
+  </div>
+
+  <script>
+    // Script untuk show/hide password
+    document.getElementById('showPassword').addEventListener('change', function () {
+      const passwordField = document.getElementById('password');
+      passwordField.type = this.checked ? 'text' : 'password';
+    });
+  </script>
+</body>
 </html>
