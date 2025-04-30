@@ -17,6 +17,7 @@ class ProdiSeeder extends Seeder
     $jurusan = DB::table('jurusan')->pluck('Id_Jurusan', 'Nama_Jurusan');
 
     DB::table('prodi')->insert([
+        ['Nama_Prodi' => 'D-III Teknik Kimia', 'Id_Jurusan' => $jurusan['Teknik Kimia']],
         ['Nama_Prodi' => 'D-IV Teknologi Kimia Industri', 'Id_Jurusan' => $jurusan['Teknik Kimia']],
         ['Nama_Prodi' => 'D-IV Teknik Kimia', 'Id_Jurusan' => $jurusan['Teknik Kimia']],
         ['Nama_Prodi' => 'D-IV Sistem Kelistrikan', 'Id_Jurusan' => $jurusan['Teknik Elektro']],
