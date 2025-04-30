@@ -63,3 +63,7 @@ Route::prefix('registrasi')->group(function () {
 Route::get('/schedule', function () {
     return view('schedule.schedule');
 });
+
+Route::get('/peserta', function () {
+    return view('peserta.index');
+});
