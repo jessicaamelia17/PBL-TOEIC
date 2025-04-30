@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [LandingController::class, 'index']);
+Route::get('/admin', [WelcomeController::class, 'index'])->name('home');
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RegistrasiController;
