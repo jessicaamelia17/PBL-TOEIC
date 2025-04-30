@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\LandingController;
-use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [LandingController::class, 'index']);
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RegistrasiController;
@@ -23,11 +22,14 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PengumumanController;
+
 
 Route::get('/admin', [WelcomeController::class, 'index']);
 
 // Halaman utama atau landing page
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
 
 // Menampilkan form login
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
