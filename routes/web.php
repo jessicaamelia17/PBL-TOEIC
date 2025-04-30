@@ -33,4 +33,17 @@ Route::prefix('registrasi')->group(function () {
     
     // AJAX untuk ambil Prodi berdasarkan Jurusan
     Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('registrasi.getProdi');
+
+    // Cek NIM untuk validasi
+    Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('registrasi.checkNIM');
+});
+
+// Route untuk tampilan jadwal
+Route::get('/schedule', function () {
+    return view('schedule.schedule');
+});
+
+// Route untuk tampilan peserta
+Route::get('/peserta', function () {
+    return view('peserta.index');
 });

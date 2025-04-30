@@ -60,4 +60,13 @@ class RegistrasiController extends Controller
             'message' => 'Pendaftaran berhasil!'
         ]);
     }
+
+    public function checkNIM($nim)
+    {
+        $exists = RegistrasiModel::where('NIM', $nim)->exists();
+
+        return response()->json([
+            'available' => !$exists
+        ]);
+    }
 }
