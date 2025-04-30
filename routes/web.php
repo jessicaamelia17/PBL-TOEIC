@@ -46,3 +46,7 @@ Route::get('/schedule', function () {
 Route::get('/peserta', function () {
     return view('peserta.index');
 });
+
+Route::get('/pengumuman', function () {
+    return view('pengumuman.index');
+});
