@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PengumumanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [LandingController::class, 'index']);
+Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RegistrasiController;
@@ -42,3 +44,6 @@ Route::prefix('registrasi')->group(function () {
 Route::get('/schedule', function () {
     return view('schedule.schedule');
 });
+
+
+
