@@ -43,3 +43,7 @@ Route::prefix('registrasi')->group(function () {
     Route::post('/', [RegistrasiController::class, 'store'])->name('registrasi.store');
     Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('registrasi.getProdi');
 });
+
+Route::get('/peserta', function () {
+    return view('peserta.index');
+});
