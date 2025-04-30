@@ -35,6 +35,8 @@ Route::prefix('registrasi')->group(function () {
     Route::get('/', [RegistrasiController::class, 'create'])->name('registrasi.create');
     Route::post('/', [RegistrasiController::class, 'store'])->name('registrasi.store');
     Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('registrasi.getProdi');
+    Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM']);
+
 });
 
 Route::get('/schedule', function () {
