@@ -38,7 +38,7 @@
         </ul>
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="{{ url('/admin') }}" class="nav-link {{ $activeMenu == 'pendaftaran' ? 'active' : '' }} ">
+                <a href="{{ url('/pendaftar') }}" class="nav-link {{ $activeMenu == 'pendaftaran' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Data Pendaftaran</p>
                 </a>
