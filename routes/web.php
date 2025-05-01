@@ -1,6 +1,5 @@
-<?php
 
-use App\Http\Controllers\LandingController;
+    <?php
 
 
 /*
@@ -15,57 +14,62 @@ use App\Http\Controllers\LandingController;
 */
 
 
-
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\RegistrasiController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PengumumanController;
+<<<<<<< HEAD
 use App\Http\Controllers\ScheduleController;
+=======
+use App\Http\Controllers\RegistrasiController;
+>>>>>>> 23f08a69c1df912a3a1cddd85bddbb796a5f689e
 
-
-Route::get('/admin', [WelcomeController::class, 'index']);
-
-// Halaman utama atau landing page
+// Halaman utama publik
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
 
-// Menampilkan form login
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+// Jadwal & peserta publik
+Route::get('/schedule', fn() => view('schedule.schedule'));
+Route::get('/peserta', fn() => view('peserta.index'));
 
-// Proses login
-Route::post('login', [LoginController::class, 'login']);
-
-// Route logout
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-// Halaman dashboard (hanya bisa diakses jika sudah login)
-Route::middleware(['auth'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-// Route untuk request reset password
-Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-
-// Route Registrasi
+// Grup route untuk registrasi
 Route::prefix('registrasi')->group(function () {
-    // Halaman registrasi
     Route::get('/', [RegistrasiController::class, 'create'])->name('registrasi.create');
     Route::post('/', [RegistrasiController::class, 'store'])->name('registrasi.store');
-
-    // AJAX untuk ambil Prodi berdasarkan Jurusan
     Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('registrasi.getProdi');
-
-    // Cek NIM untuk validasi
     Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('registrasi.checkNIM');
 });
 
+<<<<<<< HEAD
 // route jadwal
 Route::get('/schedule', function () {
     return view('schedule.index');
+=======
+// =====================
+// 🔐 ROUTE KHUSUS ADMIN
+// =====================
+Route::prefix('admin')->group(function () {
+    // Halaman awal admin (opsional)
+    Route::get('/', [WelcomeController::class, 'index'])->name('admin.home');
+
+    // Login Admin
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [LoginController::class, 'login']);
+
+    // Logout Admin
+    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
+    // Reset Password (opsional)
+    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
+
+    // Dashboard admin (dengan middleware auth)
+    Route::middleware(['auth'])->get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+>>>>>>> 23f08a69c1df912a3a1cddd85bddbb796a5f689e
 });
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
-Route::get('/peserta', function () {
-    return view('peserta.index');
-});
+Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
