@@ -151,6 +151,30 @@
     <img src="https://jti.polinema.ac.id/wp-content/uploads/2021/07/Banner-002.jpg" class="w-full max-w-3xl mx-auto my-6 rounded-lg shadow-lg" alt="TOEIC Banner">
     <a href="{{ url('/registrasi') }}" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-6 rounded shadow-md transition">Register now</a>
 
+<section class="container mx-auto py-12 px-6">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Announcement</h2>
+
+    @if($pengumuman->isEmpty())
+        <div class="bg-white p-6 rounded-lg shadow text-center text-gray-600">
+            Belum ada pengumuman.
+        </div>
+    @else
+        <div class="bg-white p-6 rounded-lg shadow">
+            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                @foreach($pengumuman as $item)
+                    <li>
+                        {{ $item->judul_pengumuman }} -
+                        <a href="{{ route('pengumuman.show', $item->id_pengumuman) }}"
+                           class="text-blue-600 hover:underline">
+                            Lihat selengkapnya
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</section>
+
         <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     @php
         $cards = [
