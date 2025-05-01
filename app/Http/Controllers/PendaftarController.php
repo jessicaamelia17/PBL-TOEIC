@@ -14,12 +14,19 @@ class PendaftarController extends Controller
     // Menampilkan halaman daftar pendaftar
     public function index()
     {
+        $breadcrumb = (object)[
+            'title' => 'Data Pendaftar',
+            'list' => ['Home', 'Pendaftar']
+        ];
+
+        $activeMenu = 'pendaftar';
         // Opsional: batasi akses jika bukan mahasiswa atau petugas
-        return view('pendaftar.index', [
-            'page' => (object)[
-                'title' => 'Data Pendaftar'
-            ]
-        ]);
+        // return view('pendaftar.index', [
+        //     'page' => (object)[
+        //         'title' => 'Data Pendaftar'
+        //     ]
+        // ]);
+        return view('pendaftar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' =>$activeMenu]);
     }
 
     // Digunakan oleh DataTables Ajax

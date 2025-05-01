@@ -63,11 +63,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
 
     // Dashboard admin (dengan middleware auth)
-    Route::middleware(['auth'])->get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
-Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
+//     Route::middleware(['auth'])->get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+// Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
+// Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
 
 });
+
+Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
+Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
 
 Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
 Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
