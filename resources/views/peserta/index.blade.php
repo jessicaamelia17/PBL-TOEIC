@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Daftar Peserta TOEIC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     {{-- Tailwind --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -56,13 +57,14 @@
                             <th>Zoom ID</th>
                             <th>Password</th>
                         </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <!-- ROOM 1 -->
                         <tr>
                             <td colspan="7" class="text-left font-semibold bg-white">
                                 ROOM 1
                             </td>
                         </tr>
-                    </thead>
-                    <tbody class="text-gray-700">
                         @php
                             $peserta = [
                                 ['nama' => 'Deva Selviana', 'nim' => '2341760060'],
@@ -75,13 +77,31 @@
 
                         @foreach ($peserta as $i => $p)
                         <tr>
-                          <td>{{ $i + 1 }}</td>
-                          <td>{{ $p['nama'] }}</td>
-                          <td>{{ $p['nim'] }}</td>
-                          <td>D-IV Sistem Informasi Bisnis</td>
-                          <td>2 F</td>
-                          <td>943 7556 1584</td>
-                          <td>TOEIC2025</td>
+                            <td>{{ $i + 1 }}</td>
+                            <td>{{ $p['nama'] }}</td>
+                            <td>{{ $p['nim'] }}</td>
+                            <td>D-IV Sistem Informasi Bisnis</td>
+                            <td>2 F</td>
+                            <td>943 7556 1584</td>
+                            <td>TOEIC2025</td>
+                        </tr>
+                        @endforeach
+
+                        <!-- ROOM 2 -->
+                        <tr>
+                            <td colspan="7" class="text-left font-semibold bg-white">
+                                ROOM 2
+                            </td>
+                        </tr>
+                        @foreach ($peserta as $i => $p)
+                        <tr>
+                            <td>{{ $i + 1 }}</td>
+                            <td>{{ $p['nama'] }}</td>
+                            <td>{{ $p['nim'] }}</td>
+                            <td>D-IV Sistem Informasi Bisnis</td>
+                            <td>2 F</td>
+                            <td>943 7556 1584</td>
+                            <td>TOEIC2025</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -105,18 +125,17 @@
     <script>
       $(document).ready(function() {
         $('#participantsTable').DataTable({
-          // sesuaikan bahasa Indonesia jika perlu
           language: {
-            search: "Search:",
-            lengthMenu: "Show _MENU_ entries",
-            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ entri",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
             paginate: {
-              previous: "Previous",
-              next: "Next"
+              previous: "Sebelumnya",
+              next: "Berikutnya"
             }
           },
           pageLength: 5,
-          lengthMenu: [5, 10, 25, 50, 100, 500]
+          lengthMenu: [5, 10, 25, 50, 100]
         });
       });
     </script>
