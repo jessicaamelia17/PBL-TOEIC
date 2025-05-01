@@ -21,11 +21,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PengumumanController;
-<<<<<<< HEAD
-use App\Http\Controllers\ScheduleController;
-=======
 use App\Http\Controllers\RegistrasiController;
->>>>>>> 23f08a69c1df912a3a1cddd85bddbb796a5f689e
+use App\Http\Controllers\ScheduleController;
 
 // Halaman utama publik
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -43,31 +40,9 @@ Route::prefix('registrasi')->group(function () {
     Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('registrasi.checkNIM');
 });
 
-<<<<<<< HEAD
 // route jadwal
 Route::get('/schedule', function () {
     return view('schedule.index');
-=======
-// =====================
-// 🔐 ROUTE KHUSUS ADMIN
-// =====================
-Route::prefix('admin')->group(function () {
-    // Halaman awal admin (opsional)
-    Route::get('/', [WelcomeController::class, 'index'])->name('admin.home');
-
-    // Login Admin
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
-    Route::post('/login', [LoginController::class, 'login']);
-
-    // Logout Admin
-    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
-
-    // Reset Password (opsional)
-    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
-
-    // Dashboard admin (dengan middleware auth)
-    Route::middleware(['auth'])->get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
->>>>>>> 23f08a69c1df912a3a1cddd85bddbb796a5f689e
 });
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 

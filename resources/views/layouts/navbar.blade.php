@@ -4,9 +4,9 @@
         <h1 class="text-2xl font-bold text-blue-600">TOEIC</h1>
     </div>
     <ul class="flex space-x-6">
-        <li><a href="#" class="hover:underline">Home</a></li>
+        <li><a href="{{ url('/')}}" class="hover:underline">Home</a></li>
         <li><a href="{{ url('/registrasi') }}" class="hover:underline">Registration</a></li>
-        <li><a href="#" class="hover:underline">Schedule</a></li>
+        <li><a href="{{ url('/schedule')}}" class="hover:underline">Schedule</a></li>
         <li><a href="#" class="hover:underline">Results</a></li>
         <li><a href="#" class="hover:underline">Guide</a></li>
         <li><a href="#" class="hover:underline">Contact</a></li>
