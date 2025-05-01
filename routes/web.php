@@ -1,4 +1,4 @@
-<?php
+    <?php
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +18,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\WelcomeController;
 
-Route::get('/admin', [WelcomeController::class, 'index']);
+
+Route::prefix('admin')->group(function () {
+    // Halaman registrasi
+Route::get('/', [WelcomeController::class, 'index']);
+});
 
 // Halaman utama atau landing page
 Route::get('/', [LandingController::class, 'index'])->name('landing');
