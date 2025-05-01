@@ -22,6 +22,9 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\HasilController;
+use App\Http\Controllers\PendaftarController;
+
 
 // Halaman utama publik
 Route::get('/', [LandingController::class, 'index'])->name('landing');
