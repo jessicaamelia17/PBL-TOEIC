@@ -15,7 +15,6 @@ use App\Http\Controllers\LandingController;
 */
 
 
-
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\DashboardController;
@@ -67,3 +66,6 @@ Route::get('/schedule', function () {
 Route::get('/peserta', function () {
     return view('peserta.index');
 });
+
+Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');

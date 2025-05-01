@@ -11,7 +11,7 @@ class PengumumanController extends Controller
 public function index()
 {
     $pengumuman = Pengumuman::orderBy('Tanggal_Pengumuman', 'desc')->get();
-    return view('index', compact('pengumuman'));
+    return view('pengumuman.index', compact('pengumuman'));
 }
 
 
