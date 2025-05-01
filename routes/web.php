@@ -22,6 +22,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\HasilController;
 
 // Halaman utama publik
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -44,6 +45,13 @@ Route::get('/schedule', function () {
     return view('schedule.index');
 });
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+
+// route hasil
+Route::get('/hasil-ujian', function () {
+    return view('hasil-ujian.index');
+});
+Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
+
 // =====================
 // 🔐 ROUTE KHUSUS ADMIN
 // =====================
