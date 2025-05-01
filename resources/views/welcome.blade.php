@@ -189,7 +189,7 @@
                 'title' => 'Exam Schedule',
                 'desc' => 'View the latest TOEIC exam schedule.',
                 'img' => 'jadwal.png',
-                'link' => url('/jadwal-ujian'),
+                'link' => url('/schedule'),
                 'button' => 'See Schedule'
             ],
             [

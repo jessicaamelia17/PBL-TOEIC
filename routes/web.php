@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\ScheduleController;
 
 
 Route::get('/admin', [WelcomeController::class, 'index']);
@@ -59,10 +60,11 @@ Route::prefix('registrasi')->group(function () {
     Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('registrasi.checkNIM');
 });
 
-// Route untuk tampilan jadwal
+// route jadwal
 Route::get('/schedule', function () {
     return view('schedule.index');
 });
+Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 Route::get('/peserta', function () {
     return view('peserta.index');
