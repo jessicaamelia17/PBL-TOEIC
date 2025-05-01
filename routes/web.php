@@ -1,5 +1,4 @@
-
-    <?php
+<?php
 
 
 /*
@@ -45,6 +44,26 @@ Route::get('/schedule', function () {
     return view('schedule.index');
 });
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+// =====================
+// 🔐 ROUTE KHUSUS ADMIN
+// =====================
+Route::prefix('admin')->group(function () {
+    // Halaman awal admin (opsional)
+    Route::get('/', [WelcomeController::class, 'index'])->name('admin.home');
+
+    // Login Admin
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [LoginController::class, 'login']);
+
+    // Logout Admin
+    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
+    // Reset Password (opsional)
+    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
+
+    // Dashboard admin (dengan middleware auth)
+    Route::middleware(['auth'])->get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+});
 
 Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
 Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
