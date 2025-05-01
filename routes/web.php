@@ -61,7 +61,7 @@ Route::prefix('registrasi')->group(function () {
 
 // Route untuk tampilan jadwal
 Route::get('/schedule', function () {
-    return view('schedule.schedule');
+    return view('schedule.index');
 });
 
 Route::get('/peserta', function () {
