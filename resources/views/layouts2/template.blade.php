@@ -23,6 +23,16 @@
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 
     @stack('css')
+    <style>
+        .sidebar-custom {
+            background-color: #3452F9 !important;
+        }
+
+        .brand-text {
+            color: white !important;
+        }
+    </style>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -33,12 +43,12 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-custom elevation-4">
             <!-- Brand Logo -->
-            <a href="{{ url('/') }}" class="brand-link">
-                <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+            <a href="{{ url('/admin') }}" class="brand-link">
+                <img src="{{ asset('polinema.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">PWL - Starter Code</span>
+                <span class="brand-text font-weight-light">Admin <b>TOEIC</b></span>
             </a>
 
             <!-- Sidebar -->
