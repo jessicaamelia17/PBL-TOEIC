@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>TOEIC - Pengumuman</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- Tailwind CSS CDN --}}
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white min-h-screen flex flex-col">
+<body class="bg-blue-100 min-h-screen flex flex-col">
 
     <!-- Header Navigation -->
     <nav class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center fixed w-[95%] shadow-lg z-10 rounded-full left-1/2 transform -translate-x-1/2 top-2">
@@ -29,10 +29,10 @@
     <div class="h-24"></div>
 
     <!-- Main Content -->
-    <main class="flex-grow px-4 py-10 bg-white">
-        <div class="max-w-4xl mx-auto">
+    <main class="flex-grow px-4 py-10">
+        <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-xl font-semibold text-center mb-6 text-gray-800"></h2>
-            <div class="rounded-lg shadow-lg border overflow-hidden">
+            <div class="rounded-lg overflow-hidden">
                 <img src="{{ asset('pengumuman.jpg') }}" alt="Pengumuman TOEIC" class="w-full object-contain">
             </div>
         </div>
