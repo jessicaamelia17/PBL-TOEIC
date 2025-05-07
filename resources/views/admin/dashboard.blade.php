@@ -7,9 +7,6 @@
         <div class="card-tools"></div>
     </div>
     <h1>Selamat datang, {{ session('admin_username') }}</h1>
-    <form method="POST" action="{{ route('admin.logout') }}">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+
 </div>
 @endsection

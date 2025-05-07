@@ -8,10 +8,29 @@ use App\Models\Admin;
 
 class AdminAuthController extends Controller
 {
+    // Halaman dashboard admin
+public function index()
+{
+
+
+            $breadcrumb = (object) [
+            'title' => 'Selamat Datang',
+            'list' => ['Home', 'Welcome']
+        ];
+
+        $activeMenu = 'dashboard';
+
+        return view('admin.dashboard', 
+        ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+
+
+}
+
+
     // Menampilkan halaman login
     public function login()
     {
-        if (Auth::guard('admin')->check()) { // Jika sudah login, maka redirect ke halaman home
+        if (Auth::guard('admin')->check()) {
             return redirect('/admin/home');
         }
         return view('auth.login');
@@ -20,36 +39,43 @@ class AdminAuthController extends Controller
     // Proses login
     public function postlogin(Request $request)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $credentials = $request->only('username', 'password');
+        $credentials = $request->only('username', 'password');
 
-            if (Auth::guard('admin')->attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($credentials)) {
+            // Jika permintaan AJAX
+            if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'status' => true,
-                    'message' => 'Login Berhasil',
-                    'redirect' => url('/')
+                    'message' => 'Login berhasil',
+                    'redirect' => url('/admin/home')
                 ]);
             }
 
+            // Jika bukan AJAX
+            return redirect('/admin/home');
+        }
+
+        // Jika gagal login
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Login Gagal'
+                'message' => 'Login gagal. Username atau password salah.'
             ]);
         }
 
-        return redirect('/');
+        return redirect('/admin/login')->with('error', 'Username atau password salah');
     }
 
     // Logout admin
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
-
+        Auth::guard('admin')->logout(); // logout dari guard admin
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('admin/login');
+        return redirect()->route('login'); // redirect ke halaman login admin
     }
+
 
     // Menampilkan halaman registrasi admin
     public function register()
@@ -65,22 +91,21 @@ class AdminAuthController extends Controller
             'password' => 'required|min:5',
         ]);
 
-        // Menyimpan admin baru
         Admin::create([
             'username' => $request->username,
-            'password' => bcrypt($request->password), // Enkripsi password
+            'password' => bcrypt($request->password),
         ]);
 
-        // Mengirim respons JSON jika permintaan AJAX
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'status' => true,
-                'message' => 'Registrasi Berhasil',
+                'message' => 'Registrasi berhasil',
                 'redirect' => url('admin/login')
             ]);
         }
 
-        // Jika bukan AJAX, redirect ke halaman login dengan flash message
         return redirect('admin/login')->with('success', 'Registrasi berhasil');
     }
+
+        
 }
