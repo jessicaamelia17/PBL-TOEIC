@@ -28,11 +28,11 @@ class PendaftarModel extends Model
 
     public function jurusan()
     {
-        return $this->belongsTo(JurusanModel::class, 'id_jurusan');
+        return $this->belongsTo(JurusanModel::class, 'Id_Jurusan');
     }
 
     public function prodi()
     {
-        return $this->belongsTo(ProdiModel::class, 'id_prodi');
+        return $this->belongsTo(ProdiModel::class, 'Id_Prodi');
     }
 }
