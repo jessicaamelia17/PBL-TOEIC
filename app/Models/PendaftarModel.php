@@ -10,7 +10,7 @@ class PendaftarModel extends Model
     use HasFactory;
 
     // Nama tabel jika tidak mengikuti plural bawaan Laravel
-    protected $table = 'pendaftar';
+    protected $table = 'pendaftaran_toeic';
 
     // Primary key jika tidak bernama 'id'
     protected $primaryKey = 'id_pendaftaran';
