@@ -48,7 +48,7 @@ class PendaftarController extends Controller
                 })
                 ->addColumn('aksi', function ($row) {
                     // Tombol aksi hanya untuk non-admin
-                    if (Auth::user()->role_id != 1) {
+                    if (Auth::check() && Auth::user()->role_id != 1) {
                         return '
                             <a href="javascript:void(0)" onclick="modalAction(\'/pendaftar/edit/' . $row->id_pendaftaran . '\')" class="btn btn-sm btn-warning">Edit</a>
                             <a href="javascript:void(0)" onclick="deleteData(\'/pendaftar/delete/' . $row->id_pendaftaran . '\')" class="btn btn-sm btn-danger">Hapus</a>

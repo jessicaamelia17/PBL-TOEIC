@@ -1,13 +1,24 @@
 <style>
+    /* Warna teks default untuk semua link menu di sidebar */
+    .nav-sidebar .nav-item>.nav-link {
+        color: white !important;
+    }
+
+    /* Style untuk link menu yang aktif */
     .nav-sidebar .nav-item>.nav-link.active {
         background-color: white !important;
+        /* Latar belakang putih saat aktif */
         color: #3452F9 !important;
+        /* Warna teks biru saat aktif */
     }
 
+    /* Style untuk ikon di dalam link menu yang aktif */
     .nav-sidebar .nav-item>.nav-link.active i {
         color: #3452F9 !important;
+        /* Warna ikon biru saat aktif */
     }
 
+    /* Style untuk ikon tombol search di sidebar */
     .sidebar .form-inline .btn-sidebar i {
         color: white;
     }
@@ -38,7 +49,7 @@
         </ul>
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="{{ url('/pendaftar') }}" class="nav-link {{ $activeMenu == 'pendaftaran' ? 'active' : '' }} ">
+                <a href="{{ url('/pendaftar') }}" class="nav-link {{ $activeMenu == 'pendaftar' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Data Pendaftaran</p>
                 </a>
