@@ -26,7 +26,7 @@ class PendaftarController extends Controller
         //         'title' => 'Data Pendaftar'
         //     ]
         // ]);
-        return view('pendaftar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' =>$activeMenu]);
+        return view('pendaftar.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 
     // Digunakan oleh DataTables Ajax
@@ -50,8 +50,8 @@ class PendaftarController extends Controller
                     // Tombol aksi hanya untuk non-admin
                     if (Auth::check() && Auth::user()->role_id != 1) {
                         return '
-                            <a href="javascript:void(0)" onclick="modalAction(\'/pendaftar/edit/' . $row->id_pendaftaran . '\')" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="javascript:void(0)" onclick="deleteData(\'/pendaftar/delete/' . $row->id_pendaftaran . '\')" class="btn btn-sm btn-danger">Hapus</a>
+                            <a href="javascript:void(0)" onclick="modalAction(\'/pendaftar/detail/' . $row->Id_Pendaftaran . '\')" class="btn btn-sm btn-info">Detail</a>
+                            <a href="javascript:void(0)" onclick="deleteData(\'/pendaftar/delete/' . $row->Id_Pendaftaran . '\')" class="btn btn-sm btn-danger">Hapus</a>
                         ';
                     } else {
                         return '-';
@@ -60,5 +60,12 @@ class PendaftarController extends Controller
                 ->rawColumns(['scan_ktp', 'scan_ktm', 'pas_foto', 'aksi'])
                 ->make(true);
         }
+    }
+
+    public function show($id)
+    {
+        $pendaftar = PendaftarModel::with(['jurusan', 'prodi'])->findOrFail($id);
+
+        return view('pendaftar.detail', compact('pendaftar'));
     }
 }
