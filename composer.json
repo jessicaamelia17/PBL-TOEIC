@@ -8,9 +8,11 @@
         "php": "^8.1",
         "almasaeed2010/adminlte": "~3.2",
         "guzzlehttp/guzzle": "^7.2",
+        "illuminate/auth": "*",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "laravel/ui": "^4.6",
         "yajra/laravel-datatables": "10.0"
     },
     "require-dev": {
