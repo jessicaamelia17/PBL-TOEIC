@@ -37,9 +37,9 @@
                         <th>Email</th>
                         <th>Jurusan</th>
                         <th>Prodi</th>
-                        <th>Scan KTP</th>
+                        {{-- <th>Scan KTP</th>
                         <th>Scan KTM</th>
-                        <th>Pas Foto</th>
+                        <th>Pas Foto</th> --}}
                         <th>Tanggal Pendaftaran</th>
                         <th>Aksi</th>
                     </tr>
@@ -73,8 +73,10 @@
                     }
                 },
                 columns: [{
-                        data: "Id_Pendaftaran",
-                        className: "text-center"
+                        data: "DT_RowIndex",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "NIM"
@@ -96,24 +98,24 @@
                         data: "prodi.Nama_Prodi",
                         defaultContent: '-'
                     },
-                    {
-                        data: "Scan_KTP",
-                        render: function(data) {
-                            return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
-                        }
-                    },
-                    {
-                        data: "Scan_KTM",
-                        render: function(data) {
-                            return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
-                        }
-                    },
-                    {
-                        data: "Pas_Foto",
-                        render: function(data) {
-                            return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
-                        }
-                    },
+                    // {
+                    //     data: "Scan_KTP",
+                    //     render: function(data) {
+                    //         return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
+                    //     }
+                    // },
+                    // {
+                    //     data: "Scan_KTM",
+                    //     render: function(data) {
+                    //         return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
+                    //     }
+                    // },
+                    // {
+                    //     data: "Pas_Foto",
+                    //     render: function(data) {
+                    //         return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
+                    //     }
+                    // },
                     {
                         data: "Tanggal_Pendaftaran"
                     },

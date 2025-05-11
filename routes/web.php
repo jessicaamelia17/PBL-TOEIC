@@ -61,5 +61,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/home', [AdminAuthController::class, 'index'])->name('admin.dashboard'); // ke dashboard view
     Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
     Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
+    Route::get('/pendaftar/detail/{id}', [PendaftarController::class, 'show']);
+
 });
 
