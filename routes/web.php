@@ -14,6 +14,7 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\AuthorizeAdmin;
+use App\Http\Controllers\Admin\SesiJadwalController;
 // use App\Http\Controllers\Admin\JadwalController;
 // Rute setelah login
 use App\Http\Controllers\Admin\AdminAuthController;
@@ -77,7 +78,13 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     
     // Route untuk update jadwal
     Route::put('jadwal/{jadwal}', [JadwalController::class, 'update'])->name('jadwal.update');
-    
+    // Route untuk mengatur sesi & room berdasarkan jadwal tertentu
+    Route::get('jadwal/{id}/sesi', [SesiJadwalController::class, 'index'])->name('sesi.index');
+    Route::post('jadwal/{id}/sesi', [SesiJadwalController::class, 'storeSesi'])->name('sesi.store');
+    Route::post('jadwal/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
+
+
+
 });
 
 

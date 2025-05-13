@@ -10,7 +10,8 @@ class JadwalUjianModel extends Model
     use HasFactory;
 
     protected $table = 'jadwal_ujian';
-    protected $primaryKey = 'Id_Jadwal'; // sudah benar
+    protected $primaryKey = 'Id_Jadwal';
+    public $timestamps = true;
 
     protected $fillable = [
         'Tanggal_Ujian',
@@ -19,11 +20,19 @@ class JadwalUjianModel extends Model
         'status_registrasi',
     ];
 
-    public $timestamps = true;
-
-    // Tambahkan ini agar route binding pakai ID_Jadwal, bukan 'id'
     public function getRouteKeyName()
     {
-        return 'ID_Jadwal';
+        return 'Id_Jadwal';
+    }
+
+    public function sesi()
+    {
+        return $this->hasMany(SesiUjianModel::class, 'id_jadwal', 'Id_Jadwal');
+    }
+
+        // optional: accessor
+    public function getIdJadwalAttribute()
+    {
+        return $this->attributes['Id_Jadwal'];
     }
 }

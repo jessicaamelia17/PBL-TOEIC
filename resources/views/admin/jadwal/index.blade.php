@@ -19,7 +19,11 @@
                 <td>{{ $jadwal->kuota_max }}</td>
                 <td>{{ $jadwal->kuota_terpakai }}</td>
                 <td>{{ ucfirst($jadwal->status_registrasi) }}</td>
-                <td><a href="{{ route('admin.jadwal.edit', $jadwal->Id_Jadwal) }}" class="btn btn-sm btn-primary">Edit</a></td>
+                <td>
+                    <a href="{{ route('admin.jadwal.edit', $jadwal->Id_Jadwal) }}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{{ route('admin.sesi.index', ['id' => $jadwal->Id_Jadwal]) }}" class="btn btn-sm btn-success">Sesi & Room</a>
+
+                </td>
 
             </tr>
         @endforeach

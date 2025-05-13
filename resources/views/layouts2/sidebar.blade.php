@@ -54,6 +54,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('admin.jadwal.index') }}" class="nav-link {{ $activeMenu == 'jadwal' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-calendar-alt"></i>
+                    <p>Kelola Jadwal & Kuota</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="#" class="nav-link"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
@@ -62,12 +69,6 @@
                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-            </li>
-            <li class="{{ request()->is('admin/jadwal*') ? 'active' : '' }}">
-                <a href="{{ route('admin.jadwal.index') }}">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Kelola Jadwal & Kuota</span>
-                </a>
             </li>
 
 
