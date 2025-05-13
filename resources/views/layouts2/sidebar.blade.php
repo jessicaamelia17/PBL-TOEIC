@@ -47,7 +47,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/pendaftar') }}" class="nav-link {{ $activeMenu == 'pendaftar' ? 'active' : '' }} ">
+                <a href="{{ route('admin.pendaftar.index') }}" class="nav-link {{ $activeMenu == 'pendaftar' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-user-check"></i>
 
                     <p>Data Pendaftaran</p>
@@ -62,6 +62,12 @@
                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
+            </li>
+            <li class="{{ request()->is('admin/jadwal*') ? 'active' : '' }}">
+                <a href="{{ route('admin.jadwal.index') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Kelola Jadwal & Kuota</span>
+                </a>
             </li>
 
 

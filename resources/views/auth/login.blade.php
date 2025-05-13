@@ -66,7 +66,7 @@
           <label class="flex items-center text-white">
             <input type="checkbox" id="showPassword" class="mr-2"> Show Password
           </label>
-          <a href="{{ route('admin.password.request') }}" class="text-white underline hover:text-blue-200">Forgot Password?</a>
+          {{-- <a href="{{ route('admin.password.request') }}" class="text-white underline hover:text-blue-200">Forgot Password?</a> --}}
         </div>
 
         {{-- Submit --}}

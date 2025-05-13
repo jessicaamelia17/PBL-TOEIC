@@ -9,11 +9,16 @@ use App\Http\Controllers\HasilController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PengumumanController;
-use App\Http\Controllers\PendaftarController;
+// use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\AuthorizeAdmin;
+// use App\Http\Controllers\Admin\JadwalController;
+// Rute setelah login
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\PendaftarController;
+use App\Http\Controllers\Admin\JadwalController;
 
 // =============================
 // 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
@@ -46,7 +51,7 @@ Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian
 // ==========================
 
 // Auth - Login & Register Admin
-use App\Http\Controllers\AdminAuthController;
+// use App\Http\Controllers\AdminAuthController;
 
 // Rute Login & Register Admin
 Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
@@ -54,14 +59,25 @@ Route::post('/login', [AdminAuthController::class, 'postlogin']);
 Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
 Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
 Route::post('/register', [AdminAuthController::class, 'store']); // GANTI store_admin -> store
-Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
+// Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
 
-// Rute setelah login
-Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/home', [AdminAuthController::class, 'index'])->name('admin.dashboard'); // ke dashboard view
+
+Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
+    Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+    
     Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
     Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
     Route::get('/pendaftar/detail/{id}', [PendaftarController::class, 'show']);
 
+        // Route untuk tampil jadwal
+    Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
+    
+    // Route untuk form edit jadwal
+    Route::get('jadwal/{jadwal}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
+    
+    // Route untuk update jadwal
+    Route::put('jadwal/{jadwal}', [JadwalController::class, 'update'])->name('jadwal.update');
+    
 });
+
 

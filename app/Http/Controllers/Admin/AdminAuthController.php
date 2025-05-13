@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use App\Http\Controllers\Controller;
 
 class AdminAuthController extends Controller
 {
     // Halaman dashboard admin
 public function index()
 {
-
-
             $breadcrumb = (object) [
             'title' => 'Selamat Datang',
             'list' => ['Home', 'Welcome']
@@ -22,8 +21,6 @@ public function index()
 
         return view('admin.dashboard', 
         ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
-
-
 }
 
 

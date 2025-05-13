@@ -61,11 +61,17 @@
         }
 
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+
             $('#table_pendaftar').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('pendaftar/list') }}",
+                    url: "{{ route('admin.pendaftar.list') }}",
                     type: "POST",
                     dataType: "json",
                     data: function(d) {
