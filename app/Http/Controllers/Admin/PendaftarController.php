@@ -32,34 +32,38 @@ class PendaftarController extends Controller
     // Digunakan oleh DataTables Ajax
     public function list(Request $request)
     {
-        try {
-            if ($request->ajax()) {
-                $data = PendaftarModel::with(['jurusan', 'prodi'])->select('*');
+        if (!$request->ajax()) {
+            return response()->json(['error' => true, 'message' => 'Invalid request'], 400);
+        }
 
-                return DataTables::of($data)
-                    ->addIndexColumn()
-                    ->editColumn('scan_ktp', function ($row) {
-                        return '<a href="/storage/' . $row->scan_ktp . '" target="_blank">Lihat</a>';
-                    })
-                    ->editColumn('scan_ktm', function ($row) {
-                        return '<a href="/storage/' . $row->scan_ktm . '" target="_blank">Lihat</a>';
-                    })
-                    ->editColumn('pas_foto', function ($row) {
-                        return '<a href="/storage/' . $row->pas_foto . '" target="_blank">Lihat</a>';
-                    })
-                    ->addColumn('aksi', function ($row) {
-                        return '
-                            <a href="javascript:void(0)" onclick="modalAction(\'/pendaftar/detail/' . $row->Id_Pendaftaran . '\')" class="btn btn-sm btn-info">Detail</a>
-                            <a href="javascript:void(0)" onclick="deleteData(\'/pendaftar/delete/' . $row->Id_Pendaftaran . '\')" class="btn btn-sm btn-danger">Hapus</a>
-                        ';
-                    })
-                    ->rawColumns(['scan_ktp', 'scan_ktm', 'pas_foto', 'aksi'])
-                    ->make(true);
-            }
+        try {
+            $data = PendaftarModel::with(['jurusan', 'prodi'])->select('*');
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('scan_ktp', function ($row) {
+                    return '<a href="/storage/' . $row->Scan_KTP . '" target="_blank">Lihat</a>';
+                })
+                ->editColumn('scan_ktm', function ($row) {
+                    return '<a href="/storage/' . $row->Scan_KTM . '" target="_blank">Lihat</a>';
+                })
+                ->editColumn('pas_foto', function ($row) {
+                    return '<a href="/storage/' . $row->Pas_Foto . '" target="_blank">Lihat</a>';
+                })
+                ->addColumn('aksi', function ($row) {
+                    $urlDetail = url('/admin/pendaftar/detail/' . $row->Id_Pendaftaran);
+                    return '<button class="btn btn-sm btn-info" onclick="modalAction(\'' . $urlDetail . '\')">Detail</button>';
+                })
+                ->rawColumns(['scan_ktp', 'scan_ktm', 'pas_foto', 'aksi'])
+                ->make(true);
         } catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
+
 
     public function show($id)
     {
