@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalUjianModel;
 use Illuminate\Http\Request;
+use App\Models\ProdiModel;
+
 
 class ScheduleController extends Controller
 {
@@ -42,7 +44,10 @@ public function pendaftar($id)
 
     $activeMenu = 'schedule';
 
-    return view('schedule.pendaftar', compact('jadwal', 'breadcrumb', 'activeMenu'));
+    // Ambil semua program studi
+    $prodiList = ProdiModel::all();
+
+   return view('schedule.pendaftar', compact('jadwal', 'breadcrumb', 'activeMenu', 'prodiList'));
 }
 
 }

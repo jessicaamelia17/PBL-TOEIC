@@ -1,8 +1,8 @@
-@extends('layouts2.template')
+@extends('layouts.app2')
 
 @section('content')
 <div class="container">
-    <h3>Daftar Jadwal Ujian TOEIC</h3>
+    <h1>Daftar Jadwal Ujian TOEIC</h1>
 
     <table class="table table-bordered">
         <thead>

@@ -1,14 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
 <div class="container">
-    <h4 class="mb-4">{{ $breadcrumb->title }}</h4>
+    <h1 class="mb-4">{{ $breadcrumb->title }}</h1>
 
     @if ($jadwal->sesi->isEmpty())
         <div class="alert alert-warning">Tidak ada sesi untuk jadwal ini.</div>
     @else
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+            <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="filterProdi" class="form-label">Filter Program Studi:</label>
+                <select id="filterProdi" class="form-select">
+                    <option value="">- Semua -</option>
+                    @foreach ($prodiList as $prodi)
+                        <option value="{{ $prodi->Nama_Prodi }}">{{ $prodi->Nama_Prodi }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+             <table id="pesertaTable" class="table table-bordered table-striped">
+            
                 <thead class="table-primary">
                     <tr>
                         <th>No</th>
@@ -60,4 +73,37 @@
         </div>
     @endif
 </div>
+@push('scripts')
+<script>
+$(document).ready(function () {
+    var table = $('#pesertaTable').DataTable({
+        "lengthMenu": [10, 25, 50, 100],
+        "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ entri",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            "paginate": {
+                "first": "Pertama",
+                "last": "Terakhir",
+                "next": "Berikutnya",
+                "previous": "Sebelumnya"
+            },
+            "emptyTable": "Tidak ada data tersedia",
+        }
+    });
+
+    // Filter berdasarkan Program Studi
+    $('#filterProdi').on('change', function () {
+        var selected = $(this).val();
+        if (selected) {
+            table.column(8).search('^' + selected + '$', true, false).draw();
+        } else {
+            table.column(8).search('').draw();
+        }
+    });
+});
+</script>
+
+@endpush
+
 @endsection
