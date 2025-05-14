@@ -23,7 +23,7 @@ class SesiUjianModel extends Model
     // Relasi ke jadwal ujian
     public function jadwal()
     {
-        return $this->belongsTo(JadwalUjianModel::class, 'id_jadwal', 'Id_Jadwal');
+        return $this->belongsTo(JadwalUjianModel::class, 'Id_Jadwal', 'Id_Jadwal');
     }
 
     // Relasi ke room ujian

@@ -18,6 +18,7 @@ class RoomUjianModel extends Model
         'nama_room',
         'zoom_id',
         'zoom_password',
+        'kapasitas',
     ];
 
     // Relasi ke sesi ujian

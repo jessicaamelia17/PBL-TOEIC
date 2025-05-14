@@ -86,4 +86,6 @@ class RegistrasiController extends Controller
             'available' => !$exists
         ]);
     }
+
+    
 }

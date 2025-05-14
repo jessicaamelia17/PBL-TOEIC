@@ -2,23 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalUjianModel;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
+    // Menampilkan semua jadwal TOEIC
     public function index()
     {
-        $schedule = [
-            ['day' => 'Monday', 'date' => '17/11/2025'],
-            ['day' => 'Tuesday', 'date' => '18/11/2025'],
-            ['day' => 'Wednesday', 'date' => '19/11/2025'],
-            ['day' => 'Thursday', 'date' => '20/11/2025'],
-            ['day' => 'Friday', 'date' => '21/11/2025'],
-            ['day' => 'Saturday', 'date' => '22/11/2025'],
-            ['day' => 'Monday', 'date' => '24/11/2025'],
-            ['day' => 'Tuesday', 'date' => '25/11/2025'],
+        // Ambil semua jadwal dengan sesi dan rooms
+        $jadwal = JadwalUjianModel::with('sesi.rooms')->get();
+
+        // Buat breadcrumb dan activeMenu untuk tampilan
+        $breadcrumb = (object) [
+            'title' => 'Jadwal Ujian TOEIC',
+            'list' => ['Home', 'Jadwal Ujian TOEIC']
         ];
 
-        return view('schedule.index', compact('schedule'));
+        $activeMenu = 'schedule'; // Misalnya menu yang aktif adalah 'schedule'
+
+        return view('schedule.index', compact('jadwal', 'breadcrumb', 'activeMenu'));
     }
+
+    // Menampilkan peserta berdasarkan jadwal
+public function pendaftar($id)
+{
+    // Ambil jadwal berdasarkan id yang dipilih
+   $jadwal = JadwalUjianModel::with(['sesi.rooms.peserta'])->findOrFail($id);
+// dump($jadwal->id_jadwal); // pastikan = 1
+// dump($jadwal->sesi->pluck('id_jadwal')); // harusnya keluar isi id_jadwal
+// dd($jadwal->sesi);
+
+
+    // Tambahkan breadcrumb dan activeMenu
+    $breadcrumb = (object) [
+        'title' => 'Peserta Jadwal TOEIC',
+        'list' => ['Home', 'Jadwal Ujian', 'Peserta']
+    ];
+
+    $activeMenu = 'schedule';
+
+    return view('schedule.pendaftar', compact('jadwal', 'breadcrumb', 'activeMenu'));
+}
+
 }

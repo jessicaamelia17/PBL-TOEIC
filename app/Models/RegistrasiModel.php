@@ -26,6 +26,7 @@ class RegistrasiModel extends Model
         'Tanggal_Pendaftaran',
         'ID_Jadwal',
         'id_room',
+        'id_sesi',
     ];
 
     // Relasi ke jurusan

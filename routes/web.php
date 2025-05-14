@@ -32,9 +32,23 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
 Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
 
-// Jadwal & peserta
+// Route untuk menampilkan semua jadwal
+
+
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+Route::get('/schedule/pendaftar/{id}', [ScheduleController::class, 'pendaftar'])->name('schedule.pendaftar');
+
+
+
+
 Route::get('/peserta', fn() => view('peserta.index'))->name('peserta.index');
+
+
+// // Route untuk menampilkan semua jadwal
+// Route::get('/jadwal', [ScheduleController::class, 'index'])->name('schedule.index');
+
+// // Route untuk menampilkan detail jadwal berdasarkan ID
+// Route::get('/jadwal/{id}', [ScheduleController::class, 'show'])->name('schedule.show');
 
 // Registrasi peserta
 Route::prefix('registrasi')->name('registrasi.')->group(function () {
@@ -82,6 +96,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     Route::get('jadwal/{id}/sesi', [SesiJadwalController::class, 'index'])->name('sesi.index');
     Route::post('jadwal/{id}/sesi', [SesiJadwalController::class, 'storeSesi'])->name('sesi.store');
     Route::post('jadwal/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
+    Route::post('jadwal/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('jadwal.bagi-peserta');
+
 
 
 

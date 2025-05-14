@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\JadwalUjianModel;
 use App\Models\SesiUjianModel;
 use App\Models\RoomUjianModel;
+use App\Models\RegistrasiModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -51,6 +52,7 @@ class SesiJadwalController extends Controller
             'nama_room' => 'required',
             'zoom_id' => 'required',
             'zoom_password' => 'required',
+            'kapasitas' => 'required|integer|min:1', // Validasi kapasitas
         ]);
 
         RoomUjianModel::create([
@@ -58,9 +60,42 @@ class SesiJadwalController extends Controller
             'nama_room' => $request->nama_room,
             'zoom_id' => $request->zoom_id,
             'zoom_password' => $request->zoom_password,
+            'kapasitas' => $request->kapasitas, // Simpan kapasitas
         ]);
 
         return back()->with('success', 'Room berhasil ditambahkan.');
     }
+
+    public function bagiPesertaKeSesiRoom($idJadwal)
+{
+    $sesiList = SesiUjianModel::where('id_jadwal', $idJadwal)->with('rooms')->get();
+    $pesertaList = RegistrasiModel::where('ID_Jadwal', $idJadwal)
+        ->whereNull('id_room')
+        ->orderBy('Tanggal_Pendaftaran', 'asc')
+        ->get();
+
+    $pesertaIndex = 0;
+
+    foreach ($sesiList as $sesi) {
+        foreach ($sesi->rooms as $room) {
+            $kapasitas = $room->kapasitas;
+            for ($i = 0; $i < $kapasitas && $pesertaIndex < $pesertaList->count(); $i++) {
+                $peserta = $pesertaList[$pesertaIndex];
+                $peserta->update([
+                    'id_sesi' => $sesi->id_sesi,
+                    'id_room' => $room->id_room,
+                ]);
+                $pesertaIndex++;
+            }
+        }
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Peserta berhasil dibagi ke sesi dan room.'
+    ]);
+}
+
+
 }
 
