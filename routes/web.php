@@ -84,4 +84,13 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     Route::put('/room/{id}', [SesiJadwalController::class, 'updateRoom'])->name('room.update');
     Route::delete('/room/{id}', [SesiJadwalController::class, 'destroyRoom'])->name('room.destroy');
 
+        // Admin melihat semua pengumuman
+    Route::get('/pengumumans', [ControllerPengumuman::class, 'index'])->name('pengumuman.index');
+        // Form tambah pengumuman
+    Route::get('/pengumumans/create', [ControllerPengumuman::class, 'create'])->name('pengumuman.create');
+        // Simpan pengumuman
+    Route::post('/pengumumans', [ControllerPengumuman::class, 'store'])->name('pengumuman.store');
+        // Hapus pengumuman
+    Route::delete('/pengumumans/{id}', [ControllerPengumuman::class, 'destroy'])->name('pengumuman.destroy');
+
 });
