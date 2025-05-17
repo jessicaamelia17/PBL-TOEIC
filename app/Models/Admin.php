@@ -10,6 +10,7 @@ class Admin extends Authenticatable
 
     protected $primaryKey = 'Id_Admin'; // jika pakai primary key custom
 
+
     protected $fillable = [
         'Username',
         'Password',
@@ -27,5 +28,10 @@ class Admin extends Authenticatable
     public function getAuthPassword()
     {
         return $this->Password;
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->getAttribute($this->primaryKey);
     }
 }

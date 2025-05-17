@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\SesiJadwalController;
 // use App\Http\Controllers\Admin\JadwalController;
 // Rute setelah login
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\ControllerPengumuman;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\JadwalController;
 
@@ -33,22 +34,11 @@ Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumu
 Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
 
 // Route untuk menampilkan semua jadwal
-
-
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 Route::get('/schedule/pendaftar/{id}', [ScheduleController::class, 'pendaftar'])->name('schedule.pendaftar');
 
-
-
-
+// Route Peserta
 Route::get('/peserta', fn() => view('peserta.index'))->name('peserta.index');
-
-
-// // Route untuk menampilkan semua jadwal
-// Route::get('/jadwal', [ScheduleController::class, 'index'])->name('schedule.index');
-
-// // Route untuk menampilkan detail jadwal berdasarkan ID
-// Route::get('/jadwal/{id}', [ScheduleController::class, 'show'])->name('schedule.show');
 
 // Registrasi peserta
 Route::prefix('registrasi')->name('registrasi.')->group(function () {
@@ -79,17 +69,17 @@ Route::post('/register', [AdminAuthController::class, 'store']); // GANTI store_
 
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
-    
+
     Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
     Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
     Route::get('/pendaftar/detail/{id}', [PendaftarController::class, 'show']);
 
-        // Route untuk tampil jadwal
+    // Route untuk tampil jadwal
     Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
-    
+
     // Route untuk form edit jadwal
     Route::get('jadwal/{jadwal}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
-    
+
     // Route untuk update jadwal
     Route::put('jadwal/{jadwal}', [JadwalController::class, 'update'])->name('jadwal.update');
     // Route untuk mengatur sesi & room berdasarkan jadwal tertentu
@@ -98,9 +88,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     Route::post('jadwal/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
     Route::post('jadwal/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('jadwal.bagi-peserta');
 
-
-
-
+    // Admin melihat semua pengumuman
+    Route::get('/pengumumans', [ControllerPengumuman::class, 'index'])->name('pengumuman.index');
+    // Form tambah pengumuman
+    Route::get('/pengumumans/create', [ControllerPengumuman::class, 'create'])->name('pengumuman.create');
+    // Simpan pengumuman
+    Route::post('/pengumumans', [ControllerPengumuman::class, 'store'])->name('pengumuman.store');
+    // Hapus pengumuman
+    Route::delete('/pengumumans/{id}', [ControllerPengumuman::class, 'destroy'])->name('pengumuman.destroy');
 });
-
-
