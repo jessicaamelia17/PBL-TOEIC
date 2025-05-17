@@ -48,7 +48,10 @@
                                     <td>{{ $room->nama_room }}</td>
                                     <td>{{ $room->zoom_id }}</td>
                                     <td>{{ $room->zoom_password }}</td>
-                                    <td colspan="4" class="text-muted text-center">Belum ada peserta</td>
+                                    <td class="text-muted text-center">Belum ada peserta</td>
+                                    <td>-</td>
+                                    <td>-</td>
+
                                 </tr>
                             @else
                                 @foreach ($room->peserta as $peserta)
@@ -61,7 +64,8 @@
                                         <td>{{ $room->zoom_password }}</td>
                                         <td>{{ $peserta->Nama }}</td>
                                         <td>{{ $peserta->NIM }}</td>
-                                        <td>{{ $peserta->prodi->Nama_Prodi ?? '-' }}</td>
+                                        <td data-prodi="{{ $peserta->prodi->Nama_Prodi ?? '-' }}">{{ $peserta->prodi->Nama_Prodi ?? '-' }}</td>
+
                                         {{-- <td>{{ $peserta->kelas ?? '-' }}</td> --}}
                                     </tr>
                                 @endforeach
@@ -96,7 +100,7 @@ $(document).ready(function () {
     $('#filterProdi').on('change', function () {
         var selected = $(this).val();
         if (selected) {
-            table.column(8).search('^' + selected + '$', true, false).draw();
+            table.column(8).search(selected).draw();
         } else {
             table.column(8).search('').draw();
         }

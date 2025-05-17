@@ -1,55 +1,71 @@
 @extends('layouts2.template')
 
+@section('title', $breadcrumb->title)
+
 @section('content')
-<div class="container">
-    <h3>Kelola Sesi dan Room untuk Jadwal Ujian: <strong>{{ $jadwal->tanggal_ujian }}</strong></h3>
+<div class="container-fluid">
 
-    <!-- Tombol Bagi Peserta ke Sesi & Room -->
-    <form action="{{ route('admin.jadwal.bagi-peserta', $jadwal->Id_Jadwal) }}" method="POST" class="mb-4">
-        @csrf
-        <button class="btn btn-warning" onclick="return confirm('Yakin ingin membagi peserta ke sesi dan room?')">
-            Bagi Peserta ke Sesi & Room
-        </button>
-    </form>
+    {{-- Breadcrumb
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach ($breadcrumb->list as $item)
+                <li class="breadcrumb-item">{{ $item }}</li>
+            @endforeach
+        </ol>
+    </nav> --}}
 
-    <!-- Tambah Sesi -->
-    <form action="{{ route('admin.sesi.store', ['id' => $jadwal->Id_Jadwal]) }}" method="POST" class="mb-4">
-        @csrf
-        <div class="row">
-            <div class="col">
-                <input type="text" name="nama_sesi" class="form-control" placeholder="Nama Sesi" required>
-            </div>
-            <div class="col">
-                <input type="time" name="waktu_mulai" class="form-control" required>
-            </div>
-            <div class="col">
-                <input type="time" name="waktu_selesai" class="form-control" required>
-            </div>
-            <div class="col">
-                <button class="btn btn-primary">Tambah Sesi</button>
-            </div>
+    <h4>{{ $breadcrumb->title }} ({{ $jadwal->Tanggal_Ujian }})</h4>
+
+    {{-- Flash messages --}}
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @elseif(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    {{-- Form tambah sesi --}}
+    <div class="card mb-3">
+        <div class="card-header">Tambah Sesi</div>
+        <div class="card-body">
+            <form action="{{ route('admin.sesi.store', $jadwal->id_jadwal) }}" method="POST">
+                @csrf
+                <div class="row mb-2">
+                    <div class="col">
+                        <input type="text" name="nama_sesi" class="form-control" placeholder="Nama Sesi" required>
+                    </div>
+                    <div class="col">
+                        <input type="time" name="waktu_mulai" class="form-control" placeholder="Jam Mulai" required>
+                    </div>
+                    <div class="col">
+                        <input type="time" name="waktu_selesai" class="form-control" placeholder="Jam Selesai" required>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 
-    <!-- Menampilkan Sesi dan Room -->
+    {{-- List sesi dan room --}}
     @foreach ($jadwal->sesi as $sesi)
     <div class="card mb-3">
-        <div class="card-header">
-            <strong>{{ $sesi->nama_sesi }}</strong> ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Sesi: <strong>{{ $sesi->nama_sesi }}</strong> ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})</span>
+            <div>
+                <a href="{{ route('admin.sesi.edit', $sesi->id_sesi) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('admin.sesi.destroy', $sesi->id_sesi) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Hapus sesi ini?')">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-danger btn-sm">Hapus</button>
+                </form>
+            </div>
         </div>
-        <div class="card-body">
-            <ul>
-                @foreach ($sesi->rooms as $room)
-                <li>
-                    <strong>{{ $room->nama_room }}</strong> - Zoom ID: {{ $room->zoom_id }} | Password: {{ $room->zoom_password }} | Kapasitas: {{ $room->kapasitas }}
-                </li>
-                @endforeach
-            </ul>
 
-            <!-- Tambah Room -->
-            <form action="{{ route('admin.room.store', $sesi->id_sesi) }}" method="POST" class="mt-3">
+        <div class="card-body">
+            {{-- Form tambah room --}}
+            <form action="{{ route('admin.room.store', $sesi->id_sesi) }}" method="POST">
                 @csrf
-                <div class="row">
+                <div class="row mb-2">
                     <div class="col">
                         <input type="text" name="nama_room" class="form-control" placeholder="Nama Room" required>
                     </div>
@@ -57,18 +73,78 @@
                         <input type="text" name="zoom_id" class="form-control" placeholder="Zoom ID" required>
                     </div>
                     <div class="col">
-                        <input type="text" name="zoom_password" class="form-control" placeholder="Password Zoom" required>
+                        <input type="text" name="zoom_password" class="form-control" placeholder="Zoom Password" required>
                     </div>
                     <div class="col">
-                        <input type="number" name="kapasitas" class="form-control" placeholder="Kapasitas" required>
+                        <input type="number" name="kapasitas" class="form-control" placeholder="Kapasitas" required min="1">
                     </div>
                     <div class="col">
-                        <button class="btn btn-success">Tambah Room</button>
+                        <button type="submit" class="btn btn-primary">Tambah Room</button>
                     </div>
                 </div>
             </form>
+
+            {{-- Daftar room --}}
+            @if ($sesi->rooms->count())
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mt-3">
+                        <thead>
+                            <tr>
+                                <th>Nama Room</th>
+                                <th>Zoom ID</th>
+                                <th>Password</th>
+                                <th>Kapasitas</th>
+                                <th>Jumlah Peserta</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sesi->rooms as $room)
+                            <tr>
+                                <td>{{ $room->nama_room }}</td>
+                                <td>{{ $room->zoom_id }}</td>
+                                <td>{{ $room->zoom_password }}</td>
+                                <td>{{ $room->kapasitas }}</td>
+                                <td>{{ $room->peserta->count() }}</td>
+                                <td>
+                                    <a href="{{ route('admin.room.edit', $room->id_room) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('admin.room.destroy', $room->id_room) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Hapus room ini?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn btn-danger btn-sm">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="text-muted mt-3">Belum ada room pada sesi ini.</p>
+            @endif
         </div>
     </div>
     @endforeach
+
+    {{-- Tombol bagi peserta --}}
+    <div class="mt-4">
+        <button class="btn btn-success" onclick="bagiPeserta({{ $jadwal->id_jadwal }})">Bagi Peserta ke Sesi & Room</button>
+    </div>
 </div>
+
+<script>
+    function bagiPeserta(idJadwal) {
+        if (!confirm("Yakin ingin membagi peserta ke sesi & room?")) return;
+
+        fetch(`/admin/sesi-jadwal/${idJadwal}/bagi-peserta`)
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Terjadi kesalahan saat membagi peserta.');
+            });
+    }
+</script>
 @endsection

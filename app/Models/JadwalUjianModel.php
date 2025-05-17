@@ -27,7 +27,7 @@ class JadwalUjianModel extends Model
 
     public function sesi()
     {
-        return $this->hasMany(SesiUjianModel::class, 'Id_Jadwal', 'Id_Jadwal');
+        return $this->hasMany(SesiUjianModel::class, 'id_jadwal', 'id_jadwal');
     }
 
         // optional: accessor
