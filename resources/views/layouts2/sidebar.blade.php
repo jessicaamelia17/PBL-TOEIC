@@ -47,22 +47,29 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.pendaftar.index') }}" class="nav-link {{ $activeMenu == 'pendaftar' ? 'active' : '' }} ">
+                <a href="{{ route('admin.pendaftar.index') }}"
+                    class="nav-link {{ $activeMenu == 'pendaftar' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-user-check"></i>
-
                     <p>Data Pendaftaran</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.jadwal.index') }}" class="nav-link {{ $activeMenu == 'jadwal' ? 'active' : '' }}">
+                <a href="{{ route('admin.jadwal.index') }}"
+                    class="nav-link {{ $activeMenu == 'jadwal' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar-alt"></i>
                     <p>Kelola Jadwal & Kuota</p>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a href="{{ route('admin.pengumuman.index') }}"
+                    class="nav-link {{ $activeMenu == 'pengumuman' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-upload"></i>
+                    <p>Upload Pengumuman</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="#" class="nav-link"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
                     <p>Logout</p>
                 </a>

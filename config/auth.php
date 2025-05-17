@@ -40,11 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-            // Guard untuk admin
-    'admin' => [
-        'driver' => 'session',
-        'provider' => 'admins',
-    ],
+        // Guard untuk admin
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -74,10 +74,10 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-            'admins' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Admin::class, // Model untuk admin
-    ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // Model untuk admin
+        ],
     ],
 
     /*

@@ -19,5 +19,9 @@ class Pengumuman extends Model
         'Tanggal_Pengumuman',
         'Created_By',
     ];
-}
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'Created_By', 'Id_Admin');
+    }
+}

@@ -9,6 +9,7 @@
         "almasaeed2010/adminlte": "~3.2",
         "guzzlehttp/guzzle": "^7.2",
         "illuminate/auth": "*",
+        "jeroennoten/laravel-adminlte": "^3.15",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",

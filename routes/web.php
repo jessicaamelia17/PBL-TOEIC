@@ -7,6 +7,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\ControllerPengumuman;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\SesiJadwalController;
