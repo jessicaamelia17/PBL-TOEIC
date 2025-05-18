@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class ControllerPengumuman extends Controller
 {
@@ -18,11 +20,8 @@ class ControllerPengumuman extends Controller
 
         $activeMenu = 'pengumuman';
 
-        $pengumuman = Pengumuman::with('admin')->latest()->get();
-
-        return view('admin.pengumuman.index', compact('pengumuman', 'breadcrumb', 'activeMenu'));
+        return view('admin.pengumuman.index', compact('breadcrumb', 'activeMenu'));
     }
-
 
     public function create()
     {
@@ -31,7 +30,7 @@ class ControllerPengumuman extends Controller
             'list' => ['Home', 'Pengumuman', 'Upload']
         ];
 
-        $activeMenu = 'pengumuman'; // Tambahkan ini agar tidak error
+        $activeMenu = 'pengumuman';
 
         return view('admin.pengumuman.create', compact('breadcrumb', 'activeMenu'));
     }
@@ -42,16 +41,18 @@ class ControllerPengumuman extends Controller
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
             'tanggal_pengumuman' => 'required|date',
+            'file_pengumuman' => 'nullable|file|mimes:pdf,jpg,png|max:2048', // Validasi file
         ]);
 
-        // Tambahkan ini sementara untuk debug
-        dd(Auth::guard('admin')->id());
+
+        $filePath = $request->file('file_pengumuman')->store('uploads/pengumuman', 'public');
 
         Pengumuman::create([
             'Judul' => $request->judul,
             'Isi' => $request->isi,
             'Tanggal_Pengumuman' => $request->tanggal_pengumuman,
-            'Created_By' => Auth::guard('admin')->id(),
+            'Created_By' => Auth::guard('admin')->user()->Id_Admin,
+            'file_pengumuman' => $filePath, // Menyimpan path file
         ]);
 
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil ditambahkan.');
@@ -60,8 +61,41 @@ class ControllerPengumuman extends Controller
     public function destroy($id)
     {
         $pengumuman = Pengumuman::findOrFail($id);
+
+        // Hapus file dari storage jika ada
+        if ($pengumuman->file_pengumuman) {
+            Storage::delete('public/' . $pengumuman->file_pengumuman);
+        }
+
         $pengumuman->delete();
 
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil dihapus.');
+    }
+
+    public function list(Request $request)
+    {
+        $data = Pengumuman::with('admin')->select('pengumuman.*');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('file_pengumuman', function ($row) {
+                return $row->file_pengumuman
+
+                    ? '<a href="' . asset(
+                        'storage/' . $row->file_pengumuman
+                    ) . '" target="_blank">Lihat File</a>'
+                    : '-';
+            })
+            ->addColumn('aksi', function ($row) {
+                $url = route('admin.pengumuman.destroy', $row->Id_Pengumuman);
+                return '
+                <form action="' . $url . '" method="POST" onsubmit="return confirm(\'Yakin hapus?\')">
+                    ' . csrf_field() . method_field('DELETE') . '
+                    <button class="btn btn-danger btn-sm">Hapus</button>
+                </form>
+                ';
+            })
+            ->rawColumns(['file_pengumuman', 'aksi'])
+            ->make(true);
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h2>Buat Pengumuman Baru</h2>
-        <form action="{{ route('admin.pengumuman.store') }}" method="POST">
+        <form action="{{ route('admin.pengumuman.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="judul" class="form-label">Judul</label>
@@ -17,6 +17,10 @@
                 <label for="tanggal_pengumuman" class="form-label">Tanggal Pengumuman</label>
                 <input type="datetime-local" name="tanggal_pengumuman" class="form-control"
                     value="{{ now()->setTimezone('Asia/Jakarta')->format('Y-m-d\TH:i') }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="file_pengumuman" class="form-label">Upload File (PDF/Gambar)</label>
+                <input type="file" name="file_pengumuman" class="form-control" accept=".pdf,.jpg,.png">
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
