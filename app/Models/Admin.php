@@ -29,9 +29,4 @@ class Admin extends Authenticatable
     {
         return $this->Password;
     }
-
-    public function getAuthIdentifier()
-    {
-        return $this->getAttribute($this->primaryKey);
-    }
 }
