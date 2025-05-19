@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\PendaftarModel;
 
 class AdminAuthController extends Controller
 {
@@ -19,8 +20,13 @@ public function index()
 
         $activeMenu = 'dashboard';
 
-        return view('admin.dashboard', 
-        ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        $pendaftar = PendaftarModel::count();
+
+        return view('admin.dashboard', [
+            'breadcrumb' => $breadcrumb,
+            'activeMenu' => $activeMenu,
+            'pendaftar' => $pendaftar,
+        ]);
 }
 
 
