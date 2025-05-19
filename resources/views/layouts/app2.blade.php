@@ -7,11 +7,11 @@
 
     {{-- Tailwind CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    {{-- Bootstrap (jika dibutuhkan) --}}
+
+    {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    {{-- Di bagian <head> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -43,37 +43,37 @@
             }
         };
     </script>
-    {{-- Di bagian bawah sebelum </body> --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     @stack('css')
 </head>
-<body class="bg-blue-100">
+<body class="bg-blue-100 min-h-screen flex flex-col">
 
     {{-- Navbar --}}
     @include('layouts.navbar')
 
     {{-- Breadcrumb --}}
-    @includeWhen(View::hasSection('breadcrumb'), 'layouts.breadcrumb')
-
-    {{-- Konten --}}
-    <main class="pt-28">
-        @yield('content')
-    </main>
+    @hasSection('breadcrumb')
+        @yield('breadcrumb')
+    @endif
 
     {{-- Tombol kembali --}}
-    @includeWhen(View::hasSection('backbutton'), 'layouts.backbutton')
+    @hasSection('backbutton')
+        @yield('backbutton')
+    @endif
+
+    {{-- Konten --}}
+    <main class="flex-grow pt-4">
+        @yield('content')
+    </main>
 
     {{-- Footer --}}
     @include('layouts.footer2')
 
-    {{-- jQuery --}}
+    {{-- JS & jQuery --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     @stack('js')
 </body>

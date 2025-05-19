@@ -1,4 +1,4 @@
-<div class="bg-white py-2 px-4 rounded shadow my-3">
+<div class="bg-white py-2 px-4 rounded shadow my-3 mx-4">
     {{-- Breadcrumb dinamis --}}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
