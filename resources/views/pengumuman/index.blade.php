@@ -1,47 +1,32 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>TOEIC - Pengumuman</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-blue-100 min-h-screen flex flex-col">
+@extends('layouts.app')
 
-    <!-- Header Navigation -->
-    <nav class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center fixed w-[95%] shadow-lg z-10 rounded-full left-1/2 transform -translate-x-1/2 top-2">
-        <div class="flex items-center bg-white px-4 py-2 rounded-full">
-            <img src="{{ asset('polinema.png') }}" alt="TOEIC Logo" class="h-8 mr-3" />
-            <h1 class="text-2xl font-bold text-blue-600">TOEIC</h1>
+@section('content')
+<section class="container mx-auto py-12 px-6">
+    <h2 class="text-3xl font-bold text-center text-blue-900 mb-6">All Announcements</h2>
+
+    @if ($pengumuman->isEmpty())
+        <div class="bg-white p-6 rounded-lg shadow text-center text-gray-600">
+            Belum ada pengumuman.
         </div>
-        <ul class="flex space-x-6">
-            <li><a href="#" class="hover:underline">Home</a></li>
-            <li><a href="#" class="hover:underline">Registration</a></li>
-            <li><a href="#" class="hover:underline">Schedule</a></li>
-            <li><a href="#" class="hover:underline">Results</a></li>
-            <li><a href="#" class="hover:underline">Guide</a></li>
-            <li><a href="#" class="hover:underline">Contact</a></li>
-        </ul>
-    </nav>
+    @else
+        <div class="bg-white p-6 rounded-lg shadow">
+            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                @foreach ($pengumuman as $item)
+                    <li class="flex justify-between items-center">
+                        <span>{{ $item->Judul }}</span>
+                        <a href="{{ route('pengumuman.show', $item->Id_Pengumuman) }}"
+                           class="text-white-600 whitespace-nowrap btn btn-primary">
+                            See More
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
 
-    <!-- Spacer agar isi tidak tertutup navbar -->
-    <div class="h-24"></div>
-
-    <!-- Main Content -->
-    <main class="flex-grow px-4 py-10">
-        <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-xl font-semibold text-center mb-6 text-gray-800"></h2>
-            <div class="rounded-lg overflow-hidden">
-                <img src="{{ asset('pengumuman.jpg') }}" alt="Pengumuman TOEIC" class="w-full object-contain">
+            <!-- Pagination links -->
+            <div class="mt-6">
+                {{ $pengumuman->links('vendor.pagination.tailwind') }}
             </div>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-blue-600 text-white py-4 text-center text-sm">
-        Copyright © 2025 TOEIC
-    </footer>
-
-</body>
-</html>
+    @endif
+</section>
+@endsection

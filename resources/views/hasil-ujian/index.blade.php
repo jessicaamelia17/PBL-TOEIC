@@ -5,26 +5,28 @@
     <h2 class="text-4xl font-bold mb-6 text-blue-800 text-center">Hasil Ujian TOEIC</h2>
 
     <div class="overflow-x-auto mt-4">
-        <table id="resultTable" class="min-w-full text-left border border-gray-300">
-            <thead class="bg-blue-100 font-semibold">
+        <table id="resultTable" class="min-w-full text-sm text-gray-700 border border-gray-300">
+            <thead class="bg-blue-100 text-gray-800 font-semibold">
                 <tr>
-                    <th>Nama Peserta</th>
-                    <th>NIM</th>
-                    <th>Skor</th>
-                    <th>Tanggal Ujian</th>
+                    <th class="px-4 py-2">Nama Peserta</th>
+                    <th class="px-4 py-2">NIM</th>
+                    <th class="px-4 py-2">Skor</th>
+                    <th class="px-4 py-2">Tanggal Ujian</th>
+                    <th class="px-4 py-2">Status</th>
                 </tr>
             </thead>
-            <tbody class="text-gray-700">
+            <tbody>
                 @foreach ($results as $r)
-                    <tr>
-                        <td>{{ $r['name'] }}</td>
-                        <td>{{ $r['nim'] }}</td>
-                        <td>{{ $r['listening'] + $r['reading'] }}</td>
-                        <td>{{ $r['tanggal_ujian'] }}</td>
+                    <tr class="hover:bg-blue-50">
+                        <td class="px-4 py-2">{{ $r['name'] }}</td>
+                        <td class="px-4 py-2">{{ $r['nim'] }}</td>
+                        <td class="px-4 py-2">{{ $r['listening'] + $r['reading'] }}</td>
+                        <td class="px-4 py-2">{{ $r['tanggal_ujian'] }}</td>
+                        <td class="px-4 py-2">{{ $r['status'] }}</td>
                     </tr>
                 @endforeach
             </tbody>
-        </table>        
+        </table>
     </div>
 </div>
 @endsection
@@ -49,7 +51,8 @@
                     }
                 },
                 pageLength: 5,
-                lengthMenu: [5, 10, 25, 50, 100]
+                lengthMenu: [5, 10, 25, 50, 100],
+                responsive: true
             });
         });
     </script>

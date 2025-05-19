@@ -46,7 +46,7 @@
 
     @stack('css')
 </head>
-<body class="bg-blue-100 min-h-screen flex flex-col">
+<body class="bg-blue-100 flex flex-col min-h-screen">
 
     {{-- Navbar --}}
     @include('layouts.navbar')

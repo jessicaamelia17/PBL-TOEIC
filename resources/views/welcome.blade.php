@@ -144,84 +144,99 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="text-center px-4 ">
-    <h2 class="text-4xl font-bold text-blue-900">TOEIC Service</h2>
-    <h3 class="text-2xl font-bold text-blue-800 mt-2">POLITEKNIK NEGERI MALANG</h3>
-    <p class="mt-4 text-gray-700">Get complete information about TOEIC registration, schedule and exam results.</p>
-    <img src="https://jti.polinema.ac.id/wp-content/uploads/2021/07/Banner-002.jpg" class="w-full max-w-3xl mx-auto my-6 rounded-lg shadow-lg" alt="TOEIC Banner">
-    <a href="{{ url('/registrasi') }}" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-6 rounded shadow-md transition">Register now</a>
+    <section class="text-center px-4 ">
+        <h2 class="text-4xl font-bold text-blue-900">TOEIC Service</h2>
+        <h3 class="text-2xl font-bold text-blue-800 mt-2">POLITEKNIK NEGERI MALANG</h3>
+        <p class="mt-4 text-gray-700">Get complete information about TOEIC registration, schedule and exam results.</p>
+        <img src="https://jti.polinema.ac.id/wp-content/uploads/2021/07/Banner-002.jpg"
+            class="w-full max-w-3xl mx-auto my-6 rounded-lg shadow-lg" alt="TOEIC Banner">
+        <a href="{{ url('/registrasi') }}"
+            class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-6 rounded shadow-md transition">Register
+            now</a>
 
-<section class="container mx-auto py-12 px-6">
-    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Announcement</h2>
+        <section class="container mx-auto py-12 px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Announcement</h2>
 
-    @if($pengumuman->isEmpty())
-        <div class="bg-white p-6 rounded-lg shadow text-center text-gray-600">
-            Belum ada pengumuman.
-        </div>
-    @else
-        <div class="bg-white p-6 rounded-lg shadow">
-            <ul class="list-disc pl-6 space-y-2 text-gray-700">
-                @foreach($pengumuman as $item)
-                    <li>
-                        {{ $item->judul_pengumuman }} -
-                        <a href="{{ route('pengumuman.show', $item->id_pengumuman) }}"
-                           class="text-blue-600 hover:underline">
-                            Lihat selengkapnya
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-</section>
+            @if ($pengumuman->isEmpty())
+                <div class="bg-white p-6 rounded-lg shadow text-center text-gray-600">
+                    Belum ada pengumuman.
+                </div>
+            @else
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        @foreach ($pengumuman->take(3) as $item)
+                            <li class="flex justify-between items-center">
+                                <span>{{ $item->Judul }}</span>
+                                <a href="{{ route('pengumuman.show', $item->Id_Pengumuman) }}"
+                                    class="text-white-600 whitespace-nowrap btn btn-primary">
+                                    See More
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    @if ($pengumuman->count() > 3)
+                        <div class="text-center mt-6">
+                            <a href="{{ route('pengumuman.index') }}"
+                                class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                                See more announcement
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            @endif
+        </section>
 
         <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    @php
-        $cards = [
-            [
-                'title' => 'TOEIC Registration',
-                'desc' => 'Fill out the registration form with valid information.',
-                'img' => 'registration.png',
-                'link' => url('/registrasi'),
-                'button' => 'Register'
-            ],
-            [
-                'title' => 'Exam Schedule',
-                'desc' => 'View the latest TOEIC exam schedule.',
-                'img' => 'jadwal.png',
-                'link' => url('/schedule'),
-                'button' => 'See Schedule'
-            ],
-            [
-                'title' => 'Check Exam Results',
-                'desc' => 'Check your TOEIC results online.',
-                'img' => 'result.png',
-                'link' => url('/hasil-ujian'),
-                'button' => 'See Results'
-            ],
-            [
-                'title' => 'Complete Guide',
-                'desc' => 'Learn the complete TOEIC guide.',
-                'img' => 'guide.png',
-                'link' => url('/panduan'),
-                'button' => 'Read the Guide'
-            ],
-        ];
-    @endphp
+            @php
+                $cards = [
+                    [
+                        'title' => 'TOEIC Registration',
+                        'desc' => 'Fill out the registration form with valid information.',
+                        'img' => 'registration.png',
+                        'link' => url('/registrasi'),
+                        'button' => 'Register',
+                    ],
+                    [
+                        'title' => 'Exam Schedule',
+                        'desc' => 'View the latest TOEIC exam schedule.',
+                        'img' => 'jadwal.png',
+                        'link' => url('/schedule'),
+                        'button' => 'See Schedule',
+                    ],
+                    [
+                        'title' => 'Check Exam Results',
+                        'desc' => 'Check your TOEIC results online.',
+                        'img' => 'result.png',
+                        'link' => url('/hasil-ujian'),
+                        'button' => 'See Results',
+                    ],
+                    [
+                        'title' => 'Complete Guide',
+                        'desc' => 'Learn the complete TOEIC guide.',
+                        'img' => 'guide.png',
+                        'link' => url('/panduan'),
+                        'button' => 'Read the Guide',
+                    ],
+                ];
+            @endphp
 
-    @foreach ($cards as $card)
-        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between text-center hover:scale-105 transform transition-all animate-slideUp">
-            <div>
-                <h3 class="text-lg font-bold">{{ $card['title'] }}</h3>
-                <p class="mt-2 text-gray-600">{{ $card['desc'] }}</p>
-                <img src="{{ asset($card['img']) }}" alt="{{ $card['title'] }}" class="w-full h-32 object-contain mx-auto mt-4">
-            </div>
-            <a href="{{ $card['link'] }}" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block"> 
-                {{ $card['button'] }}
-            </a>
-        </div>
-    @endforeach
-</section>
+            @foreach ($cards as $card)
+                <div
+                    class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between text-center hover:scale-105 transform transition-all animate-slideUp">
+                    <div>
+                        <h3 class="text-lg font-bold">{{ $card['title'] }}</h3>
+                        <p class="mt-2 text-gray-600">{{ $card['desc'] }}</p>
+                        <img src="{{ asset($card['img']) }}" alt="{{ $card['title'] }}"
+                            class="w-full h-32 object-contain mx-auto mt-4">
+                    </div>
+                    <a href="{{ $card['link'] }}"
+                        class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block">
+                        {{ $card['button'] }}
+                    </a>
+                </div>
+            @endforeach
+        </section>
 
-</section>
+    </section>
 @endsection
