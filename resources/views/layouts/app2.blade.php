@@ -51,18 +51,18 @@
     {{-- Navbar --}}
     @include('layouts.navbar')
 
-    {{-- Breadcrumb --}}
-    @hasSection('breadcrumb')
-        @yield('breadcrumb')
-    @endif
-
-    {{-- Tombol kembali --}}
-    @hasSection('backbutton')
-        @yield('backbutton')
-    @endif
-
+    
+    
     {{-- Konten --}}
-    <main class="flex-grow pt-4">
+    <main class="flex-grow pt-24">
+        {{-- Breadcrumb --}}
+        @hasSection('breadcrumb')
+            @yield('breadcrumb')
+        @endif
+        {{-- Tombol kembali --}}
+        @hasSection('backbutton')
+            @yield('backbutton')
+        @endif
         @yield('content')
     </main>
 
