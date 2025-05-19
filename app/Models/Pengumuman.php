@@ -18,6 +18,7 @@ class Pengumuman extends Model
         'Isi',
         'Tanggal_Pengumuman',
         'Created_By',
+        'file_pengumuman',
     ];
 
     public function admin()

@@ -1,41 +1,84 @@
 @extends('layouts2.template')
 
 @section('content')
-<div class="container">
-    <h2>Daftar Pengumuman</h2>
-    <a href="{{ route('admin.pengumuman.create') }}" class="btn btn-success mb-3">+ Buat Pengumuman</a>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Daftar Pengumuman</h3>
+            <div class="card-tools">
+                <a href="{{ route('admin.pengumuman.create') }}" class="btn btn-success">+ Buat Pengumuman</a>
+            </div>
+        </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+        <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Judul</th>
-                <th>Isi</th>
-                <th>Tanggal</th>
-                <th>Dibuat Oleh</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($pengumuman as $p)
-            <tr>
-                <td>{{ $p->Judul }}</td>
-                <td>{{ Str::limit($p->Isi, 100) }}</td>
-                <td>{{ $p->Tanggal_Pengumuman }}</td>
-                <td>{{ $p->admin->Username ?? 'Tidak diketahui' }}</td>
-                <td>
-                    <form action="{{ route('admin.pengumuman.destroy', $p->id_Pengumuman) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_pengumuman">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Judul</th>
+                        <th>Isi</th>
+                        <th>Tanggal</th>
+                        <th>Dibuat Oleh</th>
+                        <th>File Pengumuman</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#table_pengumuman').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('admin.pengumuman.list') }}", // Buat route ini di web.php & controller
+                    type: "POST",
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'Judul'
+                    },
+                    {
+                        data: 'Isi',
+                        render: function(data) {
+                            return data.length > 100 ? data.substring(0, 100) + '...' : data;
+                        }
+                    },
+                    {
+                        data: 'Tanggal_Pengumuman'
+                    },
+                    {
+                        data: 'admin.Username',
+                        defaultContent: 'Tidak diketahui'
+                    },
+                    {
+                        data: 'file_pengumuman',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+        });
+    </script>
+@endpush
