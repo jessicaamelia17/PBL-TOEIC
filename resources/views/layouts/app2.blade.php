@@ -50,7 +50,7 @@
 
     @stack('css')
 </head>
-<body class="bg-blue-100">
+<body class="bg-blue-100 flex flex-col min-h-screen">
 
     {{-- Navbar --}}
     @include('layouts.navbar')
@@ -59,7 +59,7 @@
     @includeWhen(View::hasSection('breadcrumb'), 'layouts.breadcrumb')
 
     {{-- Konten --}}
-    <main class="pt-28">
+    <main class="pt-28 flex-grow">
         @yield('content')
     </main>
 

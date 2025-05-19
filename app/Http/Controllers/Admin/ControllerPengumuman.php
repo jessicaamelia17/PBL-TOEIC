@@ -45,7 +45,10 @@ class ControllerPengumuman extends Controller
         ]);
 
 
-        $filePath = $request->file('file_pengumuman')->store('uploads/pengumuman', 'public');
+        $filePath = null;
+        if ($request->hasFile('file_pengumuman')) {
+            $filePath = $request->file('file_pengumuman')->store('uploads/pengumuman', 'public');
+        }
 
         Pengumuman::create([
             'Judul' => $request->judul,
