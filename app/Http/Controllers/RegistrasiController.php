@@ -26,7 +26,7 @@ class RegistrasiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'NIM' => 'required|string|max:20|unique:pendaftaran_toeic,NIM',
+            'NIM' => ['required', 'regex:/^\d{10,}$/', 'unique:pendaftaran_toeic,NIM'],
             'Nama' => 'required|string|max:100',
             'No_WA' => 'required|string|max:15',
             'email' => 'required|email|max:100',
@@ -35,6 +35,8 @@ class RegistrasiController extends Controller
             'Scan_KTP' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'Scan_KTM' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'Pas_Foto' => 'required|file|mimes:jpg,jpeg,png|max:1024',
+        ], [
+            'NIM.regex' => 'NIM harus terdiri dari angka dan minimal 10 digit.',
         ]);
 
         // Cari jadwal yang masih tersedia kuota
@@ -86,6 +88,4 @@ class RegistrasiController extends Controller
             'available' => !$exists
         ]);
     }
-
-    
 }

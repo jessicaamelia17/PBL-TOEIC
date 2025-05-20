@@ -24,49 +24,49 @@
                 </select>
             </div>
 
-            <div class="overflow-auto rounded-lg shadow">
-                <table id="pesertaTable" class="table table-bordered table-striped w-full text-sm text-gray-800">
-                    <thead class="bg-blue-200 text-blue-900 font-semibold text-md">
+            <div class="overflow-auto rounded-xl shadow-md">
+                <table id="pesertaTable" class="min-w-full bg-white rounded-xl overflow-hidden">
+                    <thead class="bg-blue-500 text-white text-sm uppercase text-left">
                         <tr>
-                            <th class="px-4 py-3 text-left">No</th>
-                            <th class="px-4 py-3 text-left">Nama Sesi</th>
-                            <th class="px-4 py-3 text-left">Waktu</th>
-                            <th class="px-4 py-3 text-left">Nama Room</th>
-                            <th class="px-4 py-3 text-left">Zoom ID</th>
-                            <th class="px-4 py-3 text-left">Password</th>
-                            <th class="px-4 py-3 text-left">Nama Peserta</th>
-                            <th class="px-4 py-3 text-left">NIM</th>
-                            <th class="px-4 py-3 text-left">Program Studi</th>
+                            <th class="px-6 py-3">No</th>
+                            <th class="px-6 py-3">Nama Sesi</th>
+                            <th class="px-6 py-3">Waktu</th>
+                            <th class="px-6 py-3">Nama Room</th>
+                            <th class="px-6 py-3">Zoom ID</th>
+                            <th class="px-6 py-3">Password</th>
+                            <th class="px-6 py-3">Nama Peserta</th>
+                            <th class="px-6 py-3">NIM</th>
+                            <th class="px-6 py-3">Program Studi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-gray-700 divide-y divide-gray-200 text-sm">
                         @php $no = 1; @endphp
                         @foreach ($jadwal->sesi as $sesi)
                             @foreach ($sesi->rooms as $room)
                                 @if ($room->peserta->isEmpty())
                                     <tr class="bg-gray-50">
-                                        <td class="px-4 py-2">{{ $no++ }}</td>
-                                        <td class="px-4 py-2">{{ $sesi->nama_sesi }}</td>
-                                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }}</td>
-                                        <td class="px-4 py-2">{{ $room->nama_room }}</td>
-                                        <td class="px-4 py-2">{{ $room->zoom_id }}</td>
-                                        <td class="px-4 py-2">{{ $room->zoom_password }}</td>
-                                        <td class="px-4 py-2 text-center text-muted">Belum ada peserta</td>
-                                        <td class="px-4 py-2">-</td>
-                                        <td class="px-4 py-2">-</td>
+                                        <td class="px-6 py-4">{{ $no++ }}</td>
+                                        <td class="px-6 py-4">{{ $sesi->nama_sesi }}</td>
+                                        <td class="px-6 py-4">{{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }}</td>
+                                        <td class="px-6 py-4">{{ $room->nama_room }}</td>
+                                        <td class="px-6 py-4">{{ $room->zoom_id }}</td>
+                                        <td class="px-6 py-4">{{ $room->zoom_password }}</td>
+                                        <td class="px-6 py-4 text-center text-muted">Belum ada peserta</td>
+                                        <td class="px-6 py-4">-</td>
+                                        <td class="px-6 py-4">-</td>
                                     </tr>
                                 @else
                                     @foreach ($room->peserta as $peserta)
                                         <tr>
-                                            <td class="px-4 py-2">{{ $no++ }}</td>
-                                            <td class="px-4 py-2">{{ $sesi->nama_sesi }}</td>
-                                            <td class="px-4 py-2">{{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }}</td>
-                                            <td class="px-4 py-2">{{ $room->nama_room }}</td>
-                                            <td class="px-4 py-2">{{ $room->zoom_id }}</td>
-                                            <td class="px-4 py-2">{{ $room->zoom_password }}</td>
-                                            <td class="px-4 py-2">{{ $peserta->Nama }}</td>
-                                            <td class="px-4 py-2">{{ $peserta->NIM }}</td>
-                                            <td class="px-4 py-2" data-prodi="{{ $peserta->prodi->Nama_Prodi ?? '-' }}">
+                                            <td class="px-6 py-4">{{ $no++ }}</td>
+                                            <td class="px-6 py-4">{{ $sesi->nama_sesi }}</td>
+                                            <td class="px-6 py-4">{{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }}</td>
+                                            <td class="px-6 py-4">{{ $room->nama_room }}</td>
+                                            <td class="px-6 py-4">{{ $room->zoom_id }}</td>
+                                            <td class="px-6 py-4">{{ $room->zoom_password }}</td>
+                                            <td class="px-6 py-4">{{ $peserta->Nama }}</td>
+                                            <td class="px-6 py-4">{{ $peserta->NIM }}</td>
+                                            <td class="px-6 py-4" data-prodi="{{ $peserta->prodi->Nama_Prodi ?? '-' }}">
                                                 {{ $peserta->prodi->Nama_Prodi ?? '-' }}
                                             </td>
                                         </tr>
@@ -77,6 +77,7 @@
                     </tbody>
                 </table>
             </div>
+            
         @endif
     </div>
 </div>

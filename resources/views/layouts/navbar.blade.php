@@ -1,3 +1,8 @@
+<style>
+    [x-cloak] {
+        display: none !important;
+    }
+</style>
 <script src="//unpkg.com/alpinejs" defer></script>
 <nav x-data="{ open: false }"
     class="fixed w-[95%] z-10 left-1/2 transform -translate-x-1/2 top-2 bg-blue-600 rounded-full shadow-lg relative">
