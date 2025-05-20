@@ -40,7 +40,8 @@ Route::prefix('registrasi')->name('registrasi.')->group(function () {
 
 // Hasil ujian
 Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
-
+Route::get('/hasil-ujian/pdf/view-all', [HasilController::class, 'viewAllPdf'])->name('hasil-ujian.pdf.view.all');
+Route::get('/hasil-ujian/pdf/download-all', [HasilController::class, 'downloadAllPdf'])->name('hasil-ujian.pdf.download.all');
 // ==========================
 // 🔐 RUTE ADMIN (PERLU LOGIN)
 // ==========================
