@@ -41,6 +41,10 @@ Route::prefix('registrasi')->name('registrasi.')->group(function () {
 // Hasil ujian
 Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
 
+Route::get('/panduan', function () {
+    return view('panduan');
+})->name('panduan');
+
 // ==========================
 // 🔐 RUTE ADMIN (PERLU LOGIN)
 // ==========================
