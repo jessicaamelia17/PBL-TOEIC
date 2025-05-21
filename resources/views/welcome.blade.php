@@ -1,242 +1,176 @@
-{{-- <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOEIC Service Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    animation: {
-                        fadeIn: "fadeIn 1s ease-in-out",
-                        grow: "grow 0.3s ease-in-out",
-                        slideUp: "slideUp 0.5s ease-in-out"
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            "0%": { opacity: "0" },
-                            "100%": { opacity: "1" }
-                        },
-                        grow: {
-                            "0%": { transform: "scale(1)" },
-                            "100%": { transform: "scale(1.05)" }
-                        },
-                        slideUp: {
-                            "0%": { transform: "translateY(50px)", opacity: "0" },
-                            "100%": { transform: "translateY(0)", opacity: "1" }
-                        }
-                    }
-                }
-            }
-        };
-    </script>
-</head>
-<body class="bg-blue-100">
-    <!-- Header Navigation -->
-    <nav class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center fixed w-[95%] shadow-lg z-10 rounded-full left-1/2 transform -translate-x-1/2 top-2">
-        <div class="flex items-center bg-white px-4 py-2 rounded-full">
-            <img src="polinema.png" alt="TOEIC Logo" class="h-8 mr-3">
-            <h1 class="text-2xl font-bold text-blue-600">TOEIC</h1>
-        </div>
-        <ul class="flex space-x-6">
-            <li><a href="#" class="hover:underline">Home</a></li>
-            <li><a href="#" class="hover:underline">Registrasion</a></li>
-            <li><a href="#" class="hover:underline">Schedule</a></li>
-            <li><a href="#" class="hover:underline">results</a></li>
-            <li><a href="#" class="hover:underline">Guide</a></li>
-            <li><a href="#" class="hover:underline">Contact</a></li>
-        </ul>
-    </nav>
-    
-    <!-- Hero -->
-    <section class="pt-28 text-center px-4">
-        <h2 class="text-4xl font-bold text-blue-900">TOEIC Service</h2>
-        <h3 class="text-2xl font-bold text-blue-800 mt-2">POLITEKNIK NEGERI MALANG</h3>
-        <p class="mt-4 text-gray-700">Get complete information about TOEIC registration, schedule and exam results.</p>
-        <img src="https://jti.polinema.ac.id/wp-content/uploads/2021/07/Banner-002.jpg" class="w-full max-w-3xl mx-auto my-6 rounded-lg shadow-lg" alt="TOEIC Banner">
-        <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-6 rounded shadow-md transition">Register now</a>
-    </section>
-
-    <!-- Announcement -->
-    <section class="container mx-auto py-12 px-6">
-        <h2 class="text-3xl font-bold text-center text-blue-900 mb-6">Announcement</h2>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <ul class="list-disc list-inside text-gray-700">
-                <li class="mb-2">TOEIC registration for April is now open! <a href="#" class="text-blue-600 hover:underline">See more</a></li>
-                <li class="mb-2">TOEIC Test Schedule Announcement. <a href="#" class="text-blue-600 hover:underline">Check now</a></li>
-                <li class="mb-2">The latest guide to TOEIC preparation is now available. <a href="#" class="text-blue-600 hover:underline">Read the guide</a></li>
-            </ul>
-        </div>
-    </section>
-    <!-- Informasi & Fitur -->
-    <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">TOEIC Registration</h3>
-            <p class="mt-2 text-gray-600">Fill out the registration form with valid information.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Register</a>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Exam Schedule</h3>
-            <p class="mt-2 text-gray-600">View the latest TOEIC exam schedule.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Schedule</a>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">check exam results</h3>
-            <p class="mt-2 text-gray-600">Check your TOEIC results online.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Results</a>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md text-center transition transform hover:scale-105 animate-slideUp">
-            <h3 class="text-lg font-bold">Complete Guide</h3>
-            <p class="mt-2 text-gray-600">Learn the complete TOEIC guide.</p>
-            <a href="#" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Read the Guide</a>
-        </div>
-    </section>
-    
-
-    
-    <!-- Footer -->
-<footer class="bg-blue-600 text-white py-8 mt-12 rounded-t-lg">
-    <!-- Logo di tengah -->
-    <div class="flex justify-center mb-4">
-      <img src="logo.png" alt="Logo" class="h-12"> <!-- Ganti 'logo.png' dengan path logo sebenarnya -->
-    </div>
-  
-    <!-- Konten utama footer -->
-    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 text-sm gap-6 text-center md:text-left">
-      <!-- Alamat -->
-      <div>
-        <h2 class="font-bold mb-2">Layanan TOEIC</h2>
-        <p>Politeknik Negeri Malang<br>
-          Jl. Soekarno - Hatta No.9,<br>
-          Jatimulyo, Kec. Lowokwaru,<br>
-          Kota Malang, Jawa Timur 65141</p>
-      </div>
-  
-      <!-- Jam Operasional -->
-      <div>
-        <h2 class="font-bold mb-2">Jam Operasional Layanan</h2>
-        <p>Senin - Jumat: 08.00 - 16.00 WIB<br>
-          Sabtu - Minggu: Libur</p>
-      </div>
-  
-      <!-- Media Sosial -->
-      <div>
-        <h2 class="font-bold mb-2">Media Sosial</h2>
-        <div class="flex justify-center md:justify-start gap-4 text-xl mt-2">
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="#" aria-label="Website"><i class="fas fa-globe"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Garis pemisah -->
-    <div class="border-t border-white mt-6 pt-4 text-center text-sm">
-      <p>Copyright &copy; 2025 TOEIC</p>
-    </div>
-  </footer>
-  
-</body>
-</html> --}}
 @extends('layouts.app')
 
 @section('content')
-    <section class="text-center px-4 ">
-        <h2 class="text-4xl font-bold text-blue-900">TOEIC Service</h2>
-        <h3 class="text-2xl font-bold text-blue-800 mt-2">POLITEKNIK NEGERI MALANG</h3>
-        <p class="mt-4 text-gray-700">Get complete information about TOEIC registration, schedule and exam results.</p>
-        <img src="https://jti.polinema.ac.id/wp-content/uploads/2021/07/Banner-002.jpg"
-            class="w-full max-w-3xl mx-auto my-6 rounded-lg shadow-lg" alt="TOEIC Banner">
+
+{{-- Warna background halaman secara global (misal abu muda) --}}
+
+<section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100">
+    {{-- Gambar full background --}}
+    <img src="{{ asset('/homepage.png') }}"
+         alt="TOEIC Banner"
+         class="absolute inset-0 w-full h-full object-cover object-center z-0" />
+
+    {{-- Overlay gelap untuk kontras --}}
+    <div class="absolute inset-0 bg-grey/40 z-10"></div>
+
+    {{-- Teks di atas gambar --}}
+    <div class="absolute inset-0 flex flex-col items-center justify-start text-blue-900 px-2 text-center z-10 pt-20 space-y-4">
+        <h2 class="text-4xl md:text-5xl font-bold drop-shadow-lg"
+            data-aos="fade-down"
+            data-aos-duration="1200">TOEIC Service</h2>
+
+        <h3 class="text-2xl md:text-3xl font-semibold drop-shadow-md"
+            data-aos="fade-down"
+            data-aos-delay="200"
+            data-aos-duration="1000">POLITEKNIK NEGERI MALANG</h3>
+
+        <p class="max-w-xl text-lg md:text-xl text-blue-900 drop-shadow"
+           data-aos="fade-up"
+           data-aos-delay="400"
+           data-aos-duration="1000">
+            Get complete information about TOEIC registration, schedule and exam results.
+        </p>
+    </div>
+
+    {{-- Tombol di bagian bawah gambar, center --}}
+    <div class="w-full flex justify-center absolute bottom-20 z-20"
+         data-aos="zoom-in-up"
+         data-aos-delay="600"
+         data-aos-duration="1000">
         <a href="{{ url('/registrasi') }}"
-            class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-6 rounded shadow-md transition">Register
-            now</a>
+           class="inline-block bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-8 rounded shadow-md transition">
+            Register now
+        </a>
+    </div>
+</section>
 
-        <section class="container mx-auto py-12 px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Announcement</h2>
 
-            @if ($pengumuman->isEmpty())
-                <div class="bg-white p-6 rounded-lg shadow text-center text-gray-600">
-                    Belum ada pengumuman.
-                </div>
-            @else
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
-                        @foreach ($pengumuman->take(3) as $item)
-                            <li class="flex justify-between items-center">
-                                <span>{{ $item->Judul }}</span>
-                                <a href="{{ route('pengumuman.show', $item->Id_Pengumuman) }}"
-                                    class="text-white-600 whitespace-nowrap btn btn-primary">
-                                    See More
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-
-                    @if ($pengumuman->count() > 3)
-                        <div class="text-center mt-6">
-                            <a href="{{ route('pengumuman.index') }}"
-                                class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                See more announcement
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            @endif
-        </section>
-
-        <section class="container mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @php
-                $cards = [
-                    [
-                        'title' => 'TOEIC Registration',
-                        'desc' => 'Fill out the registration form with valid information.',
-                        'img' => 'registration.png',
-                        'link' => url('/registrasi'),
-                        'button' => 'Register',
-                    ],
-                    [
-                        'title' => 'Exam Schedule',
-                        'desc' => 'View the latest TOEIC exam schedule.',
-                        'img' => 'jadwal.png',
-                        'link' => url('/schedule'),
-                        'button' => 'See Schedule',
-                    ],
-                    [
-                        'title' => 'Check Exam Results',
-                        'desc' => 'Check your TOEIC results online.',
-                        'img' => 'result.png',
-                        'link' => url('/hasil-ujian'),
-                        'button' => 'See Results',
-                    ],
-                    [
-                        'title' => 'Complete Guide',
-                        'desc' => 'Learn the complete TOEIC guide.',
-                        'img' => 'guide.png',
-                        'link' => url('/panduan'),
-                        'button' => 'Read the Guide',
-                    ],
-                ];
-            @endphp
-
-            @foreach ($cards as $card)
-                <div
-                    class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between text-center hover:scale-105 transform transition-all animate-slideUp">
-                    <div>
-                        <h3 class="text-lg font-bold">{{ $card['title'] }}</h3>
-                        <p class="mt-2 text-gray-600">{{ $card['desc'] }}</p>
-                        <img src="{{ asset($card['img']) }}" alt="{{ $card['title'] }}"
-                            class="w-full h-32 object-contain mx-auto mt-4">
+    {{-- Announcement --}}
+    <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12"
+             data-aos="fade-up" data-aos-duration="1000">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Announcement</h2>
+        @if ($pengumuman->isEmpty())
+            <div class="text-center text-gray-600">Belum ada pengumuman.</div>
+        @else
+            <div class="space-y-6 text-gray-700">
+                @foreach ($pengumuman->take(3) as $item)
+                    <div class="flex justify-between items-center border-b border-gray-300 pb-4">
+                        <span class="text-lg font-semibold">{{ $item->Judul }}</span>
+                        <a href="{{ route('pengumuman.show', $item->Id_Pengumuman) }}" class="text-blue-600 hover:underline">
+                            See More
+                        </a>
                     </div>
-                    <a href="{{ $card['link'] }}"
-                        class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block">
-                        {{ $card['button'] }}
+                @endforeach
+            </div>
+            @if ($pengumuman->count() > 3)
+                <div class="text-center mt-8">
+                    <a href="{{ route('pengumuman.index') }}"
+                       class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                        See all announcements
                     </a>
                 </div>
-            @endforeach
-        </section>
-
+            @endif
+        @endif
     </section>
+
+    {{-- Info Cards --}}
+    @php
+        $cards = [
+            [
+                'title' => 'TOEIC Registration',
+                'desc' => 'Isi formulir pendaftaran dengan data yang valid untuk mengikuti tes TOEIC dari kampus.',
+                'img' => 'registration.png',
+                'link' => url('/registrasi'),
+                'button' => 'Daftar Sekarang',
+                'bg' => 'bg-white',
+                'aos' => 'fade-right',
+            ],
+            [
+                'title' => 'Exam Schedule',
+                'desc' => 'Lihat jadwal terbaru pelaksanaan TOEIC resmi dari kampus.',
+                'img' => 'jadwal.png',
+                'link' => url('/schedule'),
+                'button' => 'Lihat Jadwal',
+                'bg' => 'bg-gray-50',
+                'aos' => 'fade-left',
+            ],
+            [
+                'title' => 'Check Exam Results',
+                'desc' => 'Cek hasil tes TOEIC Anda secara online dan dapatkan skor langsung.',
+                'img' => 'result.png',
+                'link' => url('/hasil-ujian'),
+                'button' => 'Lihat Hasil',
+                'bg' => 'bg-white',
+                'aos' => 'fade-right',
+            ],
+            [
+                'title' => 'Complete Guide',
+                'desc' => 'Pelajari panduan lengkap TOEIC agar lebih siap menghadapi ujian.',
+                'img' => 'guide.png',
+                'link' => url('/panduan'),
+                'button' => 'Baca Panduan',
+                'bg' => 'bg-gray-50',
+                'aos' => 'fade-left',
+            ],
+        ];
+    @endphp
+    @foreach ($cards as $index => $card)
+    <section class="max-w-5xl mx-auto {{ $card['bg'] }} rounded-2xl shadow-lg p-10 mb-12"
+            data-aos="{{ $card['aos'] }}" data-aos-duration="1000">
+        <div class="flex flex-col md:flex-row items-center gap-8
+            {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }}">
+            <img src="{{ asset($card['img']) }}" alt="{{ $card['title'] }}" class="w-32 md:w-40 h-auto mx-auto md:mx-0 rounded-lg shadow">
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl md:text-3xl font-bold text-blue-900">{{ $card['title'] }}</h2>
+                <p class="text-gray-800 mt-2 text-lg leading-relaxed">{{ $card['desc'] }}</p>
+                <a href="{{ $card['link'] }}"
+                class="inline-block mt-4 bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    {{ $card['button'] }}
+                </a>
+            </div>
+        </div>
+    </section>
+    @endforeach
+
+    {{-- Testimoni --}}
+
+
+    {{-- Pengajuan Surat --}}
+    <section class="max-w-5xl mx-auto bg-blue-100 rounded-2xl shadow-lg p-10 mb-12"
+             data-aos="zoom-in-up" data-aos-duration="1000">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+            <img src="{{ asset('pengajuan.png') }}" alt="Pengajuan Surat" class="w-40 md:w-56 h-auto mx-auto md:mx-0 rounded-lg shadow">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-blue-900">Butuh Surat Rekomendasi TOEIC?</h2>
+                <p class="text-gray-800 mt-2 text-lg leading-relaxed">
+                    Ajukan surat pengantar atau surat kebutuhan administrasi TOEIC langsung melalui sistem kami. Cukup login, isi data, dan pantau status pengajuan secara real-time.
+                </p>
+                <a href="{{ url('/pengajuan-surat') }}"
+                   class="inline-block mt-4 bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Ajukan Surat Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {{-- Daftar Mandiri ke ITC --}}
+    <section class="max-w-5xl mx-auto bg-yellow-100 rounded-2xl shadow-lg p-10 mb-12"
+             data-aos="zoom-in-left" data-aos-duration="1000">
+        <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+            <img src="{{ asset('mandiri.png') }}" alt="Pendaftaran ITC" class="w-40 md:w-56 h-auto mx-auto md:mx-0 rounded-lg shadow">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-yellow-900">Ingin Daftar Mandiri ke ITC?</h2>
+                <p class="text-gray-800 mt-2 text-lg leading-relaxed">
+                    Jika Anda belum sempat mendaftar melalui jalur kampus, Anda tetap bisa ikut tes TOEIC secara mandiri melalui ITC resmi. Pilih tanggal tes dan lokasi yang sesuai dengan kebutuhan Anda.
+                </p>
+                <a href="https://itc.example.com" target="_blank"
+                   class="inline-block mt-4 bg-yellow-500 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
+                    Daftar Mandiri di ITC
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
 @endsection
