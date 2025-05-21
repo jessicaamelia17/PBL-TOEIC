@@ -71,4 +71,13 @@ class PendaftarController extends Controller
 
         return view('admin.pendaftar.detail', compact('pendaftar'));
     }
+
+    public function togglePendaftaran(Request $request)
+{
+    $status = session('pendaftaran_dibuka', false); // default: tertutup
+    session(['pendaftaran_dibuka' => !$status]);
+
+    return redirect()->back()->with('message', !$status ? '- PENDAFTARAN DIBUKA -' : 'PENDAFTARAN DITUTUP!');
+}
+
 }

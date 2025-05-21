@@ -48,6 +48,9 @@ Route::get('/panduan', function () {
     return view('panduan');
 })->name('panduan');
 
+Route::post('/admin/pendaftaran/toggle', [App\Http\Controllers\Admin\PendaftarController::class, 'togglePendaftaran']);
+
+
 // ==========================
 // 🔐 RUTE ADMIN (PERLU LOGIN)
 // ==========================

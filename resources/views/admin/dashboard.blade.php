@@ -46,4 +46,30 @@
         </div>
     </div>
 </div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        @if (session('pendaftaran_dibuka', false))
+            <div class="alert alert-info text-center" style="font-size: 24px; font-weight: bold;">
+                📢 PENDAFTARAN DIBUKA!
+            </div>
+        @else
+            <div class="alert alert-danger text-center" style="font-size: 24px; font-weight: bold;">
+                PENDAFTARAN DITUTUP!
+            </div>
+        @endif
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form action="{{ url('/admin/pendaftaran/toggle') }}" method="POST">
+            @csrf
+            <button class="btn btn-{{ session('pendaftaran_dibuka', false) ? 'danger' : 'success' }} btn-lg px-5 py-2" style="font-size: 18px;">
+                {{ session('pendaftaran_dibuka', false) ? 'Tutup Pendaftaran' : 'Buka Pendaftaran' }}
+            </button>
+        </form>
+    </div>
+</div>
+
 @endsection
