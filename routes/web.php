@@ -11,12 +11,31 @@ use App\Http\Controllers\Admin\ControllerPengumuman;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\SesiJadwalController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\Auth\LoginController;
 
 // =============================
 // 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
 // =============================
 
-// Halaman utama
+//login & register mahasiswa
+Route::get('/login-toeic', [AuthController::class, 'showLogin'])->name('login-toeic');
+Route::post('/login-toeic', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/register-user', [RegisterUserController::class, 'showRegister'])->name('register-user');
+Route::post('/register-user', [RegisterUserController::class, 'register']);
+// Halaman utama mahasiswa
+Route::get('/profile', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+// Edit profile mahasiswa (form edit)
+Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+// Update profile mahasiswa (proses update)
+Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
+
+
+// Halaman utama/ landing page mahasiswa
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 // Pengumuman
@@ -40,6 +59,11 @@ Route::prefix('registrasi')->name('registrasi.')->group(function () {
 
 // Hasil ujian
 Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
+
+// Authentication Routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login-toeic');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ==========================
 // 🔐 RUTE ADMIN (PERLU LOGIN)
