@@ -6,13 +6,13 @@
 
     {{-- Tombol Aksi atas --}}
     <div class="flex justify-end mb-4 space-x-2">
-        <a href="{{ asset('Hasil TOEIC.pdf') }}" target="_blank" 
+        <a href="{{ route('hasil-ujian.pdf.viewAll') }}" target="_blank"
            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">
-            <i class="fas fa-file-pdf mr-1"></i> View PDF
+            <i class="fas fa-file-pdf mr-1"></i> View Semua PDF
         </a>
-        <a href="{{ asset('Hasil TOEIC.pdf') }}" download
+        <a href="{{ route('hasil-ujian.pdf.downloadAll') }}"
            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded">
-            <i class="fas fa-download mr-1"></i> Download PDF
+            <i class="fas fa-download mr-1"></i> Download Semua PDF
         </a>
     </div>
 
@@ -45,16 +45,16 @@
                         <td class="px-4 py-2">{{ $r->Listening_2 }}</td>
                         <td class="px-4 py-2">{{ $r->Reading_2 }}</td>
                         <td class="px-4 py-2">{{ $r->Skor_2 }}</td>
-                        <td class="px-4 py-2">{{ $r->Tanggal_Ujian }}</td>
+                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($r->Tanggal_Ujian)->format('d-m-Y') }}</td>
                         <td class="px-4 py-2">{{ $r->Status }}</td>
                         <td class="px-4 py-2 space-y-1">
                             <a href="{{ route('hasil-ujian.pdf.view', $r->Id_Hasil) }}" target="_blank"
                                class="block bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 text-xs rounded text-center">
-                                <i class="fas fa-eye mr-1"></i>Lihat
+                                <i class="fas fa-eye mr-1"></i> Lihat
                             </a>
                             <a href="{{ route('hasil-ujian.pdf.download', $r->Id_Hasil) }}"
                                class="block bg-green-600 hover:bg-green-700 text-white px-3 py-1 text-xs rounded text-center mt-1">
-                                <i class="fas fa-download mr-1"></i>Unduh
+                                <i class="fas fa-download mr-1"></i> Unduh
                             </a>
                         </td>
                     </tr>

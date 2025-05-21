@@ -39,10 +39,16 @@ Route::prefix('registrasi')->name('registrasi.')->group(function () {
     Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
 });
 
-// Hasil ujian
+// Halaman index hasil ujian
 Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
-Route::get('/hasil-ujian/pdf/view-all', [HasilController::class, 'viewAllPdf'])->name('hasil-ujian.pdf.view.all');
-Route::get('/hasil-ujian/pdf/download-all', [HasilController::class, 'downloadAllPdf'])->name('hasil-ujian.pdf.download.all');
+
+// PDF semua peserta
+Route::get('/hasil-ujian/pdf/view-all', [HasilController::class, 'viewAllPdf'])->name('hasil-ujian.pdf.viewAll');
+Route::get('/hasil-ujian/pdf/download-all', [HasilController::class, 'downloadAllPdf'])->name('hasil-ujian.pdf.downloadAll');
+
+// PDF per peserta
+Route::get('/hasil-ujian/pdf/view/{id}', [HasilController::class, 'viewPdf'])->name('hasil-ujian.pdf.view');
+Route::get('/hasil-ujian/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('hasil-ujian.pdf.download');
 
 Route::get('/panduan', function () {
     return view('panduan');
