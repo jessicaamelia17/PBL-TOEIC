@@ -37,7 +37,7 @@
                 <label class="block mb-2 font-semibold text-gray-700">Foto Profil</label>
                 <input type="file" name="photo" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
                 @if($mahasiswa->photo)
-                    <img src="{{ asset('storage/profil_mahasiswa/' . $mahasiswa->photo) }}" alt="Foto Profil" class="mt-2 w-20 h-20 rounded-full object-cover">
+                    <img src="{{ asset('storage/' . $mahasiswa->photo) }}" alt="Foto Profil" class="mt-2 w-20 h-20 rounded-full object-cover">
                 @endif
             </div>
 
