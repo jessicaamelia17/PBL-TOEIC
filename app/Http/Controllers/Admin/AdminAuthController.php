@@ -19,13 +19,15 @@ public function index()
         ];
 
         $activeMenu = 'dashboard';
-
+        
         $pendaftar = PendaftarModel::count();
+        $kuota = 3144;
 
         return view('admin.dashboard', [
             'breadcrumb' => $breadcrumb,
             'activeMenu' => $activeMenu,
             'pendaftar' => $pendaftar,
+            'kuota' => $kuota
         ]);
 }
 
