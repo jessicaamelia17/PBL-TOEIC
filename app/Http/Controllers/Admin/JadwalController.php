@@ -10,21 +10,20 @@ class JadwalController extends Controller
 {
     public function index()
     {
+        $jadwalList = JadwalUjianModel::with('sesi.rooms.pendaftar.prodi')->get();
+    
         $breadcrumb = (object) [
-            'title' => 'Kelola Jadwal Ujian',
+            'title' => 'Daftar Jadwal Ujian',
             'list' => ['Home', 'Jadwal Ujian']
         ];
-
+    
         $activeMenu = 'jadwal';
-
-        $jadwals = JadwalUjianModel::all();
-
-        return view('admin.jadwal.index', [
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu,
-            'jadwals' => $jadwals
-        ]);
+    
+        return view('admin.jadwal.index', compact('jadwalList', 'breadcrumb', 'activeMenu'));
     }
+    
+    
+    
 
     public function edit($id)
     {

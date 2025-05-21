@@ -28,7 +28,7 @@ class RoomUjianModel extends Model
     }
 
     // Relasi ke peserta pendaftaran
-    public function peserta()
+    public function pendaftar()
     {
         return $this->hasMany(RegistrasiModel::class, 'id_room', 'id_room');
     }
