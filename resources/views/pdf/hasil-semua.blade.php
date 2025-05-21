@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hasil TOEIC Semua Peserta</title>
+    <style>
+        body { font-family: sans-serif; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #000; padding: 5px; text-align: center; }
+        h2 { text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Hasil Ujian TOEIC Semua Peserta</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>NIM</th>
+                <th>Listening 1</th>
+                <th>Reading 1</th>
+                <th>Skor 1</th>
+                <th>Listening 2</th>
+                <th>Reading 2</th>
+                <th>Skor 2</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($results as $r)
+                <tr>
+                    <td>{{ $r->Nama }}</td>
+                    <td>{{ $r->NIM }}</td>
+                    <td>{{ $r->Listening }}</td>
+                    <td>{{ $r->Reading }}</td>
+                    <td>{{ $r->Skor }}</td>
+                    <td>{{ $r->Listening_2 }}</td>
+                    <td>{{ $r->Reading_2 }}</td>
+                    <td>{{ $r->Skor_2 }}</td>
+                    <td>{{ $r->Status }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</body>
+</html>

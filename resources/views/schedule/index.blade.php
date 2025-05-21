@@ -10,39 +10,109 @@
 
 @section('content')
 <div class="min-h-screen bg-blue-100 py-10 px-4">
-    <div class="w-full mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h2 class="text-center font-bold text-blue-700 text-3xl mb-8">Daftar Jadwal Ujian TOEIC</h2>
+    <div class="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-blue-700 mb-6 text-center">{{ $breadcrumb->title }}</h1>
 
-        <div class="w-full overflow-auto">
-            <table class="w-full border border-gray-300 rounded-lg shadow text-base">
-                <thead class="bg-blue-200 text-blue-800 font-bold text-lg">
-                    <tr>
-                        <th class="py-3 px-6 border border-gray-300 text-left">Tanggal Ujian</th>
-                        <th class="py-3 px-6 border border-gray-300 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($jadwal as $jadwalItem)
-                        <tr class="hover:bg-blue-50">
-                            <td class="py-4 px-6 border border-gray-300">
-                                {{ \Carbon\Carbon::parse($jadwalItem->Tanggal_Ujian)->translatedFormat('l, d F Y') }}
-                            </td>
-                            <td class="py-4 px-6 border border-gray-300 text-center">
-                                <a href="{{ route('schedule.pendaftar', ['id' => $jadwalItem->id_jadwal]) }}"
-                                   class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                                    <i class="fas fa-users me-1"></i> Lihat Peserta
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
+        @if ($jadwalList->isEmpty()) {{-- Asumsikan $jadwal adalah collection --}}
+            <div class="alert alert-warning text-center text-lg">Tidak ada jadwal untuk ditampilkan.</div>
+        @else
+            <div class="mb-6">
+                <label for="filterProdi" class="block text-sm font-medium text-gray-700 mb-1">Filter Program Studi:</label>
+                <select id="filterProdi" class="form-select w-full max-w-sm rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">- Semua -</option>
+                    @foreach ($prodiList as $prodi)
+                        <option value="{{ $prodi->Nama_Prodi }}">{{ $prodi->Nama_Prodi }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="overflow-auto rounded-xl shadow-md">
+                <table id="pesertaTable" class="table table-bordered text-center">
+                    <thead class="bg-primary text-white">
                         <tr>
-                            <td colspan="2" class="text-center py-6 text-gray-500 text-lg">Belum ada jadwal ujian tersedia.</td>
+                            <th>No</th>
+                            <th>Hari / Tanggal</th>
+                            <th>Sesi</th>
+                            <th>Room</th>
+                            <th>Nama Lengkap</th>
+                            <th>NIM</th>
+                            <th>Program Studi</th>
+                            <th>Zoom ID</th>
+                            <th>Password</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @php $no = 1; @endphp
+                        @foreach ($jadwalList as $jadwalItem)
+                            @foreach ($jadwalItem->sesi as $sesi)
+                                @foreach ($sesi->rooms as $room)
+                                    @if ($room->pendaftar->isEmpty())
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_ujian)->translatedFormat('l, d M Y') }}</td>
+                                            <td>
+                                                {{ $sesi->nama_sesi }}<br>
+                                                ({{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }})
+                                            </td>
+                                            <td>{{ $room->nama_room }}</td>
+                                            <td colspan="3" class="text-center">Belum ada peserta</td>
+                                            <td>{{ $room->zoom_id }}</td>
+                                            <td>{{ $room->zoom_password }}</td>
+                                        </tr>
+                                    @else
+                                        @foreach ($room->pendaftar as $peserta)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($jadwalItem->tanggal_ujian)->translatedFormat('l, d M Y') }}</td>
+                                                <td>
+                                                    {{ $sesi->nama_sesi }}<br>
+                                                    ({{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }})
+                                                </td>
+                                                <td>{{ $room->nama_room }}</td>
+                                                <td>{{ $peserta->Nama }}</td>
+                                                <td>{{ $peserta->NIM }}</td>
+                                                <td>{{ $peserta->prodi->Nama_Prodi ?? '-' }}</td>
+                                                <td>{{ $room->zoom_id }}</td>
+                                                <td>{{ $room->zoom_password }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
 </div>
+
+@push('scripts')
+<script>
+$(document).ready(function () {
+    var table = $('#pesertaTable').DataTable({
+        "lengthMenu": [10, 25, 50, 100],
+        "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ entri",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            "paginate": {
+                "first": "Pertama",
+                "last": "Terakhir",
+                "next": "Berikutnya",
+                "previous": "Sebelumnya"
+            },
+            "emptyTable": "Tidak ada data tersedia",
+        }
+    });
+
+    // Filter berdasarkan Program Studi ada di kolom ke-6 (indeks 6 karena 0-based)
+    $('#filterProdi').on('change', function () {
+        var selected = $(this).val();
+        table.column(6).search(selected).draw();
+    });
+});
+</script>
+@endpush
 
 @endsection

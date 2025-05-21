@@ -15,6 +15,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\SuratController;
 
 // =============================
 // 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
@@ -57,13 +58,23 @@ Route::prefix('registrasi')->name('registrasi.')->group(function () {
     Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
 });
 
-// Hasil ujian
+// Halaman index hasil ujian
 Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
 
-// Authentication Routes
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login-toeic');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// PDF semua peserta
+Route::get('/hasil-ujian/pdf/view-all', [HasilController::class, 'viewAllPdf'])->name('hasil-ujian.pdf.viewAll');
+Route::get('/hasil-ujian/pdf/download-all', [HasilController::class, 'downloadAllPdf'])->name('hasil-ujian.pdf.downloadAll');
+
+// PDF per peserta
+Route::get('/hasil-ujian/pdf/view/{id}', [HasilController::class, 'viewPdf'])->name('hasil-ujian.pdf.view');
+Route::get('/hasil-ujian/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('hasil-ujian.pdf.download');
+
+Route::get('/panduan', function () {
+    return view('panduan');
+})->name('panduan');
+
+Route::post('/admin/pendaftaran/toggle', [App\Http\Controllers\Admin\PendaftarController::class, 'togglePendaftaran']);
+
 
 // ==========================
 // 🔐 RUTE ADMIN (PERLU LOGIN)
@@ -80,6 +91,9 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logo
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+
+    // Surat pengajuan
+    Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');
 
     // Pendaftar
     Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
