@@ -16,6 +16,16 @@
 
     {{-- Font Awesome --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-size: cover;
+        background-attachment: fixed;
+        background-color: #cfe9ff; /* fallback warna biru muda */
+    }
+</style>
 
     {{-- Custom Tailwind config --}}
     <script>
@@ -81,7 +91,11 @@
             }
         });
     </script>
-
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    
     @stack('js')
 </body>
 </html>
