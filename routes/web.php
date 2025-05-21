@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ControllerPengumuman;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\SesiJadwalController;
+use App\Http\Controllers\Admin\SuratController;
 
 // =============================
 // 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
@@ -62,6 +63,9 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logo
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+
+    // Surat pengajuan
+    Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');
 
     // Pendaftar
     Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');

@@ -23,6 +23,7 @@
         color: white;
     }
 </style>
+
 <div class="sidebar">
     <!-- Garis putih horizontal -->
     <div style="border-bottom: 2px solid white; margin: 10px 0;"></div>
@@ -60,6 +61,14 @@
                     <p>Kelola Jadwal & Kuota</p>
                 </a>
             </li>
+            <!-- Menu Surat Pengajuan -->
+            <li class="nav-item">
+                <a href="{{ route('admin.surat.index') }}"
+                    class="nav-link {{ $activeMenu == 'surat' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-envelope"></i>
+                    <p>Surat Pengajuan</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('admin.pengumuman.index') }}"
                     class="nav-link {{ $activeMenu == 'pengumuman' ? 'active' : '' }}">
@@ -77,8 +86,6 @@
                     @csrf
                 </form>
             </li>
-
-
         </ul>
     </nav>
 </div>
