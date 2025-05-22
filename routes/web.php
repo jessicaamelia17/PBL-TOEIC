@@ -26,18 +26,18 @@ use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
 
 // Landing Page
 //login & register mahasiswa
-Route::get('/login-toeic', [AuthController::class, 'showLogin'])->name('login-toeic');
-Route::post('/login-toeic', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/register-user', [RegisterUserController::class, 'showRegister'])->name('register-user');
-Route::post('/register-user', [RegisterUserController::class, 'register']);
-// Halaman utama mahasiswa
-Route::get('/profile', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
-// Edit profile mahasiswa (form edit)
-Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
-// Update profile mahasiswa (proses update)
-Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
-Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
+// Route::get('/login-toeic', [AuthController::class, 'showLogin'])->name('login-toeic');
+// Route::post('/login-toeic', [AuthController::class, 'login']);
+// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::get('/register-user', [RegisterUserController::class, 'showRegister'])->name('register-user');
+// Route::post('/register-user', [RegisterUserController::class, 'register']);
+// // Halaman utama mahasiswa
+// Route::get('/profile', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+// // Edit profile mahasiswa (form edit)
+// Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+// // Update profile mahasiswa (proses update)
+// Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+// Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
 
 
 // Halaman utama/ landing page mahasiswa

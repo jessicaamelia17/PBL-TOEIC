@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             $this->call([
         // JurusanSeeder::class,
         // ProdiSeeder::class,
-        JadwalUjianSeeder::class,
+        AdminSeeder::class,
     ]);
     }
 }

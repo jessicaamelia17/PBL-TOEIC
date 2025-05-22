@@ -54,7 +54,7 @@
             <li><a href="#" class="hover:underline">Guide</a></li>
             <li><a href="#" class="hover:underline">Contact</a></li>
 
-            <li class="relative">
+            {{-- <li class="relative">
                 <button @click="openDropdown = !openDropdown" class="flex items-center space-x-2 focus:outline-none">
                     <template x-if="isLoggedIn">
                         <img src="{{ Auth::user() ? Auth::user()->photo ?? asset('profile-picture.jpg') : asset('profile-picture.jpg') }}"
@@ -73,7 +73,7 @@
                     <template x-if="isLoggedIn">
                         <div>
                             {{-- filepath: resources/views/layouts/navbar.blade.php --}}
-                            <a href="{{ Auth::check() ? route('mahasiswa.index', Auth::user()->nim) : '#' }}"
+                            {{-- <a href="{{ Auth::check() ? route('mahasiswa.index', Auth::user()->nim) : '#' }}"
                                 class="block px-4 py-2 hover:bg-gray-100">Profile</a>
                             <button @click="logout" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
                         </div>
@@ -86,7 +86,7 @@
                         </div>
                     </template>
                 </div>
-            </li>
+            </li> --}}
         </ul>
     </div>
 
@@ -102,10 +102,10 @@
             <li><a href="#" class="block hover:underline">Results</a></li>
             <li><a href="#" class="block hover:underline">Guide</a></li>
             <li><a href="#" class="block hover:underline">Contact</a></li>
-            <template x-if="isLoggedIn">
+            {{-- <template x-if="isLoggedIn">
                 <div>
                     <li>{{-- filepath: resources/views/layouts/navbar.blade.php --}}
-                        <a href="{{ Auth::check() ? route('mahasiswa.index', Auth::user()->nim) : '#' }}"
+                        {{-- <a href="{{ Auth::check() ? route('mahasiswa.index', Auth::user()->nim) : '#' }}"
                             class="block px-4 py-2 hover:bg-gray-100">Profile</a>
                     </li>
                     <li>
@@ -118,7 +118,7 @@
                     <li><a href="{{ url('/login') }}" class="block hover:underline">Login</a></li>
                     <li><a href="{{ url('/register') }}" class="block hover:underline">Register</a></li>
                 </div>
-            </template>
+            </template> --}}
         </ul>
     </div>
 </nav>
