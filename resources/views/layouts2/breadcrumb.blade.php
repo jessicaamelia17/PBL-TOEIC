@@ -10,7 +10,7 @@
                         @if ($key == count($breadcrumb->list) - 1)
                             <li class="breadcrumb-item active">{{ $value }}</li>
                         @else
-                            <li class="breadcrumb-item">{{ $value }}</li>
+                           <li class="breadcrumb-item">{{ $value }}</li>
                         @endif
                     @endforeacH
                 </ol>
