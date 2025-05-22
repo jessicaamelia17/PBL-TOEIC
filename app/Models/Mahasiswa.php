@@ -4,21 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Mahasiswa extends Model
+
+class Mahasiswa extends Authenticatable
 {
     use HasFactory;
 
     protected $table = 'mahasiswa';
     protected $primaryKey = 'nim'; // NIM sebagai primary key
     public $incrementing = false; // Karena NIM bukan auto-increment
+    protected $keyType = 'string';
+
 
     protected $fillable = ['nim', 'nama', 'email', 'no_hp', 'Id_Jurusan', 'Id_Prodi', 'alamat', 'photo', 'tmpt_lahir', 'TTL', 'password'];
 
-    public function user()
+    protected $hidden = ['password'];
+
+    public function getAuthIdentifierName()
     {
-        return $this->hasOne(User::class, 'nim', 'nim');
+        return 'nim'; // Laravel menggunakan 'nim' sebagai identifier login
     }
+
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
 
     public function jurusan()
     {

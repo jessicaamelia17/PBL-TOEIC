@@ -8,7 +8,7 @@
     <div id="notification-container"></div>
 
     <!-- Form -->
-    <form id="registrasiForm" action="{{ route('registrasi.store') }}" method="POST" enctype="multipart/form-data"
+    <form id="registrasiForm" action="{{ route('mahasiswa.registrasi.store') }}" method="POST" enctype="multipart/form-data"
         class="space-y-4">
         @csrf
         <input type="text" name="NIM" placeholder="NIM" required

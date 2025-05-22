@@ -37,7 +37,7 @@
          data-aos="zoom-in-up"
          data-aos-delay="600"
          data-aos-duration="1000">
-        <a href="{{ url('/registrasi') }}"
+        <a href="{{ route('mahasiswa.registrasi.create') }}"
            class="inline-block bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-8 rounded shadow-md transition">
             Register now
         </a>
@@ -56,7 +56,7 @@
                 @foreach ($pengumuman->take(3) as $item)
                     <div class="flex justify-between items-center border-b border-gray-300 pb-4">
                         <span class="text-lg font-semibold">{{ $item->Judul }}</span>
-                        <a href="{{ route('pengumuman.show', $item->Id_Pengumuman) }}" class="text-blue-600 hover:underline">
+                        <a href="{{ route('mahasiswa.pengumuman', $item->Id_Pengumuman) }}" class="text-blue-600 hover:underline">
                             See More
                         </a>
                     </div>
@@ -64,7 +64,7 @@
             </div>
             @if ($pengumuman->count() > 3)
                 <div class="text-center mt-8">
-                    <a href="{{ route('pengumuman.index') }}"
+                    <a href="{{ route('mahasiswa.pengumuman') }}"
                        class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
                         See all announcements
                     </a>
@@ -80,7 +80,7 @@
                 'title' => 'TOEIC Registration',
                 'desc' => 'Isi formulir pendaftaran dengan data yang valid untuk mengikuti tes TOEIC dari kampus.',
                 'img' => 'registration.png',
-                'link' => url('/registrasi'),
+                'link' => route('mahasiswa.registrasi.create'),
                 'button' => 'Daftar Sekarang',
                 'bg' => 'bg-white',
                 'aos' => 'fade-right',
