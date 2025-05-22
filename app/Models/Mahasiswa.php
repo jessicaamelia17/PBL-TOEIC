@@ -13,7 +13,7 @@ class Mahasiswa extends Model
     protected $primaryKey = 'nim'; // NIM sebagai primary key
     public $incrementing = false; // Karena NIM bukan auto-increment
 
-    protected $fillable = ['nim', 'nama', 'email', 'no_hp', 'Id_Jurusan', 'Id_Prodi', 'alamat', 'photo', 'tmpt_lahir', 'TTL'];
+    protected $fillable = ['nim', 'nama', 'email', 'no_hp', 'Id_Jurusan', 'Id_Prodi', 'alamat', 'photo', 'tmpt_lahir', 'TTL', 'password'];
 
     public function user()
     {
