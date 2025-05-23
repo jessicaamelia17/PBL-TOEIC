@@ -62,7 +62,7 @@
     // Handle Jurusan-Prodi Dropdown
     document.getElementById('jurusan').addEventListener('change', function () {
         let jurusanId = this.value;
-        fetch(`/registrasi/get-prodi/${jurusanId}`)
+        fetch(`/mahasiswa/registrasi/get-prodi/${jurusanId}`)
             .then(response => response.json())
             .then(data => {
                 let prodiSelect = document.getElementById('prodi');
@@ -147,7 +147,7 @@ document.querySelector('input[name="NIM"]').addEventListener('blur', function ()
     const nim = nimInput.value.trim();
     if (nim === '') return;
 
-    fetch(`/registrasi/check-nim/${nim}`)
+    fetch(`/mahasiswa/registrasi/check-nim/${nim}`)
         .then(response => response.json())
         .then(data => {
             if (!data.available) {

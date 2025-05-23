@@ -44,7 +44,7 @@
             {{-- JURUSAN --}}
             <div class="mb-5">
                 <label class="block mb-2 font-semibold text-gray-700">Jurusan</label>
-                <select id="jurusan" name="id_jurusan" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
+                <select id="jurusan" name="Id_Jurusan" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
                     <option value="">-- Pilih Jurusan --</option>
                     @foreach($jurusans as $jurusan)
                         <option value="{{ $jurusan->Id_Jurusan }}" {{ $mahasiswa->Id_Jurusan == $jurusan->Id_Jurusan ? 'selected' : '' }}>
@@ -57,10 +57,10 @@
             {{-- PRODI --}}
             <div class="mb-6">
                 <label class="block mb-2 font-semibold text-gray-700">Prodi</label>
-                <select id="prodi" name="id_prodi" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
+                <select id="prodi" name="Id_Prodi" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
                     <option value="">-- Pilih Prodi --</option>
                     @foreach($prodis as $prodi)
-                        <option value="{{ $prodi->id }}" {{ $mahasiswa->id_prodi == $prodi->id ? 'selected' : '' }}>
+                        <option value="{{ $prodi->Id_Prodi }}" {{ $mahasiswa->Id_Prodi == $prodi->Id_Prodi ? 'selected' : '' }}>
                             {{ $prodi->Nama_Prodi }}
                         </option>
                     @endforeach
