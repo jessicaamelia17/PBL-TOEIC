@@ -1,32 +1,4 @@
-<style>
-    [x-cloak] {
-        display: none !important;
-    }
-</style>
-<script src="//unpkg.com/alpinejs" defer></script>
-
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('navbar', () => ({
-            open: false,
-            openDropdown: false,
-            isLoggedIn: {{ Auth::check() ? 'true' : 'false' }},
-            async logout() {
-                await fetch('{{ url('/logout') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json'
-                    }
-                });
-                this.isLoggedIn = false;
-                this.openDropdown = false;
-            }
-        }));
-    });
-</script>
-
-<nav x-data="navbar"
+<nav x-data="{ open: false }"
     class="fixed w-[95%] z-10 left-1/2 transform -translate-x-1/2 top-2 bg-blue-600 rounded-full shadow-lg relative">
     <div class="flex items-center justify-between px-6 py-3 text-white">
         <!-- Logo -->
@@ -46,79 +18,79 @@
 
         <!-- Desktop Menu -->
         <ul class="hidden md:flex space-x-6 items-center">
-            <li><a href="{{ url('/') }}"
-                    class="hover:underline {{ request()->is('/') ? 'font-bold' : '' }}">Home</a></li>
-            <li><a href="{{ url('/schedule') }}"
-                    class="hover:underline {{ request()->is('schedule') ? 'font-bold' : '' }}">Schedule</a></li>
+            <li><a href="{{ url('/') }}" class="hover:underline {{ request()->is('/') ? 'font-bold' : '' }}">Home</a></li>
+            <li><a href="{{ route('mahasiswa.schedule.index') }}" class="hover:underline {{ request()->is('schedule') ? 'font-bold' : '' }}">Schedule</a></li>
             <li><a href="#" class="hover:underline">Results</a></li>
             <li><a href="#" class="hover:underline">Guide</a></li>
             <li><a href="#" class="hover:underline">Contact</a></li>
 
-            {{-- <li class="relative">
-                <button @click="openDropdown = !openDropdown" class="flex items-center space-x-2 focus:outline-none">
-                    <template x-if="isLoggedIn">
-                        <img src="{{ Auth::user() ? Auth::user()->photo ?? asset('profile-picture.jpg') : asset('profile-picture.jpg') }}"
-                            class="w-8 h-8 rounded-full border border-white" alt="User Profile">
-                    </template>
-                    <template x-if="!isLoggedIn">
-                        <img src="{{ asset('profile-picture.jpg') }}" class="w-8 h-8 rounded-full border border-white"
-                            alt="Login">
-                    </template>
-                </button>
-                <div x-show="openDropdown" @click.away="openDropdown = false" x-cloak
-                    class="absolute right-0 mt-2 w-48 bg-white text-blue-600 rounded-lg shadow-md overflow-hidden text-sm"
-                    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
-                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-                    <template x-if="isLoggedIn">
-                        <div>
-                            {{-- filepath: resources/views/layouts/navbar.blade.php --}}
-                            {{-- <a href="{{ Auth::check() ? route('mahasiswa.index', Auth::user()->nim) : '#' }}"
-                                class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                            <button @click="logout" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
-                        </div>
-                    </template>
-                    <template x-if="!isLoggedIn">
-                        <div>
-                            <a href="{{ url('/login') }}" class="block px-4 py-2 hover:bg-gray-100">Login</a>
-                            <a href="{{ url('/register-user') }}"
-                                class="block px-4 py-2 hover:bg-gray-100">Register</a>
-                        </div>
-                    </template>
-                </div>
-            </li> --}}
+            @if(Auth::check())
+                <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
+                    <button @click="openDropdown = !openDropdown" class="focus:outline-none">
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('polinema.png') }}"
+                             alt="Profile" class="w-8 h-8 rounded-full border border-white">
+                    </button>
+                    <div x-show="openDropdown" x-cloak
+                         class="absolute right-0 mt-2 w-40 bg-white text-blue-600 rounded-lg shadow-md text-sm z-30"
+                         x-transition>
+                        <a href="{{ route('mahasiswa.profile', Auth::user()->nim) }}"
+                           class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                        <form method="POST" action="{{ route('mahasiswa.logout-toeic') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            @else
+                <li>
+                    <a href="{{ route('login-toeic') }}" class="hover:underline {{ request()->is('login-toeic') ? 'font-bold' : '' }}">
+                        Login
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 
     <!-- Mobile Menu -->
     <div x-show="open" @click.away="open = false" x-cloak
         class="md:hidden absolute top-full left-0 right-0 bg-blue-600 rounded-b-lg shadow-md py-2 z-20"
-        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-        x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
-        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-75"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95">
         <ul class="space-y-2 px-6 py-3">
             <li><a href="{{ url('/') }}" class="block hover:underline">Home</a></li>
-            <li><a href="{{ url('/schedule') }}" class="block hover:underline">Schedule</a></li>
+            <li><a href="{{ route('mahasiswa.schedule.index') }}" class="block hover:underline">Schedule</a></li>
             <li><a href="#" class="block hover:underline">Results</a></li>
             <li><a href="#" class="block hover:underline">Guide</a></li>
             <li><a href="#" class="block hover:underline">Contact</a></li>
-            {{-- <template x-if="isLoggedIn">
-                <div>
-                    <li>{{-- filepath: resources/views/layouts/navbar.blade.php --}}
-                        {{-- <a href="{{ Auth::check() ? route('mahasiswa.index', Auth::user()->nim) : '#' }}"
-                            class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                    </li>
-                    <li>
-                        <button @click="logout" class="hover:underline w-full text-left">Logout</button>
-                    </li>
-                </div>
-            </template>
-            <template x-if="!isLoggedIn">
-                <div>
-                    <li><a href="{{ url('/login') }}" class="block hover:underline">Login</a></li>
-                    <li><a href="{{ url('/register') }}" class="block hover:underline">Register</a></li>
-                </div>
-            </template> --}}
+
+            @if(Auth::check())
+                <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
+                    <button @click="openDropdown = !openDropdown"
+                            class="flex items-center space-x-2 focus:outline-none w-full">
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('polinema.png') }}"
+                             alt="Profile" class="w-8 h-8 rounded-full border border-white">
+                        <span class="ml-2">Profile</span>
+                    </button>
+                    <div x-show="openDropdown" x-cloak
+                         class="absolute right-0 mt-2 w-40 bg-white text-blue-600 rounded-lg shadow-md text-sm z-30"
+                         x-transition>
+                        <a href="{{ route('mahasiswa.profile', Auth::user()->nim) }}"
+                           class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                        <form method="POST" action="{{ route('mahasiswa.logout-toeic') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            @else
+                <li>
+                    <a href="{{ route('login-toeic') }}" class="block hover:underline">Login</a>
+                </li>
+            @endif
         </ul>
     </div>
 </nav>

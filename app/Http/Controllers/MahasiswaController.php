@@ -86,7 +86,7 @@ class MahasiswaController extends Controller
 
         $mahasiswa->update($data);
 
-        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil diperbarui');
+        return redirect()->route('mahasiswa.profile')->with('success', 'Data mahasiswa berhasil diperbarui');
     }
 
 
@@ -115,7 +115,7 @@ class MahasiswaController extends Controller
 
     public function getProdiByJurusan($id_jurusan)
     {
-        $prodis = ProdiModel::where('Id_Jurusan', $id_jurusan)->get();
+        $prodis = ProdiModel::where('Id_Jurusan', $id_jurusan)->get(['Id_Prodi', 'Nama_Prodi']);
         return response()->json($prodis);
     }
 }

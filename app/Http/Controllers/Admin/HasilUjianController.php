@@ -12,12 +12,17 @@ class HasilUjianController extends Controller
 {
     public function index()
     {
-        $results = HasilUjian::orderBy('Tanggal_Ujian', 'desc')->paginate(10);
-        return view('admin.hasil_ujian.index', [
-            'results' => $results,
-            'activeMenu' => 'hasil-ujian'  // untuk sidebar menu active
-        ]);
-    }    
+        $results = HasilUjian::with('peserta', 'jadwal')->paginate(10); // tambahkan paginate
+    
+        $breadcrumb = (object) [
+            'title' => 'Daftar Hasil Ujian',
+            'list' => ['Home', 'Hasil Ujian']
+        ];
+    
+        $activeMenu = 'hasil-ujian';
+    
+        return view('admin.hasil_ujian.index', compact('results', 'breadcrumb', 'activeMenu'));
+    }                
 
     public function importForm()
     {

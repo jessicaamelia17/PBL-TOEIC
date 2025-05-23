@@ -38,29 +38,47 @@ use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
 // // Update profile mahasiswa (proses update)
 // Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
 // Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
-
-
-// Halaman utama/ landing page mahasiswa
+// 🏠 Halaman Login TOEIC
+// 🏠 Landing Page (Bisa diakses oleh umum)
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+//============================Route Mahasiswa ========================
+// 🔑 Login (Bisa diakses oleh umum)
+Route::get('/login-toeic', function () {
+    return view('auth.mahasiswa.login');
+})->name('login-toeic');
 
-// Pengumuman
-Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
-Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
+Route::post('/login-toeic', [AuthController::class, 'login']);
 
-// Jadwal & Pendaftar
-Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
-Route::get('/schedule/pendaftar/{id}', [ScheduleController::class, 'pendaftar'])->name('schedule.pendaftar');
+// 🔐 Routes yang memerlukan login mahasiswa
+Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(function () {
+    // // Profile utama mahasiswa
+    Route::get('/profile', [MahasiswaController::class, 'index'])->name('profile');
+    // Edit profile mahasiswa (form edit)
+    Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('edit');
+    // Update profile mahasiswa (proses update)
+    Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('update');
+    // 📝 Pengumuman (Hanya bisa diakses oleh pengguna yang login)
+    Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
+    Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
+    Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('show-pengumuman');
 
-// Halaman peserta umum
-Route::view('/peserta', 'peserta.index')->name('peserta.index');
+    // 📅 Jadwal & Pendaftar (Harus login)
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+    Route::get('/schedule/pendaftar/{id}', [ScheduleController::class, 'pendaftar'])->name('schedule.pendaftar');
 
-// Registrasi peserta
-Route::prefix('registrasi')->name('registrasi.')->group(function () {
-    Route::get('/', [RegistrasiController::class, 'create'])->name('create');
-    Route::post('/', [RegistrasiController::class, 'store'])->name('store');
-    Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('getProdi');
-    Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
+    // 📝 Registrasi peserta (Hanya bisa diakses oleh pengguna yang login)
+    Route::prefix('registrasi')->name('registrasi.')->group(function () {
+        Route::get('/', [RegistrasiController::class, 'create'])->name('create');
+        Route::post('/', [RegistrasiController::class, 'store'])->name('store');
+        Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('getProdi');
+        Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
+    });
+
+    // 🚪 Logout dari sistem TOEIC
+    Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
+
+//====================================================================================================
 
 // Hasil Ujian (Peserta)
 Route::prefix('hasil-ujian')->name('hasil-ujian.')->group(function () {

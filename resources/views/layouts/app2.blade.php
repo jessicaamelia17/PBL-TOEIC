@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,8 @@
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     {{-- Custom Tailwind config --}}
     <script>
         tailwind.config = {
@@ -27,16 +30,30 @@
                     },
                     keyframes: {
                         fadeIn: {
-                            "0%": { opacity: "0" },
-                            "100%": { opacity: "1" }
+                            "0%": {
+                                opacity: "0"
+                            },
+                            "100%": {
+                                opacity: "1"
+                            }
                         },
                         grow: {
-                            "0%": { transform: "scale(1)" },
-                            "100%": { transform: "scale(1.05)" }
+                            "0%": {
+                                transform: "scale(1)"
+                            },
+                            "100%": {
+                                transform: "scale(1.05)"
+                            }
                         },
                         slideUp: {
-                            "0%": { transform: "translateY(50px)", opacity: "0" },
-                            "100%": { transform: "translateY(0)", opacity: "1" }
+                            "0%": {
+                                transform: "translateY(50px)",
+                                opacity: "0"
+                            },
+                            "100%": {
+                                transform: "translateY(0)",
+                                opacity: "1"
+                            }
                         }
                     }
                 }
@@ -46,13 +63,14 @@
 
     @stack('css')
 </head>
+
 <body class="bg-blue-100 flex flex-col min-h-screen">
 
     {{-- Navbar --}}
     @include('layouts.navbar')
 
-    
-    
+
+
     {{-- Konten --}}
     <main class="flex-grow pt-4">
         {{-- Breadcrumb --}}
@@ -77,4 +95,5 @@
 
     @stack('js')
 </body>
+
 </html>
