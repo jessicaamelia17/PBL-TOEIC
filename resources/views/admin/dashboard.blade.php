@@ -47,17 +47,31 @@
     </div>
 </div>
 
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form action="{{ url('admin/home') }}" method="POST">
+            @csrf
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <strong>Ubah Kuota Pendaftaran</strong>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="kuota_total">Jumlah Kuota:</label>
+                        <input type="number" name="kuota_total" id="kuota_total" class="form-control" value="{{ $kuota }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Simpan Perubahan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="row mt-4">
-    <div class="col-md-12">
-        @if (session('pendaftaran_dibuka', false))
-            <div class="alert alert-info text-center" style="font-size: 24px; font-weight: bold;">
-                📢 PENDAFTARAN DIBUKA!
-            </div>
-        @else
-            <div class="alert alert-danger text-center" style="font-size: 24px; font-weight: bold;">
-                PENDAFTARAN DITUTUP!
-            </div>
-        @endif
+    <div class="col-md-12 text mb-3">
+        <p style="font-size: 24px; font-weight: bold;">
+            {{ session('pendaftaran_dibuka', false) ? '📢 PENDAFTARAN DIBUKA!' : 'PENDAFTARAN DITUTUP!' }}
+        </p>
     </div>
 </div>
 

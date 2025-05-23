@@ -16,6 +16,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
+use App\Http\Controllers\Admin\KuotaController;
 
 // =============================
 // 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
@@ -91,6 +92,9 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logo
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+
+    //kuota
+    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
 
     // Surat pengajuan
     Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');

@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PendaftarModel;
+use Illuminate\Support\Facades\DB;
 
 class AdminAuthController extends Controller
 {
     // Halaman dashboard admin
-public function index()
-{
+    public function index()
+    {
             $breadcrumb = (object) [
             'title' => 'Selamat Datang',
             'list' => ['Home', 'Welcome']
@@ -21,13 +22,15 @@ public function index()
         $activeMenu = 'dashboard';
         
         $pendaftar = PendaftarModel::count();
-        $kuota = 3144;
+        $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total') ?? 0;
+        $status = DB::table('kuota')->where('id', 1)->value('status_pendaftaran') ?? 'tutup';
 
         return view('admin.dashboard', [
             'breadcrumb' => $breadcrumb,
             'activeMenu' => $activeMenu,
             'pendaftar' => $pendaftar,
-            'kuota' => $kuota
+            'kuota' => $kuota,
+            'status' => $status
         ]);
 }
 
