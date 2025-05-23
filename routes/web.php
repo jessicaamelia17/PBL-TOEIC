@@ -101,7 +101,17 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
 
     // Surat Pengajuan
-    Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');
+    Route::prefix('surat')->name('surat.')->group(function () {
+        Route::get('/', [SuratController::class, 'index'])->name('index'); // <== INI YANG HARUS ADA
+        Route::post('/list', [SuratController::class, 'list'])->name('list');
+        Route::get('/create_ajax', [SuratController::class, 'createAjax'])->name('create_ajax');
+        Route::post('/store', [SuratController::class, 'store'])->name('store');
+        Route::get('/{id}/edit_ajax', [SuratController::class, 'editAjax'])->name('edit_ajax');
+        Route::put('/{id}', [SuratController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SuratController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/update_status', [SuratController::class, 'updateStatus'])->name('update_status'); // Untuk status verifikasi
+    });
+
 
     // Pendaftar
     Route::prefix('pendaftar')->name('pendaftar.')->group(function () {
