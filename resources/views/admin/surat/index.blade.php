@@ -5,7 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title ?? 'Data Surat Pengajuan' }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/admin/surat/create_ajax') }}')" class="btn btn-success">
+                <button onclick="modalAction('{{ route('admin.surat.create_ajax') }}')" class="btn btn-success">
                     <i class="fas fa-plus"></i> Tambah Surat (Ajax)
                 </button>
             </div>
@@ -24,10 +24,11 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Pengaju</th>
-                        <th>Judul Surat</th>
+                        <th>NIM</th>
                         <th>Tanggal Pengajuan</th>
-                        <th>Status</th>
+                        <th>Status Verifikasi</th>
+                        <th>Tanggal Verifikasi</th>
+                        <th>Catatan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -58,42 +59,59 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('admin.surat.list') }}", // ganti dengan route ajax untuk surat
-                    type: "POST",
-                    dataType: "json"
+                    url: "{{ route('admin.surat.list') }}",
+                    type: "POST"
                 },
                 columns: [
                     {
-                        data: "DT_RowIndex",
-                        className: "text-center",
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        className: 'text-center',
                         orderable: false,
                         searchable: false
                     },
+                    { data: 'NIM', name: 'NIM' },
+                    { data: 'Tanggal_Pengajuan', name: 'Tanggal_Pengajuan' },
                     {
-                        data: "nama_pengaju"
-                    },
-                    {
-                        data: "judul"
-                    },
-                    {
-                        data: "tanggal_pengajuan"
-                    },
-                    {
-                        data: "status",
-                        render: function(data) {
+                        data: 'Status_Verifikasi',
+                        name: 'Status_Verifikasi',
+                        render: function(data, type, row) {
                             let badge = 'secondary';
-                            if (data === 'diterima') badge = 'success';
+                            if (data === 'disetujui') badge = 'success';
                             else if (data === 'menunggu') badge = 'warning';
                             else if (data === 'ditolak') badge = 'danger';
-                            return `<span class="badge badge-${badge}">${data}</span>`;
+
+                            return `
+                                <select class="form-control form-control-sm status-verifikasi" data-id="${row.Id_Surat}">
+                                    <option value="menunggu" ${data === 'menunggu' ? 'selected' : ''}>Menunggu</option>
+                                    <option value="disetujui" ${data === 'disetujui' ? 'selected' : ''}>Disetujui</option>
+                                    <option value="ditolak" ${data === 'ditolak' ? 'selected' : ''}>Ditolak</option>
+                                </select>
+                            `;
                         }
                     },
+                    { data: 'Tanggal_Verifikasi', name: 'Tanggal_Verifikasi' },
+                    { data: 'Catatan', name: 'Catatan' },
                     {
-                        data: "aksi",
+                        data: 'aksi',
+                        name: 'aksi',
                         orderable: false,
                         searchable: false
                     }
                 ]
+            });
+
+            // Event listener ubah status via ajax
+            $('#table_surat').on('change', '.status-verifikasi', function () {
+                let id = $(this).data('id');
+                let status = $(this).val();
+
+                $.post(`/admin/surat/${id}/update_status`, { status }, function (res) {
+                    toastr.success(res.message);
+                    $('#table_surat').DataTable().ajax.reload(null, false);
+                }).fail(function () {
+                    toastr.error('Gagal memperbarui status.');
+                });
             });
         });
     </script>

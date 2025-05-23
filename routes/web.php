@@ -16,7 +16,6 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
-use App\Http\Controllers\Admin\KuotaController;
 
 // =============================
 // 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
@@ -35,60 +34,82 @@ use App\Http\Controllers\Admin\KuotaController;
 // // Update profile mahasiswa (proses update)
 // Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
 // Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
-
-
-// Halaman utama/ landing page mahasiswa
+// 🏠 Halaman Login TOEIC
+// 🏠 Landing Page (Bisa diakses oleh umum)
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+//============================Route Mahasiswa ========================
+// 🔑 Login (Bisa diakses oleh umum)
+Route::get('/login-toeic', function () {
+    return view('auth.mahasiswa.login');
+})->name('login-toeic');
 
-// Pengumuman
-Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
-Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('pengumuman.show');
+Route::post('/login-toeic', [AuthController::class, 'login']);
 
-// Jadwal & daftar peserta
-Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
-Route::get('/schedule/pendaftar/{id}', [ScheduleController::class, 'pendaftar'])->name('schedule.pendaftar');
+// 🔐 Routes yang memerlukan login mahasiswa
+Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(function () {
+    // // Profile utama mahasiswa
+    Route::get('/profile', [MahasiswaController::class, 'index'])->name('profile');
+    // Edit profile mahasiswa (form edit)
+    Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('edit');
+    // Update profile mahasiswa (proses update)
+    Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('update');
+    // 📝 Pengumuman (Hanya bisa diakses oleh pengguna yang login)
+    Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
+    Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
+    Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('show-pengumuman');
 
-// Halaman peserta umum
-Route::get('/peserta', fn() => view('peserta.index'))->name('peserta.index');
+    // 📅 Jadwal & Pendaftar (Harus login)
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+    Route::get('/schedule/pendaftar/{id}', [ScheduleController::class, 'pendaftar'])->name('schedule.pendaftar');
 
-// Registrasi peserta
-Route::prefix('registrasi')->name('registrasi.')->group(function () {
-    Route::get('/', [RegistrasiController::class, 'create'])->name('create');
-    Route::post('/', [RegistrasiController::class, 'store'])->name('store');
-    Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('getProdi');
-    Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
+    // 📝 Registrasi peserta (Hanya bisa diakses oleh pengguna yang login)
+    Route::prefix('registrasi')->name('registrasi.')->group(function () {
+        Route::get('/', [RegistrasiController::class, 'create'])->name('create');
+        Route::post('/', [RegistrasiController::class, 'store'])->name('store');
+        Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('getProdi');
+        Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
+    });
+
+    // 🚪 Logout dari sistem TOEIC
+    Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
 
-// Halaman index hasil ujian
-Route::get('/hasil-ujian', [HasilController::class, 'index'])->name('hasil-ujian.index');
+//====================================================================================================
 
-// PDF semua peserta
-Route::get('/hasil-ujian/pdf/view-all', [HasilController::class, 'viewAllPdf'])->name('hasil-ujian.pdf.viewAll');
-Route::get('/hasil-ujian/pdf/download-all', [HasilController::class, 'downloadAllPdf'])->name('hasil-ujian.pdf.downloadAll');
+// Hasil Ujian (Peserta)
+Route::prefix('hasil-ujian')->name('hasil-ujian.')->group(function () {
+    Route::get('/', [HasilController::class, 'index'])->name('index');
 
-// PDF per peserta
-Route::get('/hasil-ujian/pdf/view/{id}', [HasilController::class, 'viewPdf'])->name('hasil-ujian.pdf.view');
-Route::get('/hasil-ujian/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('hasil-ujian.pdf.download');
+    // PDF Semua
+    Route::get('/pdf/view-all', [HasilController::class, 'viewAllPdf'])->name('pdf.viewAll');
+    Route::get('/pdf/download-all', [HasilController::class, 'downloadAllPdf'])->name('pdf.downloadAll');
 
-Route::get('/panduan', function () {
-    return view('panduan');
-})->name('panduan');
+    // PDF per Peserta
+    Route::get('/pdf/view/{id}', [HasilController::class, 'viewPdf'])->name('pdf.view');
+    Route::get('/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('pdf.download');
+});
 
-Route::post('/admin/pendaftaran/toggle', [App\Http\Controllers\Admin\PendaftarController::class, 'togglePendaftaran']);
+// Panduan
+Route::view('/panduan', 'panduan')->name('panduan');
+
+// Toggle Pendaftaran (dipanggil oleh AJAX)
+Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePendaftaran']);
 
 
-// ==========================
-// 🔐 RUTE ADMIN (PERLU LOGIN)
-// ==========================
+/*
+|--------------------------------------------------------------------------
+| 🔐 RUTE ADMIN (PERLU LOGIN)
+|--------------------------------------------------------------------------
+*/
 
-// Auth - Login & Register Admin
+// Auth - Login/Register Admin
 Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
 Route::post('/login', [AdminAuthController::class, 'postlogin']);
 Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
 Route::post('/register', [AdminAuthController::class, 'store']);
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
 
-// Grup Rute Admin (dengan middleware dan prefix)
+// Rute Admin Terproteksi
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
@@ -96,43 +117,66 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     //kuota
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
 
-    // Surat pengajuan
-    Route::get('/surat', [SuratController::class, 'index'])->name('surat.index');
+    // Surat Pengajuan
+    Route::prefix('surat')->name('surat.')->group(function () {
+        Route::get('/', [SuratController::class, 'index'])->name('index'); // <== INI YANG HARUS ADA
+        Route::post('/list', [SuratController::class, 'list'])->name('list');
+        Route::get('/create_ajax', [SuratController::class, 'createAjax'])->name('create_ajax');
+        Route::post('/store', [SuratController::class, 'store'])->name('store');
+        Route::get('/{id}/edit_ajax', [SuratController::class, 'editAjax'])->name('edit_ajax');
+        Route::put('/{id}', [SuratController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SuratController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/update_status', [SuratController::class, 'updateStatus'])->name('update_status'); // Untuk status verifikasi
+    });
+
 
     // Pendaftar
-    Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
-    Route::post('/pendaftar/list', [PendaftarController::class, 'list'])->name('pendaftar.list');
-    Route::get('/pendaftar/detail/{id}', [PendaftarController::class, 'show'])->name('pendaftar.show');
+    Route::prefix('pendaftar')->name('pendaftar.')->group(function () {
+        Route::get('/', [PendaftarController::class, 'index'])->name('index');
+        Route::post('/list', [PendaftarController::class, 'list'])->name('list');
+        Route::get('/detail/{id}', [PendaftarController::class, 'show'])->name('show');
+    });
 
     // Jadwal Ujian
-    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
-    Route::get('/jadwal/{jadwal}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
-    Route::put('/jadwal/{jadwal}', [JadwalController::class, 'update'])->name('jadwal.update');
+    Route::prefix('jadwal')->name('jadwal.')->group(function () {
+        Route::get('/', [JadwalController::class, 'index'])->name('index');
+        Route::get('/{jadwal}/edit', [JadwalController::class, 'edit'])->name('edit');
+        Route::put('/{jadwal}', [JadwalController::class, 'update'])->name('update');
 
-    // Sesi & Room Ujian
-    Route::get('/jadwal/{id}/sesi', [SesiJadwalController::class, 'index'])->name('sesi.index');
-    Route::post('/jadwal/{id}/sesi', [SesiJadwalController::class, 'storeSesi'])->name('sesi.store');
-    Route::post('/jadwal/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
-    Route::post('/jadwal/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('jadwal.bagi-peserta');
+        // Sesi dan Room
+        Route::get('/{id}/sesi', [SesiJadwalController::class, 'index'])->name('sesi.index');
+        Route::post('/{id}/sesi', [SesiJadwalController::class, 'storeSesi'])->name('sesi.store');
+        Route::post('/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
+        Route::post('/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('bagi-peserta');
+    });
 
+    // CRUD Sesi
+    Route::prefix('sesi')->name('sesi.')->group(function () {
+        Route::get('/{id}/edit', [SesiJadwalController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [SesiJadwalController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SesiJadwalController::class, 'destroy'])->name('destroy');
+    });
 
-    // Sesi
-    Route::get('/sesi/{id}/edit', [SesiJadwalController::class, 'edit'])->name('sesi.edit');
-    Route::put('/sesi/{id}', [SesiJadwalController::class, 'update'])->name('sesi.update');
-    Route::delete('/sesi/{id}', [SesiJadwalController::class, 'destroy'])->name('sesi.destroy');
+    // CRUD Room
+    Route::prefix('room')->name('room.')->group(function () {
+        Route::get('/{id}/edit', [SesiJadwalController::class, 'editRoom'])->name('edit');
+        Route::put('/{id}', [SesiJadwalController::class, 'updateRoom'])->name('update');
+        Route::delete('/{id}', [SesiJadwalController::class, 'destroyRoom'])->name('destroy');
+    });
 
-    // Room
-    Route::get('/room/{id}/edit', [SesiJadwalController::class, 'editRoom'])->name('room.edit');
-    Route::put('/room/{id}', [SesiJadwalController::class, 'updateRoom'])->name('room.update');
-    Route::delete('/room/{id}', [SesiJadwalController::class, 'destroyRoom'])->name('room.destroy');
+    // Pengumuman
+    Route::prefix('pengumumans')->name('pengumuman.')->group(function () {
+        Route::get('/', [ControllerPengumuman::class, 'index'])->name('index');
+        Route::get('/create', [ControllerPengumuman::class, 'create'])->name('create');
+        Route::post('/', [ControllerPengumuman::class, 'store'])->name('store');
+        Route::delete('/{id}', [ControllerPengumuman::class, 'destroy'])->name('destroy');
+        Route::post('/list', [ControllerPengumuman::class, 'list'])->name('list');
+    });
 
-    // Admin melihat semua pengumuman
-    Route::get('/pengumumans', [ControllerPengumuman::class, 'index'])->name('pengumuman.index');
-    // Form tambah pengumuman
-    Route::get('/pengumumans/create', [ControllerPengumuman::class, 'create'])->name('pengumuman.create');
-    // Simpan pengumuman
-    Route::post('/pengumumans', [ControllerPengumuman::class, 'store'])->name('pengumuman.store');
-    // Hapus pengumuman
-    Route::delete('/pengumumans/{id}', [ControllerPengumuman::class, 'destroy'])->name('pengumuman.destroy');
-    Route::post('/pengumumans/list', [ControllerPengumuman::class, 'list'])->name('pengumuman.list');
+    // Hasil Ujian Admin
+    Route::prefix('hasil-ujian')->name('hasil-ujian.')->group(function () {
+        Route::get('/', [AdminHasilController::class, 'index'])->name('index');
+        Route::get('/import', [AdminHasilController::class, 'importForm'])->name('import.form');
+        Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
+    });
 });

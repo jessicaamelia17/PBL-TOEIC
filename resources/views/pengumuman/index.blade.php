@@ -14,7 +14,7 @@
                 @foreach ($pengumuman as $item)
                     <li class="flex justify-between items-center">
                         <span>{{ $item->Judul }}</span>
-                        <a href="{{ route('pengumuman.show', $item->Id_Pengumuman) }}"
+                        <a href="{{ route('mahasiswa.show-pengumuman', $item->Id_Pengumuman) }}"
                            class="text-white-600 whitespace-nowrap btn btn-primary">
                             See More
                         </a>

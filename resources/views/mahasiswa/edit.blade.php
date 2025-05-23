@@ -68,7 +68,7 @@
             </div>
 
             <div class="flex justify-between">
-                <a href="{{ route('mahasiswa.index') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                <a href="{{ route('mahasiswa.profile') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
                     ← Batal
                 </a>
                 <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
@@ -89,7 +89,7 @@
         prodiSelect.innerHTML = '<option value="">-- Pilih Prodi --</option>';
 
         if (jurusanId) {
-            fetch(`/get-prodi/${jurusanId}`)
+            fetch(`/mahasiswa/get-prodi/${jurusanId}`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(function(prodi) {

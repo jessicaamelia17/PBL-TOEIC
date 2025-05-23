@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,14 +19,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Inter', sans-serif;
-        background-size: cover;
-        background-attachment: fixed;
-        background-color: #cfe9ff; /* fallback warna biru muda */
-    }
-</style>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #cfe9ff;
+            /* fallback warna biru muda */
+        }
+    </style>
+
+    {{-- Alpine.js --}}
+    <script src="//unpkg.com/alpinejs" defer></script>
 
     {{-- Custom Tailwind config --}}
     <script>
@@ -39,16 +44,30 @@
                     },
                     keyframes: {
                         fadeIn: {
-                            "0%": { opacity: "0" },
-                            "100%": { opacity: "1" }
+                            "0%": {
+                                opacity: "0"
+                            },
+                            "100%": {
+                                opacity: "1"
+                            }
                         },
                         grow: {
-                            "0%": { transform: "scale(1)" },
-                            "100%": { transform: "scale(1.05)" }
+                            "0%": {
+                                transform: "scale(1)"
+                            },
+                            "100%": {
+                                transform: "scale(1.05)"
+                            }
                         },
                         slideUp: {
-                            "0%": { transform: "translateY(50px)", opacity: "0" },
-                            "100%": { transform: "translateY(0)", opacity: "1" }
+                            "0%": {
+                                transform: "translateY(50px)",
+                                opacity: "0"
+                            },
+                            "100%": {
+                                transform: "translateY(0)",
+                                opacity: "1"
+                            }
                         }
                     }
                 }
@@ -58,6 +77,7 @@
 
     @stack('css')
 </head>
+
 <body class="bg-blue-100">
 
     {{-- Navbar --}}
@@ -95,7 +115,8 @@
     <script>
         AOS.init();
     </script>
-    
+
     @stack('js')
 </body>
+
 </html>
