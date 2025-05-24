@@ -89,7 +89,7 @@
                 'title' => 'Exam Schedule',
                 'desc' => 'Lihat jadwal terbaru pelaksanaan TOEIC resmi dari kampus.',
                 'img' => 'jadwal.png',
-                'link' => url('/schedule'),
+                'link' => route('mahasiswa.schedule.index'),
                 'button' => 'Lihat Jadwal',
                 'bg' => 'bg-gray-50',
                 'aos' => 'fade-left',

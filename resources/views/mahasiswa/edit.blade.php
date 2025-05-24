@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto max-w-2xl py-10">
     <div class="bg-white shadow-lg rounded-2xl p-8">
-        <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Edit Data Mahasiswa</h2>
+        <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Edit Profile</h2>
         <form action="{{ route('mahasiswa.update', $mahasiswa->nim) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -14,27 +14,32 @@
             </div>
 
             <div class="mb-5">
-                <label class="block mb-2 font-semibold text-gray-700">Nama</label>
+                <label class="block mb-2 font-semibold text-gray-700">Name</label>
                 <input type="text" name="nama" value="{{ old('nama', $mahasiswa->nama) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400" required>
             </div>
 
             <div class="mb-5">
-                <label class="block mb-2 font-semibold text-gray-700">Alamat</label>
+                <label class="block mb-2 font-semibold text-gray-700">Email</label>
+                <input type="text" name="email" value="{{ old('email', $mahasiswa->email) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400" required>
+            </div>
+
+            <div class="mb-5">
+                <label class="block mb-2 font-semibold text-gray-700">Address</label>
                 <input type="text" name="alamat" value="{{ old('alamat', $mahasiswa->alamat) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div class="mb-5">
-                <label class="block mb-2 font-semibold text-gray-700">Tempat Lahir</label>
+                <label class="block mb-2 font-semibold text-gray-700">Place of Birth</label>
                 <input type="text" name="tmpt_lahir" value="{{ old('tmpt_lahir', $mahasiswa->tmpt_lahir) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div class="mb-5">
-                <label class="block mb-2 font-semibold text-gray-700">Tanggal Lahir</label>
+                <label class="block mb-2 font-semibold text-gray-700">Birthdate</label>
                 <input type="date" name="TTL" value="{{ old('TTL', $mahasiswa->TTL) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div class="mb-5">
-                <label class="block mb-2 font-semibold text-gray-700">Foto Profil</label>
+                <label class="block mb-2 font-semibold text-gray-700">Profile Photo</label>
                 <input type="file" name="photo" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
                 @if($mahasiswa->photo)
                     <img src="{{ asset('storage/' . $mahasiswa->photo) }}" alt="Foto Profil" class="mt-2 w-20 h-20 rounded-full object-cover">
@@ -43,9 +48,9 @@
 
             {{-- JURUSAN --}}
             <div class="mb-5">
-                <label class="block mb-2 font-semibold text-gray-700">Jurusan</label>
-                <select id="jurusan" name="id_jurusan" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
-                    <option value="">-- Pilih Jurusan --</option>
+                <label class="block mb-2 font-semibold text-gray-700">Department</label>
+                <select id="jurusan" name="Id_Jurusan" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
+                    <option value="">-- Select Department --</option>
                     @foreach($jurusans as $jurusan)
                         <option value="{{ $jurusan->Id_Jurusan }}" {{ $mahasiswa->Id_Jurusan == $jurusan->Id_Jurusan ? 'selected' : '' }}>
                             {{ $jurusan->Nama_Jurusan }}
@@ -56,11 +61,11 @@
 
             {{-- PRODI --}}
             <div class="mb-6">
-                <label class="block mb-2 font-semibold text-gray-700">Prodi</label>
-                <select id="prodi" name="id_prodi" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
-                    <option value="">-- Pilih Prodi --</option>
+                <label class="block mb-2 font-semibold text-gray-700">Study Program</label>
+                <select id="prodi" name="Id_Prodi" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
+                    <option value="">-- Select Study Program --</option>
                     @foreach($prodis as $prodi)
-                        <option value="{{ $prodi->id }}" {{ $mahasiswa->id_prodi == $prodi->id ? 'selected' : '' }}>
+                        <option value="{{ $prodi->Id_Prodi }}" {{ $mahasiswa->Id_Prodi == $prodi->Id_Prodi ? 'selected' : '' }}>
                             {{ $prodi->Nama_Prodi }}
                         </option>
                     @endforeach
@@ -69,10 +74,10 @@
 
             <div class="flex justify-between">
                 <a href="{{ route('mahasiswa.profile') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-                    ← Batal
+                    ← Back
                 </a>
                 <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
-                    💾 Simpan
+                    💾 Save
                 </button>
             </div>
         </form>

@@ -16,16 +16,15 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
+use App\Http\Controllers\Admin\KuotaController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
 use App\Http\Controllers\PengajuanSuratController;
 
-/*
-|--------------------------------------------------------------------------
-| 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
-|--------------------------------------------------------------------------
-*/
 
-// Landing Page
+// =============================
+// 🔓 RUTE PUBLIK (TIDAK PERLU LOGIN)
+// =============================
+
 //login & register mahasiswa
 // Route::get('/login-toeic', [AuthController::class, 'showLogin'])->name('login-toeic');
 // Route::post('/login-toeic', [AuthController::class, 'login']);
@@ -121,6 +120,9 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logo
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+
+    //kuota
+    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
 
     // Surat Pengajuan
     Route::prefix('surat')->name('surat.')->group(function () {
