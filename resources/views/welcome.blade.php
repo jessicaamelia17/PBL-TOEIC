@@ -145,7 +145,7 @@
                 <p class="text-gray-800 mt-2 text-lg leading-relaxed">
                     Ajukan surat pengantar atau surat kebutuhan administrasi TOEIC langsung melalui sistem kami. Cukup login, isi data, dan pantau status pengajuan secara real-time.
                 </p>
-                <a href="{{ url('/pengajuan-surat') }}"
+                <a href="{{ route('surat.index') }}"
                    class="inline-block mt-4 bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
                     Ajukan Surat Sekarang
                 </a>

@@ -51,12 +51,34 @@ class SuratController extends Controller
         }
     }
 
-    public function create_ajax()
+    public function createAjax()
     {
-        return view('admin.surat.form', [
+        return view('admin.surat.create', [
             'page' => (object)[
                 'title' => 'Tambah Surat Pengajuan'
             ]
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'NIM' => 'required',
+            'tanggal_pengajuan' => 'required|date',
+            'status_verifikasi' => 'required',
+            'catatan' => 'nullable|string'
+        ]);
+    
+        SuratPengajuan::create([
+            'NIM' => $request->NIM,
+            'tanggal_pengajuan' => $request->tanggal_pengajuan,
+            'status_verifikasi' => $request->status_verifikasi,
+            'tanggal_verifikasi' => null, // atau bisa auto-fill nanti saat diverifikasi
+            'catatan' => $request->catatan,
+        ]);
+    
+        return response()->json(['success' => true]);
+    }
+    
+
 }

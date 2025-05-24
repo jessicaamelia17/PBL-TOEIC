@@ -24,15 +24,15 @@ class MahasiswaSeeder extends Seeder
             //     'password' => Hash::make('bagas123'),
             // ],
             [
-                'nim' => '2341760132',
-                'nama' => 'Athallah Fauzan',
-                'email' => 'athafauzan@example.com',
-                'no_hp' => '081298765432',
+                'nim' => '2341760185',
+                'nama' => 'Jessica Amelia',
+                'email' => 'ameliajessica997@gmail.com',
+                'no_hp' => '085731022917',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'alamat' => 'Jl. Moh. Hatta No. 100',
-                'tmpt_lahir' => 'Gresik',
-                'password' => Hash::make('atha1234'),
+                'alamat' => 'Jl. Kembang Turi No.20',
+                'tmpt_lahir' => 'Blitar',
+                'password' => Hash::make('jessi123'),
             ]
         ]);
     }

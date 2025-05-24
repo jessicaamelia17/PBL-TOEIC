@@ -17,6 +17,7 @@ use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
+use App\Http\Controllers\PengajuanSuratController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,9 @@ Route::prefix('hasil-ujian')->name('hasil-ujian.')->group(function () {
     Route::get('/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('pdf.download');
 });
 
+    Route::get('/pengajuan', [PengajuanSuratController::class, 'index'])->name('surat.index');
+    Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->name('suratpengajuan.create');
+    Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
 
