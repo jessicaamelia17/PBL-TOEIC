@@ -33,6 +33,17 @@ class MahasiswaSeeder extends Seeder
                 'alamat' => 'Jl. Kembang Turi No.20',
                 'tmpt_lahir' => 'Blitar',
                 'password' => Hash::make('jessi123'),
+            ],
+            [
+                'nim' => '2341760066',
+                'nama' => 'Nervalina Adzra Nora Aqilla',
+                'email' => 'valinaadzraa@gmail.com',
+                'no_hp' => '081357971553',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'alamat' => 'Jl. Soekarno Hatta Indah IV No. 21B',
+                'tmpt_lahir' => 'Mojokerto',
+                'password' => Hash::make('lino123'),
             ]
         ]);
     }
