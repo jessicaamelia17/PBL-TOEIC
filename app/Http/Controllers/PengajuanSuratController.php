@@ -6,40 +6,114 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SuratPengajuan;
 use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Storage;
+
 
 class PengajuanSuratController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('nim', $user->nim)->first();
-    
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $mahasiswa = Mahasiswa::with(['prodi', 'jurusan'])->where('NIM', $user->nim)->first();
+
+
         if (!$mahasiswa) {
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
         }
-    
-        $pengajuan = SuratPengajuan::where('nim', $mahasiswa->nim)->latest()->first();
-    
-        return view('pengajuan-surat.index', compact('mahasiswa', 'pengajuan'));
+
+        $pengajuan = SuratPengajuan::where('NIM', $mahasiswa->NIM)->latest()->first();
+
+        if ($pengajuan && $pengajuan->file_sertifikat) {
+            // Kalau sudah pernah mengajukan dan ada file, pakai dari DB
+            $sertifikat = $pengajuan->file_sertifikat;
+        } elseif (!$pengajuan && session()->has('sertifikat_uploaded')) {
+            // Kalau belum pernah mengajukan tapi baru upload
+            $sertifikat = session('sertifikat_uploaded');
+        } else {
+            $sertifikat = null;
+        }
+
+        return view('pengajuan-surat.index', compact('mahasiswa', 'pengajuan', 'sertifikat'));
     }
 
     public function store(Request $request)
     {
-        $mahasiswa = Auth::user()->mahasiswa;
+        $mahasiswa = Mahasiswa::where('NIM', Auth::user()->nim)->first();
 
-        $existing = SuratPengajuan::where('mahasiswa_id', $mahasiswa->id)
-            ->where('status', 'menunggu')->first();
+        $existing = SuratPengajuan::where('NIM', $mahasiswa->NIM)
+            ->where('status_verifikasi', 'menunggu')->first();
+
         if ($existing) {
             return back()->with('error', 'Anda sudah memiliki pengajuan yang sedang diproses.');
         }
 
+        if (!session()->has('sertifikat_uploaded')) {
+            return back()->with('error', 'Silakan upload sertifikat terlebih dahulu.');
+        }
+
         SuratPengajuan::create([
-            'mahasiswa_id' => $mahasiswa->id,
+            'NIM' => auth()->user()->nim, // Ambil NIM dari user yang sedang login
             'tanggal_pengajuan' => now(),
-            'status' => 'menunggu',
+            'status_verifikasi' => 'menunggu',
+            'file_sertifikat' => session('sertifikat_uploaded'),
         ]);
+
+        // Hapus dari session setelah dipakai
+        session()->forget('sertifikat_uploaded');
 
         return back()->with('success', 'Pengajuan berhasil dikirim.');
     }
+
+    public function uploadSertifikat(Request $request)
+    {
+        $existing = SuratPengajuan::where('NIM', Auth::user()->nim)
+        ->whereIn('status_verifikasi', ['menunggu', 'diterima']) // bisa ditambah status lain
+        ->first();
     
+    if ($existing) {
+        return back()->with('error', 'Anda sudah mengajukan surat. Tidak dapat mengunggah ulang sertifikat.');
+    }
+    
+
+        $request->validate([
+            'file_sertifikat' => 'required|mimes:pdf|max:5120', // max 5MB
+        ]);
+
+        $path = $request->file('file_sertifikat')->store('sertifikat', 'public');
+
+        // Simpan sementara di session
+        session(['sertifikat_uploaded' => $path]);
+
+        return back()->with('success', 'Sertifikat berhasil diupload.');
+    }
+
+    public function hapusSertifikat()
+{
+    if (session()->has('sertifikat_uploaded')) {
+        $path = session('sertifikat_uploaded');
+        Storage::disk('public')->delete($path);
+        session()->forget('sertifikat_uploaded');
+    }
+
+    return back()->with('success', 'Sertifikat berhasil dihapus.');
+}
+public function pengajuanSurat()
+{
+    $mahasiswa = Mahasiswa::where('nim', auth()->user()->nim)->first();
+
+    $pengajuan = SuratPengajuan::where('nim', auth()->user()->nim)
+        ->latest()
+        ->first();
+
+    $sertifikat = $mahasiswa->file_sertifikat ?? null;
+
+    return view('mahasiswa.surat', compact('mahasiswa', 'pengajuan', 'sertifikat'));
+}
+
+
+
 }

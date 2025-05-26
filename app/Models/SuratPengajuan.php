@@ -18,5 +18,6 @@ class SuratPengajuan extends Model
         'status_verifikasi',
         'tanggal_verifikasi',
         'catatan',
+        'file_sertifikat',
     ];
 }
