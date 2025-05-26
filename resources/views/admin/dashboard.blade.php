@@ -40,7 +40,7 @@
                 <i class="fas fa-user-minus"></i> Sisa Kuota:
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <h1 class="display-4">{{ $kuota - $pendaftar }}</h1>
+                <h1 class="display-4" id="sisa-kuota">{{ $kuota - $pendaftar }}</h1>
                 <p class="mb-0">Kuota yang masih tersedia</p>
             </div>
         </div>
@@ -49,7 +49,7 @@
 
 <div class="row mb-4">
     <div class="col-md-6">
-        <form action="{{ url('admin/home') }}" method="POST">
+        <form id="form-kuota">
             @csrf
             <div class="card">
                 <div class="card-header bg-warning text-dark">
@@ -57,10 +57,11 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="kuota_total">Jumlah Kuota:</label>
+                        <label for="jumlah_kuota">Jumlah Kuota:</label>
                         <input type="number" name="kuota_total" id="kuota_total" class="form-control" value="{{ $kuota }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Simpan Perubahan</button>
+                    <div id="kuota-message" class="mt-2 text-success" style="display: none;"></div>
                 </div>
             </div>
         </form>
