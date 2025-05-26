@@ -120,6 +120,7 @@ Route::post('/login', [AdminAuthController::class, 'postlogin']);
 Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
 Route::post('/register', [AdminAuthController::class, 'store']);
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
+Route::post('/home', [AdminAuthController::class, 'updateKuota'])->name('dashboard');
 
 // Rute Admin Terproteksi
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {

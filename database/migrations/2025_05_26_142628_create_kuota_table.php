@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('kuota_total');
             $table->string('status_pendaftaran');
-            $table->timestamps(); //created_at & updated_at
+            $table->timestamps(); //created at & updated at
         });
     }
 
