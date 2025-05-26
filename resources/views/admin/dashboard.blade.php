@@ -16,7 +16,7 @@
                 <i class="fas fa-boxes"></i> Kuota Tersedia:
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <h1 class="display-4">{{ $kuota }}</h1>
+                <h1 class="display-4" id="kuota-terpakai">{{ $kuota }}</h1>
                 <p class="mb-0">Total kuota pendaftaran</p>
             </div>
         </div>
@@ -106,6 +106,7 @@
                     const sisa = total - pendaftar;
 
                     $('#sisa-kuota').text(sisa);
+                    $('#kuota-terpakai').text(total);
                 },
                 error: function(xhr) {
                     console.error(xhr.status, xhr.responseText);
