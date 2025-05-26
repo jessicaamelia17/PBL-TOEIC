@@ -1,118 +1,48 @@
-@extends('layouts2.template')
+@extends('layouts.app')
 
 @section('content')
-    <div class="card card-outline card-primary">
-        <div class="card-header">
-            <h3 class="card-title">{{ $page->title ?? 'Data Surat Pengajuan' }}</h3>
-            <div class="card-tools">
-                <button onclick="modalAction('{{ route('admin.surat.create_ajax') }}')" class="btn btn-success">
-                    <i class="fas fa-plus"></i> Tambah Surat (Ajax)
-                </button>
-            </div>
-        </div>
+<div class="container">
+    <h2 class="text-xl font-semibold mb-4">Daftar Pengajuan Surat TOEIC</h2>
 
-        <div class="card-body">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">{{ session('success') }}</div>
+    @endif
 
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_surat">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>NIM</th>
-                        <th>Tanggal Pengajuan</th>
-                        <th>Status Verifikasi</th>
-                        <th>Tanggal Verifikasi</th>
-                        <th>Catatan</th>
-                        <th>Aksi</th>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow rounded">
+            <thead>
+                <tr class="bg-gray-100 text-left">
+                    <th class="px-4 py-2">No</th>
+                    <th class="px-4 py-2">Nama</th>
+                    <th class="px-4 py-2">NIM</th>
+                    <th class="px-4 py-2">Prodi</th>
+                    <th class="px-4 py-2">Tanggal Pengajuan</th>
+                    <th class="px-4 py-2">Status</th>
+                    <th class="px-4 py-2">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($pengajuan as $item)
+                    <tr class="border-t">
+                        <td class="px-4 py-2">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2">{{ $item->mahasiswa->nama }}</td>
+                        <td class="px-4 py-2">{{ $item->mahasiswa->nim }}</td>
+                        <td class="px-4 py-2">{{ $item->mahasiswa->prodi }}</td>
+                        <td class="px-4 py-2">{{ $item->tanggal_pengajuan }}</td>
+                        <td class="px-4 py-2 capitalize">{{ $item->status }}</td>
+                        <td class="px-4 py-2">
+                            <a href="{{ route('admin.surat.show', $item->id) }}" class="text-blue-600 hover:underline">
+                                Detail & Verifikasi
+                            </a>
+                        </td>
                     </tr>
-                </thead>
-            </table>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="7" class="px-4 py-2 text-center text-gray-500">Belum ada pengajuan</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
-
-    <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-        data-keyboard="false" aria-hidden="true"></div>
+</div>
 @endsection
-
-@push('js')
-    <script>
-        function modalAction(url = '') {
-            $('#myModal').load(url, function() {
-                $('#myModal').modal('show');
-            });
-        }
-
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-
-            $('#table_surat').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('admin.surat.list') }}",
-                    type: "POST"
-                },
-                columns: [
-                    {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        className: 'text-center',
-                        orderable: false,
-                        searchable: false
-                    },
-                    { data: 'NIM', name: 'NIM' },
-                    { data: 'Tanggal_Pengajuan', name: 'Tanggal_Pengajuan' },
-                    {
-                        data: 'Status_Verifikasi',
-                        name: 'Status_Verifikasi',
-                        render: function(data, type, row) {
-                            let badge = 'secondary';
-                            if (data === 'disetujui') badge = 'success';
-                            else if (data === 'menunggu') badge = 'warning';
-                            else if (data === 'ditolak') badge = 'danger';
-
-                            return `
-                                <select class="form-control form-control-sm status-verifikasi" data-id="${row.Id_Surat}">
-                                    <option value="menunggu" ${data === 'menunggu' ? 'selected' : ''}>Menunggu</option>
-                                    <option value="disetujui" ${data === 'disetujui' ? 'selected' : ''}>Disetujui</option>
-                                    <option value="ditolak" ${data === 'ditolak' ? 'selected' : ''}>Ditolak</option>
-                                </select>
-                            `;
-                        }
-                    },
-                    { data: 'Tanggal_Verifikasi', name: 'Tanggal_Verifikasi' },
-                    { data: 'Catatan', name: 'Catatan' },
-                    {
-                        data: 'aksi',
-                        name: 'aksi',
-                        orderable: false,
-                        searchable: false
-                    }
-                ]
-            });
-
-            // Event listener ubah status via ajax
-            $('#table_surat').on('change', '.status-verifikasi', function () {
-                let id = $(this).data('id');
-                let status = $(this).val();
-
-                $.post(`/admin/surat/${id}/update_status`, { status }, function (res) {
-                    toastr.success(res.message);
-                    $('#table_surat').DataTable().ajax.reload(null, false);
-                }).fail(function () {
-                    toastr.error('Gagal memperbarui status.');
-                });
-            });
-        });
-    </script>
-@endpush

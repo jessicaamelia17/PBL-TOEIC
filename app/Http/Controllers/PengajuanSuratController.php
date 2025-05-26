@@ -5,34 +5,41 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SuratPengajuan;
+use App\Models\Mahasiswa;
 
 class PengajuanSuratController extends Controller
 {
-    // Menampilkan halaman ajukan surat (teks + tombol)
     public function index()
     {
-        return view('pengajuan-surat.index');
-    }
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('nim', $user->nim)->first();
     
-    public function create()
-    {
-        return view('pengajuan-surat.create'); // Pastikan file ini nanti dibuat juga
-    }
+        if (!$mahasiswa) {
+            return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
     
+        $pengajuan = SuratPengajuan::where('nim', $mahasiswa->nim)->latest()->first();
+    
+        return view('pengajuan-surat.index', compact('mahasiswa', 'pengajuan'));
+    }
+
     public function store(Request $request)
     {
-        $request->validate([
-            'catatan' => 'nullable|string|max:255',
-        ]);
-    
+        $mahasiswa = Auth::user()->mahasiswa;
+
+        $existing = SuratPengajuan::where('mahasiswa_id', $mahasiswa->id)
+            ->where('status', 'menunggu')->first();
+        if ($existing) {
+            return back()->with('error', 'Anda sudah memiliki pengajuan yang sedang diproses.');
+        }
+
         SuratPengajuan::create([
-            'NIM' => auth()->user()->username, // atau 'nim', tergantung field login kamu
+            'mahasiswa_id' => $mahasiswa->id,
             'tanggal_pengajuan' => now(),
-            'status_verifikasi' => 'Menunggu',
-            'catatan' => $request->catatan,
+            'status' => 'menunggu',
         ]);
-    
-        return redirect()->route('surat.index')->with('success', 'Pengajuan surat berhasil dikirim.');
+
+        return back()->with('success', 'Pengajuan berhasil dikirim.');
     }
     
 }

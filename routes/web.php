@@ -73,7 +73,9 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
         Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('getProdi');
         Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
     });
-
+    Route::get('/surat', [PengajuanSuratController::class, 'index'])->name('surat.index');
+    Route::get('/surat/create', [PengajuanSuratController::class, 'create'])->name('surat.create');
+    Route::post('/surat', [PengajuanSuratController::class, 'store'])->name('surat.store');
     // 🚪 Logout dari sistem TOEIC
     Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
