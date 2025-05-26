@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('kuota', function (Blueprint $table) {
             $table->id();
-            $table->integer('kuota_total');
-            $table->string('status_pendaftaran');
-            $table->timestamps(); //created_at & updated_at
+            $table->timestamps();
         });
     }
 
