@@ -58,7 +58,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="jumlah_kuota">Jumlah Kuota:</label>
-                        <input type="number" name="kuota_total" id="kuota_total" class="form-control" value="{{ $kuota }}" required>
+                        <input type="number" name="jumlah_kuota" id="jumlah_kuota" class="form-control" value="{{ $kuota }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Simpan Perubahan</button>
                     <div id="kuota-message" class="mt-2 text-success" style="display: none;"></div>
@@ -86,5 +86,34 @@
         </form>
     </div>
 </div>
+
+{{-- jQuery dan AJAX untuk update kuota --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#form-kuota').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('admin.kuota.update') }}",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#kuota-message').text(response.message).show();
+
+                    const total = parseInt($('#jumlah_kuota').val());
+                    const pendaftar = {{ $pendaftar }};
+                    const sisa = total - pendaftar;
+
+                    $('#sisa-kuota').text(sisa);
+                },
+                error: function(xhr) {
+                    console.error(xhr.status, xhr.responseText);
+                    alert('Gagal memperbarui kuota. Coba lagi.');
+                }
+            });
+        });
+    });
+</script>
 
 @endsection
