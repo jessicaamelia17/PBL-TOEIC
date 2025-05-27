@@ -34,6 +34,26 @@ class AdminAuthController extends Controller
         ]);
 }
 
+    public function updateKuota(Request $request)
+    {
+        $request->validate([
+            'jumlah_kuota' => 'required|integer|min:0',
+        ]);
+
+        DB::table('kuota')->updateOrInsert(
+            ['id' => 1],
+            [
+                'kuota_total' => $request->jumlah_kuota,
+                'status_pendaftaran' => 1, // 1 = dibuka
+                'updated_at' => now()
+            ]
+        );
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Kuota berhasil diperbarui.'
+    ]);
+    }
 
     // Menampilkan halaman login
     public function login()

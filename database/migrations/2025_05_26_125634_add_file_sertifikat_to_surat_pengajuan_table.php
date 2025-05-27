@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kuota', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('surat_pengajuan', function (Blueprint $table) {
+            $table->string('file_sertifikat')->after('catatan');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kuota');
+        Schema::table('surat_pengajuan', function (Blueprint $table) {
+            $table->dropColumn('file_sertifikat');
+        });
     }
 };
