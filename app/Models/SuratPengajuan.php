@@ -20,4 +20,11 @@ class SuratPengajuan extends Model
         'catatan',
         'file_sertifikat',
     ];
+
+    // Dalam model SuratPengajuan
+public function mahasiswa()
+{
+    return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
+}
+
 }

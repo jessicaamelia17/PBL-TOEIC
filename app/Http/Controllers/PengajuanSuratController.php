@@ -109,7 +109,7 @@ public function pengajuanSurat()
         ->latest()
         ->first();
 
-    $sertifikat = $mahasiswa->file_sertifikat ?? null;
+    $sertifikat = $pengajuan->file_sertifikat ?? null;
 
     return view('mahasiswa.surat', compact('mahasiswa', 'pengajuan', 'sertifikat'));
 }

@@ -194,6 +194,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
     });
 
+    Route::prefix('surat')->name('surat.')->group(function () {
+        Route::get('/', [SuratController::class, 'index'])->name('index');
+        Route::get('/{id}', [SuratController::class, 'show'])->name('show'); // 👈 Tambahkan ini
+        // ...
     // Data Mahasiswa
     Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
         Route::get('/', [ControllerMahasiswa::class, 'index'])->name('index');
@@ -205,4 +209,5 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::post('/import', [ControllerMahasiswa::class, 'import_ajax'])->name('import_ajax');
 
     });
+});
 });

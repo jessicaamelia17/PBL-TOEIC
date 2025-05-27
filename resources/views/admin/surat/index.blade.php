@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts2.template')
 
 @section('content')
 <div class="container">
@@ -27,13 +27,14 @@
                         <td class="px-4 py-2">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2">{{ $item->mahasiswa->nama }}</td>
                         <td class="px-4 py-2">{{ $item->mahasiswa->nim }}</td>
-                        <td class="px-4 py-2">{{ $item->mahasiswa->prodi }}</td>
+                        <td class="px-4 py-2">{{ $item->mahasiswa->prodi->Nama_Prodi }}</td>
                         <td class="px-4 py-2">{{ $item->tanggal_pengajuan }}</td>
-                        <td class="px-4 py-2 capitalize">{{ $item->status }}</td>
+                        <td class="px-4 py-2 capitalize">{{ $item->status_verifikasi }}</td>
                         <td class="px-4 py-2">
-                            <a href="{{ route('admin.surat.show', $item->id) }}" class="text-blue-600 hover:underline">
+                            <a href="{{ route('admin.surat.show', $item->id_surat) }}" class="text-blue-600 hover:underline">
                                 Detail & Verifikasi
                             </a>
+                            
                         </td>
                     </tr>
                 @empty
