@@ -16,13 +16,8 @@
                 <i class="fas fa-boxes"></i> Kuota Tersedia:
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-<<<<<<< HEAD
-                {{-- <h1 class="display-4">{{ $kuota }}</h1>
-                <p class="mb-0">Total kuota pendaftaran</p> --}}
-=======
                 <h1 class="display-4" id="kuota-terpakai">{{ $kuota }}</h1>
                 <p class="mb-0">Total kuota pendaftaran</p>
->>>>>>> eaa9c30b6307922c7fec3835857b640e828d2f3b
             </div>
         </div>
     </div>
@@ -45,11 +40,7 @@
                 <i class="fas fa-user-minus"></i> Sisa Kuota:
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-<<<<<<< HEAD
-                {{-- <h1 class="display-4">{{ $kuota - $pendaftar }}</h1> --}}
-=======
                 <h1 class="display-4" id="sisa-kuota">{{ $kuota - $pendaftar }}</h1>
->>>>>>> eaa9c30b6307922c7fec3835857b640e828d2f3b
                 <p class="mb-0">Kuota yang masih tersedia</p>
             </div>
         </div>
