@@ -6,7 +6,7 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Mahasiswa</h3>
             <div class="card-tools">
-                <a href="javascript:void(0)" id="" class="btn btn-warning">Import Data Mahasiswa</a>
+                <a href="javascript:void(0)" id="btn-import-mahasiswa" class="btn btn-warning">Import Data Mahasiswa</a>
                 <a href="javascript:void(0)" id="btn-tambah-mahasiswa" class="btn btn-success">+ Tambah Mahasiswa</a>
             </div>
         </div>
@@ -50,6 +50,37 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Import Mahasiswa -->
+    <div class="modal fade" id="modalImportMahasiswa" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="form-import-mahasiswa" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Import Data Mahasiswa</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Download Template</label><br>
+                            <a href="{{ asset('template/template_mahasiswa.xlsx') }}" class="btn btn-info btn-sm" download>
+                                <i class="fa fa-file-excel"></i> Download
+                            </a>
+                        </div>
+                        <div class="form-group">
+                            <label>Pilih File</label>
+                            <input type="file" name="file_mahasiswa" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -135,6 +166,34 @@
                     },
                     complete: function() {
                         btn.prop('disabled', false).html('Simpan');
+                    }
+                });
+            });
+
+            // Modal Import Mahasiswa
+            $('#btn-import-mahasiswa').on('click', function() {
+                $('#modalImportMahasiswa').modal('show');
+            });
+
+            // Submit form import mahasiswa
+            $('#form-import-mahasiswa').on('submit', function(e) {
+                e.preventDefault();
+                var form = $(this)[0];
+                var formData = new FormData(form);
+
+                $.ajax({
+                    url: "{{ route('admin.mahasiswa.import_ajax') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        $('#modalImportMahasiswa').modal('hide');
+                        Swal.fire('Berhasil', res.message, 'success');
+                        $('#table_mahasiswa').DataTable().ajax.reload();
+                    },
+                    error: function() {
+                        Swal.fire('Gagal', 'Terjadi kesalahan saat mengimpor data.', 'error');
                     }
                 });
             });
