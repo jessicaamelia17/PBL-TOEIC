@@ -206,6 +206,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::delete('/{nim}', [ControllerMahasiswa::class, 'destroy'])->name('destroy');
         Route::post('/list', [ControllerMahasiswa::class, 'list'])->name('list');
         Route::get('/get-prodi/{id_jurusan}', [ControllerMahasiswa::class, 'getProdiByJurusan'])->name('getProdi');
+        Route::post('/import', [ControllerMahasiswa::class, 'import_ajax'])->name('import_ajax');
+
     });
 });
 });

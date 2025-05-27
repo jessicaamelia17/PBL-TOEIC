@@ -29,12 +29,12 @@
             @if (Auth::check())
                 <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
                     <button @click="openDropdown = !openDropdown" class="focus:outline-none">
-                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('polinema.png') }}"
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('profile-picture.jpg') }}"
                             alt="Profile" class="w-8 h-8 rounded-full border border-white">
                     </button>
-                    <div x-show="openDropdown" x-cloak
+                    <div x-show="openDropdown" x-transition
                         class="absolute right-0 mt-2 w-40 bg-white text-blue-600 rounded-lg shadow-md text-sm z-30"
-                        x-transition>
+                        style="display:none">
                         <a href="{{ route('mahasiswa.profile', Auth::user()->nim) }}"
                             class="block px-4 py-2 hover:bg-gray-100">Profile</a>
                         <form method="POST" action="{{ route('mahasiswa.logout-toeic') }}">
@@ -71,7 +71,7 @@
                 <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
                     <button @click="openDropdown = !openDropdown"
                         class="flex items-center space-x-2 focus:outline-none w-full">
-                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('polinema.png') }}"
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('profile-picture.jpg') }}"
                             alt="Profile" class="w-8 h-8 rounded-full border border-white">
                         <span class="ml-2">Profile</span>
                     </button>
