@@ -7,6 +7,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\ControllerMahasiswa;
 use App\Http\Controllers\Admin\ControllerPengumuman;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\JadwalController;
@@ -98,9 +99,9 @@ Route::prefix('hasil-ujian')->name('hasil-ujian.')->group(function () {
     Route::get('/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('pdf.download');
 });
 
-    Route::get('/pengajuan', [PengajuanSuratController::class, 'index'])->name('surat.index');
-    Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->name('suratpengajuan.create');
-    Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
+Route::get('/pengajuan', [PengajuanSuratController::class, 'index'])->name('surat.index');
+Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->name('suratpengajuan.create');
+Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
 
@@ -197,5 +198,13 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/', [SuratController::class, 'index'])->name('index');
         Route::get('/{id}', [SuratController::class, 'show'])->name('show'); // 👈 Tambahkan ini
         // ...
+    // Data Mahasiswa
+    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+        Route::get('/', [ControllerMahasiswa::class, 'index'])->name('index');
+        Route::get('/create', [ControllerMahasiswa::class, 'create'])->name('create');
+        Route::post('/', [ControllerMahasiswa::class, 'store'])->name('store');
+        Route::delete('/{nim}', [ControllerMahasiswa::class, 'destroy'])->name('destroy');
+        Route::post('/list', [ControllerMahasiswa::class, 'list'])->name('list');
+        Route::get('/get-prodi/{id_jurusan}', [ControllerMahasiswa::class, 'getProdiByJurusan'])->name('getProdi');
     });
 });

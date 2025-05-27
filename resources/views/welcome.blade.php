@@ -4,7 +4,7 @@
 
 {{-- Warna background halaman secara global (misal abu muda) --}}
 
-<section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100">
+<section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100 pt-20">
     {{-- Gambar full background --}}
     <img src="{{ asset('/homepage.png') }}"
          alt="TOEIC Banner"
