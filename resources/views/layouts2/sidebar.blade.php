@@ -87,6 +87,13 @@
             </li>
 
             <li class="nav-item">
+                <a href="{{ route('admin.mahasiswa.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'mahasiswa') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>Data Mahasiswa</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="#" class="nav-link text-danger"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
