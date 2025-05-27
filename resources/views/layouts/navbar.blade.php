@@ -29,7 +29,7 @@
             @if (Auth::check())
                 <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
                     <button @click="openDropdown = !openDropdown" class="focus:outline-none">
-                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('polinema.png') }}"
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('profile-picture.jpg') }}"
                             alt="Profile" class="w-8 h-8 rounded-full border border-white">
                     </button>
                     <div x-show="openDropdown" x-cloak
@@ -71,7 +71,7 @@
                 <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">
                     <button @click="openDropdown = !openDropdown"
                         class="flex items-center space-x-2 focus:outline-none w-full">
-                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('polinema.png') }}"
+                        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('profile-picture.jpg') }}"
                             alt="Profile" class="w-8 h-8 rounded-full border border-white">
                         <span class="ml-2">Profile</span>
                     </button>

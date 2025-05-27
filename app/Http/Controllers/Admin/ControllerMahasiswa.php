@@ -8,6 +8,8 @@ use App\Models\Mahasiswa;
 use App\Models\JurusanModel;
 use App\Models\ProdiModel;
 use Yajra\DataTables\Facades\DataTables;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Validator;
 
 class ControllerMahasiswa extends Controller
 {
@@ -94,5 +96,66 @@ class ControllerMahasiswa extends Controller
     {
         $prodis = ProdiModel::where('Id_Jurusan', $id_jurusan)->get();
         return response()->json($prodis);
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_mahasiswa' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $file = $request->file('file_mahasiswa');
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, false, true, true);
+
+            $insert = [];
+            foreach ($data as $i => $row) {
+                if ($i < 2) continue; // baris pertama header, baris kedua bisa skip (opsional)
+                if (!isset($row['A']) || $row['A'] === null) continue;
+
+                $insert[] = [
+                    'nim' => $row['A'],
+                    'nama' => $row['B'],
+                    'email' => $row['C'],
+                    'no_hp' => $row['D'],
+                    'Id_Jurusan' => $row['E'],
+                    'Id_Prodi' => $row['F'],
+                    'alamat' => $row['G'],
+                    'tmpt_lahir' => $row['H'],
+                    'TTL' => $row['I'],
+                    'password' => bcrypt($row['A']), // Default password
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+
+            if (count($insert) > 0) {
+                Mahasiswa::insertOrIgnore($insert);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data valid untuk diimport'
+                ]);
+            }
+        }
+
+        return redirect('/admin/mahasiswa');
     }
 }
