@@ -43,7 +43,7 @@ class MahasiswaSeeder extends Seeder
                 'updated_at' => now(),
                 'alamat' => 'Jl. Soekarno Hatta Indah IV No. 21B',
                 'tmpt_lahir' => 'Mojokerto',
-                'password' => Hash::make('lino123'),
+                'password' => Hash::make('linoo123'),
             ]
         ]);
     }
