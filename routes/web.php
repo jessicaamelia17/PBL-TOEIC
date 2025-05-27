@@ -151,32 +151,33 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/detail/{id}', [PendaftarController::class, 'show'])->name('show');
     });
 
-    // Jadwal Ujian
+    // Rute Jadwal Ujian
     Route::prefix('jadwal')->name('jadwal.')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('index');
         Route::get('/{jadwal}/edit', [JadwalController::class, 'edit'])->name('edit');
         Route::put('/{jadwal}', [JadwalController::class, 'update'])->name('update');
 
-        // Sesi dan Room
-        Route::get('/{id}/sesi', [SesiJadwalController::class, 'index'])->name('sesi.index');
-        Route::post('/{id}/sesi', [SesiJadwalController::class, 'storeSesi'])->name('sesi.store');
-        Route::post('/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
+        // Buat bagi peserta ke sesi dan room tetap di sini karena terkait jadwal, tetap di controller sesi
         Route::post('/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('bagi-peserta');
     });
 
-    // CRUD Sesi
+    // CRUD Sesi (di SesiJadwalController)
     Route::prefix('sesi')->name('sesi.')->group(function () {
+        Route::get('/{id}', [SesiJadwalController::class, 'index'])->name('index');
         Route::get('/{id}/edit', [SesiJadwalController::class, 'edit'])->name('edit');
+        Route::post('/{id}/store-sesi', [SesiJadwalController::class, 'storeSesi'])->name('storeSesi');
         Route::put('/{id}', [SesiJadwalController::class, 'update'])->name('update');
         Route::delete('/{id}', [SesiJadwalController::class, 'destroy'])->name('destroy');
     });
 
-    // CRUD Room
+    // CRUD Room (pindah ke RoomController)
     Route::prefix('room')->name('room.')->group(function () {
-        Route::get('/{id}/edit', [SesiJadwalController::class, 'editRoom'])->name('edit');
-        Route::put('/{id}', [SesiJadwalController::class, 'updateRoom'])->name('update');
-        Route::delete('/{id}', [SesiJadwalController::class, 'destroyRoom'])->name('destroy');
+        Route::get('/{id}/edit', [SesiJadwalController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [SesiJadwalController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SesiJadwalController::class, 'destroy'])->name('destroy');
+        Route::post('/store-room/{id_sesi}', [SesiJadwalController::class, 'storeRoom'])->name('storeRoom'); // Tambahan: jika ada tambah room
     });
+
 
     // Pengumuman
     Route::prefix('pengumumans')->name('pengumuman.')->group(function () {

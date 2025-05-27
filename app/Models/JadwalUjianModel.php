@@ -17,7 +17,6 @@ class JadwalUjianModel extends Model
         'Tanggal_Ujian',
         'kuota_max',
         'kuota_terpakai',
-        'status_registrasi',
     ];
 
     public function getRouteKeyName()
