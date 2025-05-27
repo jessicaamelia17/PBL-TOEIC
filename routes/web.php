@@ -198,6 +198,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/', [SuratController::class, 'index'])->name('index');
         Route::get('/{id}', [SuratController::class, 'show'])->name('show'); // 👈 Tambahkan ini
         // ...
+    });
     // Data Mahasiswa
     Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
         Route::get('/', [ControllerMahasiswa::class, 'index'])->name('index');
@@ -207,5 +208,4 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::post('/list', [ControllerMahasiswa::class, 'list'])->name('list');
         Route::get('/get-prodi/{id_jurusan}', [ControllerMahasiswa::class, 'getProdiByJurusan'])->name('getProdi');
     });
-});
 });
