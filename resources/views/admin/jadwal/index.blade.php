@@ -1,51 +1,64 @@
 @extends('layouts2.template')
 
 @section('content')
-    <div class="card card-outline card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Data Jadwal Ujian (Semua Jadwal)</h3>
-        </div>
+<h4>Kelola Kuota Jadwal Ujian</h4>
+<div class="container-fluid">
 
+
+
+    {{-- Flash messages --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- Tabel Jadwal --}}
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <strong>Daftar Jadwal Ujian</strong>
+        </div>
         <div class="card-body">
-            <table class="table table-bordered table-sm">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Hari / Tanggal</th>
-                        <th>Sesi</th>
-                        <th>Room</th>
-                        <th>Nama Lengkap</th>
-                        <th>NIM</th>
-                        <th>Program Studi</th>
-                        <th>Kelas</th>
-                        <th>Zoom ID</th>
-                        <th>Password</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php $no = 1; @endphp
-                    @foreach ($jadwalList as $jadwal)
-                        @foreach ($jadwal->sesi as $sesi)
-                            @foreach ($sesi->rooms as $room)
-                                @foreach ($room->pendaftar as $peserta)
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('l, d F Y') }}</td>
-                                        <td>{{ $sesi->nama_sesi }} ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})</td>
-                                        <td>{{ $room->nama_room }}</td>
-                                        <td>{{ $peserta->Nama }}</td>
-                                        <td>{{ $peserta->NIM }}</td>
-                                        <td>{{ $peserta->prodi->Nama_Prodi ?? '-' }}</td>
-                                        <td>{{ $peserta->kelas }}</td>
-                                        <td>{{ $room->zoom_id }}</td>
-                                        <td>{{ $room->zoom_password }}</td>
-                                    </tr>
-                                @endforeach
-                            @endforeach
+            @if($jadwals->count())
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Kuota Maksimum</th>
+                            <th>Kuota Terpakai</th>
+                            <th width="180">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($jadwals as $jadwal)
+                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($jadwal->Tanggal_Ujian)->format('d M Y') }}</td>
+                                <td>{{ $jadwal->kuota_max }}</td>
+                                <td>{{ $jadwal->kuota_terpakai }}</td>
+                                <td>
+                                    <a href="{{ route('admin.jadwal.edit', $jadwal->id_jadwal) }}" class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
+                                    <a href="{{ route('admin.sesi.index', $jadwal->id_jadwal) }}" class="btn btn-sm btn-primary">
+                                        Sesi & Room
+                                    </a>
+                                </td>
+                                
+                            </tr>
                         @endforeach
-                    @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            @else
+                <p class="text-muted">Belum ada jadwal ujian tersedia.</p>
+            @endif
         </div>
     </div>
 @endsection

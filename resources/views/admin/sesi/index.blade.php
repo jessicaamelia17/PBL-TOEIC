@@ -27,7 +27,7 @@
     <div class="card mb-3">
         <div class="card-header">Tambah Sesi</div>
         <div class="card-body">
-            <form action="{{ route('admin.sesi.store', $jadwal->id_jadwal) }}" method="POST">
+            <form action="{{ route('admin.sesi.storeSesi', $jadwal->id_jadwal) }}" method="POST">
                 @csrf
                 <div class="row mb-2">
                     <div class="col">
@@ -63,7 +63,7 @@
 
         <div class="card-body">
             {{-- Form tambah room --}}
-            <form action="{{ route('admin.room.store', $sesi->id_sesi) }}" method="POST">
+            <form action="{{ route('admin.room.storeRoom', $sesi->id_sesi) }}" method="POST">
                 @csrf
                 <div class="row mb-2">
                     <div class="col">
