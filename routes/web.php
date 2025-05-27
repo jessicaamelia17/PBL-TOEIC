@@ -208,3 +208,4 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/get-prodi/{id_jurusan}', [ControllerMahasiswa::class, 'getProdiByJurusan'])->name('getProdi');
     });
 });
+});
