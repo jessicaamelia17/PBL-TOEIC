@@ -7,6 +7,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\ControllerMahasiswa;
 use App\Http\Controllers\Admin\ControllerPengumuman;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\JadwalController;
@@ -76,6 +77,9 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::get('/surat', [PengajuanSuratController::class, 'index'])->name('surat.index');
     Route::get('/surat/create', [PengajuanSuratController::class, 'create'])->name('surat.create');
     Route::post('/surat', [PengajuanSuratController::class, 'store'])->name('surat.store');
+    Route::post('/surat/upload-sertifikat', [PengajuanSuratController::class, 'uploadSertifikat'])->name('surat.uploadSertifikat');
+    Route::delete('/surat/hapus-sertifikat', [PengajuanSuratController::class, 'hapusSertifikat'])->name('surat.hapusSertifikat');
+
     // 🚪 Logout dari sistem TOEIC
     Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
@@ -95,9 +99,9 @@ Route::prefix('hasil-ujian')->name('hasil-ujian.')->group(function () {
     Route::get('/pdf/download/{id}', [HasilController::class, 'downloadPdf'])->name('pdf.download');
 });
 
-    Route::get('/pengajuan', [PengajuanSuratController::class, 'index'])->name('surat.index');
-    Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->name('suratpengajuan.create');
-    Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
+Route::get('/pengajuan', [PengajuanSuratController::class, 'index'])->name('surat.index');
+Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->name('suratpengajuan.create');
+Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
 
@@ -117,7 +121,7 @@ Route::post('/login', [AdminAuthController::class, 'postlogin']);
 Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
 Route::post('/register', [AdminAuthController::class, 'store']);
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
-Route::post('/home', [AdminAuthController::class, 'updateKuota'])->name('dashboard');
+Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
 Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
@@ -188,5 +192,22 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/', [AdminHasilController::class, 'index'])->name('index');
         Route::get('/import', [AdminHasilController::class, 'importForm'])->name('import.form');
         Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
+    });
+
+    Route::prefix('surat')->name('surat.')->group(function () {
+        Route::get('/', [SuratController::class, 'index'])->name('index');
+        Route::get('/{id}', [SuratController::class, 'show'])->name('show'); // 👈 Tambahkan ini
+        // ...
+    });
+    // Data Mahasiswa
+    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+        Route::get('/', [ControllerMahasiswa::class, 'index'])->name('index');
+        Route::get('/create', [ControllerMahasiswa::class, 'create'])->name('create');
+        Route::post('/', [ControllerMahasiswa::class, 'store'])->name('store');
+        Route::delete('/{nim}', [ControllerMahasiswa::class, 'destroy'])->name('destroy');
+        Route::post('/list', [ControllerMahasiswa::class, 'list'])->name('list');
+        Route::get('/get-prodi/{id_jurusan}', [ControllerMahasiswa::class, 'getProdiByJurusan'])->name('getProdi');
+        Route::post('/import', [ControllerMahasiswa::class, 'import_ajax'])->name('import_ajax');
+
     });
 });

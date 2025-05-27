@@ -15,11 +15,14 @@ class SuratController extends Controller
             'title' => 'Data Surat Pengajuan',
             'list' => ['Dashboard', 'Surat Pengajuan']
         ];
-
+    
         $activeMenu = 'surat';
-
-        return view('admin.surat.index', compact('breadcrumb', 'activeMenu'));
+    
+        $pengajuan = SuratPengajuan::with('mahasiswa')->get(); // pastikan ada relasi 'mahasiswa'
+    
+        return view('admin.surat.index', compact('breadcrumb', 'activeMenu', 'pengajuan'));
     }
+    
     
 
     public function list(Request $request)
@@ -79,6 +82,18 @@ class SuratController extends Controller
     
         return response()->json(['success' => true]);
     }
+    public function show($id)
+    {
+        $surat = SuratPengajuan::with('mahasiswa')->find($id);
+    
+        if (!$surat) {
+            abort(404, 'Surat tidak ditemukan');
+        }
+    
+        return view('admin.surat.show', compact('surat'));
+    }
+    
+
     
 
 }

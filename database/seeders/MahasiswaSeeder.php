@@ -23,13 +23,36 @@ class MahasiswaSeeder extends Seeder
             //     'tmpt_lahir' => 'Malang',
             //     'password' => Hash::make('bagas123'),
             // ],
+            // [
+            //     'nim' => '2341760185',
+            //     'nama' => 'Jessica Amelia',
+            //     'email' => 'ameliajessica997@gmail.com',
+            //     'no_hp' => '085731022917',
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            //     'alamat' => 'Jl. Kembang Turi No.20',
+            //     'tmpt_lahir' => 'Blitar',
+            //     'password' => Hash::make('jessi123'),
+            // ],
+            // [
+            //     'nim' => '2341760066',
+            //     'nama' => 'Nervalina Adzra Nora Aqilla',
+            //     'email' => 'valinaadzraa@gmail.com',
+            //     'no_hp' => '081357971553',
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            //     'alamat' => 'Jl. Soekarno Hatta Indah IV No. 21B',
+            //     'tmpt_lahir' => 'Mojokerto',
+            //     'password' => Hash::make('lino123'),
+            // ],
             [
-                'nim' => '2341760185',
-                'nama' => 'Jessica Amelia',
-                'email' => 'ameliajessica997@gmail.com',
-                'no_hp' => '085731022917',
+                'nim' => '2341760127',
+                'nama' => 'Veren Regina Tirsya',
+                'email' => 'verenregina214@gmail.com',
+                'no_hp' => '081249135132',
                 'created_at' => now(),
                 'updated_at' => now(),
+<<<<<<< HEAD
                 'alamat' => 'Jl. Kembang Turi No.20',
                 'tmpt_lahir' => 'Blitar',
                 'password' => Hash::make('jessi123'),
@@ -44,6 +67,11 @@ class MahasiswaSeeder extends Seeder
                 'alamat' => 'Jl. Soekarno Hatta Indah IV No. 21B',
                 'tmpt_lahir' => 'Mojokerto',
                 'password' => Hash::make('linoo123'),
+=======
+                'alamat' => 'Jl. Kembang Turi No.02',
+                'tmpt_lahir' => 'Tulungagung',
+                'password' => Hash::make('verenregina214'),
+>>>>>>> 9f4b4eb370908fb0c9d22d67fa6eaf4578d19e74
             ]
         ]);
     }

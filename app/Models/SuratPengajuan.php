@@ -18,5 +18,13 @@ class SuratPengajuan extends Model
         'status_verifikasi',
         'tanggal_verifikasi',
         'catatan',
+        'file_sertifikat',
     ];
+
+    // Dalam model SuratPengajuan
+public function mahasiswa()
+{
+    return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
+}
+
 }

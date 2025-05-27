@@ -37,13 +37,13 @@ class AdminAuthController extends Controller
     public function updateKuota(Request $request)
     {
         $request->validate([
-            'kuota_total' => 'required|integer|min:0',
+            'jumlah_kuota' => 'required|integer|min:0',
         ]);
 
         DB::table('kuota')->updateOrInsert(
             ['id' => 1],
             [
-                'kuota_total' => $request->updateKuota,
+                'kuota_total' => $request->jumlah_kuota,
                 'status_pendaftaran' => 1, // 1 = dibuka
                 'updated_at' => now()
             ]
