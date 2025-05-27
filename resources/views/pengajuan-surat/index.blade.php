@@ -65,11 +65,11 @@
             <p><strong>Catatan:</strong> {{ $pengajuan->catatan ?? '-' }}</p>
         @endif
 
-        <p><strong>Sertifikat:</strong> 
-            <a href="{{ asset('storage/' . $pengajuan->file_sertifikat) }}" class="text-blue-600 underline" target="_blank">
-                Lihat Sertifikat
-            </a>
-        </p>
+        <div class="bg-white p-4 rounded shadow mt-4">
+            <p class="font-semibold mb-2">Preview Sertifikat:</p>
+            <embed src="{{ asset('storage/' . $pengajuan->file_sertifikat) }}" type="application/pdf" width="100%" height="500px" />
+        </div>
+        
     </div>
 
         

@@ -192,4 +192,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/import', [AdminHasilController::class, 'importForm'])->name('import.form');
         Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
     });
+
+    Route::prefix('surat')->name('surat.')->group(function () {
+        Route::get('/', [SuratController::class, 'index'])->name('index');
+        Route::get('/{id}', [SuratController::class, 'show'])->name('show'); // 👈 Tambahkan ini
+        // ...
+    });
 });
