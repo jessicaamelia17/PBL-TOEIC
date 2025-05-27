@@ -35,4 +35,9 @@ class JadwalUjianModel extends Model
     {
         return $this->attributes['Id_Jadwal'];
     }
+        // Relasi ke peserta pendaftaran
+    public function peserta()
+    {
+        return $this->hasMany(RegistrasiModel::class, 'id_room', 'id_room');
+    }
 }
