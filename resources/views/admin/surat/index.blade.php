@@ -1,49 +1,62 @@
 @extends('layouts2.template')
 
+@section('title', 'Daftar Pengajuan Surat TOEIC')
+
 @section('content')
-<div class="container">
-    <h2 class="text-xl font-semibold mb-4">Daftar Pengajuan Surat TOEIC</h2>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Daftar Pengajuan Surat TOEIC</h3>
+        </div>
 
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">{{ session('success') }}</div>
-    @endif
+        <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white shadow rounded">
-            <thead>
-                <tr class="bg-gray-100 text-left">
-                    <th class="px-4 py-2">No</th>
-                    <th class="px-4 py-2">Nama</th>
-                    <th class="px-4 py-2">NIM</th>
-                    <th class="px-4 py-2">Prodi</th>
-                    <th class="px-4 py-2">Tanggal Pengajuan</th>
-                    <th class="px-4 py-2">Status</th>
-                    <th class="px-4 py-2">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($pengajuan as $item)
-                    <tr class="border-t">
-                        <td class="px-4 py-2">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2">{{ $item->mahasiswa->nama }}</td>
-                        <td class="px-4 py-2">{{ $item->mahasiswa->nim }}</td>
-                        <td class="px-4 py-2">{{ $item->mahasiswa->prodi->Nama_Prodi }}</td>
-                        <td class="px-4 py-2">{{ $item->tanggal_pengajuan }}</td>
-                        <td class="px-4 py-2 capitalize">{{ $item->status_verifikasi }}</td>
-                        <td class="px-4 py-2">
-                            <a href="{{ route('admin.surat.show', $item->id_surat) }}" class="text-blue-600 hover:underline">
-                                Detail & Verifikasi
-                            </a>
-                            
-                        </td>
-                    </tr>
-                @empty
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_pengajuan">
+                <thead>
                     <tr>
-                        <td colspan="7" class="px-4 py-2 text-center text-gray-500">Belum ada pengajuan</td>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NIM</th>
+                        <th>Prodi</th>
+                        <th>Tanggal Pengajuan</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse($pengajuan as $index => $item)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $item->mahasiswa->nama }}</td>
+                            <td>{{ $item->mahasiswa->nim }}</td>
+                            <td>{{ $item->mahasiswa->prodi->Nama_Prodi }}</td>
+                            <td>{{ $item->tanggal_pengajuan }}</td>
+                            <td>
+                                @if ($item->status_verifikasi == 'diterima')
+                                    <span class="badge badge-success text-capitalize">{{ $item->status_verifikasi }}</span>
+                                @elseif ($item->status_verifikasi == 'ditolak')
+                                    <span class="badge badge-danger text-capitalize">{{ $item->status_verifikasi }}</span>
+                                @else
+                                    <span class="badge badge-warning text-capitalize">{{ $item->status_verifikasi }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.surat.show', $item->id_surat) }}" class="btn btn-sm btn-primary">
+                                    Detail & Verifikasi
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center">Belum ada pengajuan</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 @endsection
