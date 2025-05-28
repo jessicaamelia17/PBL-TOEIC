@@ -31,36 +31,34 @@
 
             <div class="overflow-auto rounded-xl shadow-md">
                 <table id="pesertaTable" class="min-w-full bg-white rounded-xl overflow-hidden">
-                    
+                    <thead>
+                        <tr class="bg-blue-200 text-xs text-blue-800 uppercase">
+                            <th class="px-6 py-2 text-left">No</th>
+                            <th class="px-6 py-2 text-left">Nama Peserta</th>
+                            <th class="px-6 py-2 text-left">NIM</th>
+                            <th class="px-6 py-2 text-left">Program Studi</th>
+                            <th class="px-6 py-2 text-left">Zoom ID</th>
+                            <th class="px-6 py-2 text-left">Password</th>
+                        </tr>
+                    </thead>
                     <tbody class="text-gray-700 divide-y divide-gray-200 text-sm">
                         @php $no = 1; @endphp
                         @foreach ($jadwal->sesi as $sesi)
                             {{-- Baris Judul Sesi --}}
-                            <tr class="bg-blue-100">
-                                <td colspan="6" class="px-6 py-3 font-semibold text-blue-700">
+                            <tr class="bg-blue-100 font-semibold text-blue-700">
+                                <td colspan="6" class="px-6 py-3">
                                     {{ $sesi->nama_sesi }} ({{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }})
                                 </td>
                             </tr>
-                    
+            
                             @foreach ($sesi->rooms as $room)
-                            {{-- Baris Nama Room --}}
-                            <tr class="bg-gray-100">
-                                <td colspan="6" class="px-6 py-4 font-semibold text-sm text-gray-800">
-                                    {{ $room->nama_room }} 
-                                </td>
-                            </tr>
-                        
-                            {{-- Tambahkan Header Kolom --}}
-                            <tr class="bg-blue-200 text-xs text-blue-800 uppercase">
-                                <th class="px-6 py-2 text-left">No</th>
-                                <th class="px-6 py-2 text-left">Nama Peserta</th>
-                                <th class="px-6 py-2 text-left">NIM</th>
-                                <th class="px-6 py-2 text-left">Program Studi</th>
-                                <th class="px-6 py-2 text-left">Zoom ID</th>
-                                <th class="px-6 py-2 text-left">Password</th>
-                            </tr>
-                        
-                    
+                                {{-- Baris Nama Room --}}
+                                <tr class="bg-gray-100 font-semibold text-sm text-gray-800">
+                                    <td colspan="6" class="px-6 py-3">
+                                        {{ $room->nama_room }}
+                                    </td>
+                                </tr>
+            
                                 @if ($room->peserta->isEmpty())
                                     {{-- Tidak ada peserta --}}
                                     <tr>
@@ -81,11 +79,9 @@
                             @endforeach
                         @endforeach
                     </tbody>
-                    
-                    
-                    
                 </table>
             </div>
+            
             
         @endif
     </div>
@@ -93,30 +89,31 @@
 
 @push('scripts')
 <script>
-$(document).ready(function () {
-    var table = $('#pesertaTable').DataTable({
-        "lengthMenu": [10, 25, 50, 100],
-        "language": {
-            "search": "Cari:",
-            "lengthMenu": "Tampilkan _MENU_ entri",
-            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-            "paginate": {
-                "first": "Pertama",
-                "last": "Terakhir",
-                "next": "Berikutnya",
-                "previous": "Sebelumnya"
-            },
-            "emptyTable": "Tidak ada data tersedia",
-        }
+    $(document).ready(function () {
+        var table = $('#pesertaTable').DataTable({
+            "lengthMenu": [10, 25, 50, 100],
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Berikutnya",
+                    "previous": "Sebelumnya"
+                },
+                "emptyTable": "Tidak ada data tersedia",
+            }
+        });
+    
+        // Kolom ke-3 (index 3) adalah Program Studi
+        $('#filterProdi').on('change', function () {
+            var selected = $(this).val();
+            table.column(3).search(selected).draw(); // index 3 = kolom Program Studi
+        });
     });
-
-    // Filter berdasarkan Program Studi
-    $('#filterProdi').on('change', function () {
-        var selected = $(this).val();
-        table.column(8).search(selected).draw();
-    });
-});
-</script>
+    </script>
+    
 @endpush
 
 @endsection
