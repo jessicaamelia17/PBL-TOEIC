@@ -1,54 +1,21 @@
+{{-- filepath: resources/views/admin/jadwal/edit.blade.php --}}
 @extends('layouts2.template')
-
-
 @section('content')
-<div class="container-fluid">
-
-    {{-- Breadcrumb --}}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('admin.jadwal.index') }}">Jadwal Ujian</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit Kuota</li>
-        </ol>
-    </nav>
-    <h4>Edit Kuota Jadwal Ujian - {{ \Carbon\Carbon::parse($jadwal->Tanggal_Ujian)->format('d M Y') }}</h4>
-
-        {{-- Flash message --}}
-        @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="container">
+    <h4>Edit Jadwal Ujian</h4>
+    <form action="{{ route('admin.jadwal.update', $jadwal->id_jadwal) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="mb-3">
+            <label>Tanggal Ujian</label>
+            <input type="date" name="Tanggal_Ujian" class="form-control" value="{{ $jadwal->Tanggal_Ujian }}" required>
         </div>
-        @elseif(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="mb-3">
+            <label>Kuota Maksimum</label>
+            <input type="number" name="kuota_max" class="form-control" value="{{ $jadwal->kuota_max }}" required min="1">
         </div>
-        @endif
-
-        {{-- Card Form --}}
-        <div class="card">
-        <div class="card-header bg-warning">
-            <strong>Edit Kuota & Status</strong>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('admin.jadwal.update', $jadwal->Id_Jadwal) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="mb-3">
-                    <label for="kuota_max" class="form-label">Kuota Maksimal</label>
-                    <input type="number" name="kuota_max" value="{{ $jadwal->kuota_max }}" class="form-control" required min="1">
-                </div>
-
-
-                
-
-                   <div class="d-flex justify-content-between">
-                    <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">Kembali</a>
+    </form>
 </div>
 @endsection

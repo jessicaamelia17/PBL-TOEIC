@@ -26,7 +26,19 @@ class JadwalController extends Controller
         ]);
     }
     
-    
+    public function list(Request $request)
+{
+    $jadwals = JadwalUjianModel::query();
+    return datatables()->of($jadwals)
+        ->addIndexColumn()
+        ->addColumn('aksi', function($row) {
+            return view('admin.jadwal.aksi', compact('row'))->render();
+        })
+        ->editColumn('Tanggal_Ujian', function($row) {
+            return \Carbon\Carbon::parse($row->Tanggal_Ujian)->format('d M Y');
+        })
+        ->make(true);
+}
     
 
     public function edit($id)
