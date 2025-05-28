@@ -216,6 +216,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     // Pengambilan Sertifikat
     Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+    Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
     });
 
 });
