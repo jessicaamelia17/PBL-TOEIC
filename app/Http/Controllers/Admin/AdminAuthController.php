@@ -22,15 +22,15 @@ class AdminAuthController extends Controller
         $activeMenu = 'dashboard';
         
         $pendaftar = PendaftarModel::count();
-        $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total') ?? 0;
-        $status = DB::table('kuota')->where('id', 1)->value('status_pendaftaran') ?? 'tutup';
+       // $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total') ?? 0;
+       // $status = DB::table('kuota')->where('id', 1)->value('status_pendaftaran') ?? 'tutup';
 
         return view('admin.dashboard', [
             'breadcrumb' => $breadcrumb,
             'activeMenu' => $activeMenu,
             'pendaftar' => $pendaftar,
-            'kuota' => $kuota,
-            'status' => $status
+            // 'kuota' => $kuota,
+            // 'status' => $status
         ]);
 }
 

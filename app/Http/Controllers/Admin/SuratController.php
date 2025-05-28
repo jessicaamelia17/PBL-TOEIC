@@ -90,7 +90,7 @@ class SuratController extends Controller
             abort(404, 'Surat tidak ditemukan');
         }
     
-        return view('admin.surat.show', compact('surat'));
+        return view('admin.surat.detail', compact('surat'));
     }
     
 

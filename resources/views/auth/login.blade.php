@@ -23,8 +23,8 @@
         <h2 class="text-2xl font-bold tracking-wide">TOEIC</h2>
       </div>
 
-      <h3 class="text-3xl font-bold mb-2">Admin Login</h3>
-      <p class="mb-6 text-sm text-blue-100">Silakan masukkan username dan password Anda.</p>
+      <h3 class="text-3xl font-bold mb-2">Login</h3>
+      <p class="mb-6 text-sm text-blue-100">Silakan Masukkan Username / NIM dan Password Anda.</p>
 
       {{-- Alert status --}}
       @if (session('status'))
@@ -47,10 +47,10 @@
       <form method="POST" action="{{ url('/login') }}">
         @csrf
 
-        {{-- Username --}}
+        {{-- Username/NIM --}}
         <div class="mb-4">
-          <label for="username" class="block text-sm font-medium">Username</label>
-          <input type="text" id="username" name="username" required placeholder="Enter your username"
+          <label for="login" class="block text-sm font-medium">Username/NIM</label>
+          <input type="text" id="login" name="login" required placeholder="Enter your username"
             class="w-full mt-1 p-3 rounded-lg text-black bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white shadow transition" />
         </div>
 

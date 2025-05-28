@@ -37,7 +37,7 @@
                         style="display:none">
                         <a href="{{ route('mahasiswa.profile', Auth::user()->nim) }}"
                             class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                        <form method="POST" action="{{ route('mahasiswa.logout-toeic') }}">
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
                         </form>
@@ -45,8 +45,8 @@
                 </li>
             @else
                 <li>
-                    <a href="{{ route('login-toeic') }}"
-                        class="hover:underline {{ request()->is('login-toeic') ? 'font-bold' : '' }}">
+                    <a href="{{ route('login') }}"
+                        class="hover:underline {{ request()->is('login') ? 'font-bold' : '' }}">
                         Login
                     </a>
                 </li>
@@ -80,7 +80,7 @@
                         x-transition>
                         <a href="{{ route('mahasiswa.profile', Auth::user()->nim) }}"
                             class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                        <form method="POST" action="{{ route('mahasiswa.logout-toeic') }}">
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
                         </form>
@@ -88,7 +88,7 @@
                 </li>
             @else
                 <li>
-                    <a href="{{ route('login-toeic') }}" class="block hover:underline">Login</a>
+                    <a href="{{ route('login') }}" class="block hover:underline">Login</a>
                 </li>
             @endif
         </ul>

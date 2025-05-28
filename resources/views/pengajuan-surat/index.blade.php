@@ -34,7 +34,35 @@
         <p><strong>Jurusan:</strong> {{ $mahasiswa->jurusan->Nama_Jurusan }}</p>
         <p><strong>Tempat, Tanggal Lahir:</strong> {{ $mahasiswa->tmpt_lahir }}, {{ $mahasiswa->TTL }}</p>
         <p><strong>Alamat:</strong> {{ $mahasiswa->alamat }}</p>
-        <p><strong>Status Verifikasi:</strong> {{ $pengajuan?->file_sertifikat ?? '-' }}</p>
+        
+        @php
+        $status = strtolower($pengajuan?->status_verifikasi ?? '');
+        $ikon = '';
+        $warna = '';
+
+        switch ($status) {
+            case 'menunggu':
+                $ikon = '<svg class="w-5 h-5 text-yellow-500 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 8h2v5H9V8zm0 6h2v2H9v-2z"/></svg>';
+                $warna = 'text-yellow-600';
+                break;
+            case 'disetujui':
+                $ikon = '<svg class="w-5 h-5 text-green-500 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>';
+                $warna = 'text-green-600';
+                break;
+            case 'ditolak':
+                $ikon = '<svg class="w-5 h-5 text-red-500 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7.707 7.707a1 1 0 10-1.414-1.414L10 10.586l3.707-3.707a1 1 0 00-1.414-1.414L10 8.172l-2.293-2.293z" clip-rule="evenodd"/></svg>';
+                $warna = 'text-red-600';
+                break;
+            default:
+                $ikon = '';
+                $warna = 'text-gray-600';
+        }
+    @endphp
+
+<p >
+    <strong>Status Verifikasi:</strong>
+    <span class="{{ $warna }}">{!! $ikon !!} {{ ucfirst($status) ?: '-' }}</span>
+</p>
 
     </div>
 
@@ -42,13 +70,15 @@
         {{-- Jika SUDAH MENGAJUKAN --}}
         @if($pengajuan)
     @php
-        $status = $pengajuan->status_verifikasi;
+        $status = strtolower($pengajuan->status_verifikasi);
         $warna = match($status) {
-            'menunggu' => 'bg-yellow-100 text-yellow-800',
-            'diterima' => 'bg-green-100 text-green-800',
-            'ditolak' => 'bg-red-100 text-red-800',
-            default => 'bg-gray-100 text-gray-800',
-        };
+        'menunggu' => 'bg-yellow-100 text-yellow-800',
+        'disetujui' => 'bg-green-100 text-green-800',
+        'ditolak' => 'bg-red-100 text-red-800',
+        default => 'bg-gray-100 text-gray-800',
+    };
+
+
     @endphp
 
     <div class="mt-4 bg-gray-100 p-4 rounded space-y-2">
@@ -97,7 +127,7 @@
                 <div class="mt-4">
                     <p class="text-green-700 font-semibold">✅ Sertifikat berhasil diupload</p>
                     <p><strong>Lihat Sertifikat:</strong> 
-                        <a href="{{ asset('storage/' . $sertifikat) }}" class="text-blue-600 underline" target="_blank">Klik di sini</a>
+                        <a href="{{ asset('storage/' . session('sertifikat_uploaded')) }}" class="text-blue-600 underline" target="_blank">Klik di sini</a>
                     </p>
 
                     <form action="{{ route('mahasiswa.surat.hapusSertifikat') }}" method="POST" class="inline-block mt-2">
