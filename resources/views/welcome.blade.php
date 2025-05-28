@@ -2,39 +2,43 @@
 
 @section('content')
 
-    {{-- Warna background halaman secara global (misal abu muda) --}}
+{{-- Global background color (e.g., light gray) --}}
+<section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100 pt-20">
+    {{-- Full background image --}}
+    <img src="{{ asset('/homepage.png') }}"
+         alt="TOEIC Banner"
+         class="absolute inset-0 w-full h-full object-cover object-center z-0" />
 
-    <section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100 pt-20">
-        {{-- Gambar full background --}}
-        <img src="{{ asset('/homepage.png') }}" alt="TOEIC Banner"
-            class="absolute inset-0 w-full h-full object-cover object-center z-0" />
+    {{-- Dark overlay for contrast --}}
+    <div class="absolute inset-0 bg-grey/40 z-10"></div>
 
-        {{-- Overlay gelap untuk kontras --}}
-        <div class="absolute inset-0 bg-grey/40 z-10"></div>
+    {{-- Text on top of image --}}
+    <div class="absolute inset-0 flex flex-col items-center justify-start text-blue-900 px-2 text-center z-10 pt-20 space-y-4">
+        <h2 class="text-4xl md:text-5xl font-bold drop-shadow-lg"
+            data-aos="fade-down"
+            data-aos-duration="1200">TOEIC Service</h2>
 
-        {{-- Teks di atas gambar --}}
-        <div
-            class="absolute inset-0 flex flex-col items-center justify-start text-blue-900 px-2 text-center z-10 pt-20 space-y-4">
-            <h2 class="text-4xl md:text-5xl font-bold drop-shadow-lg" data-aos="fade-down" data-aos-duration="1200">TOEIC
-                Service</h2>
+        <h3 class="text-2xl md:text-3xl font-semibold drop-shadow-md"
+            data-aos="fade-down"
+            data-aos-delay="200"
+            data-aos-duration="1000">POLYTECHNIC STATE OF MALANG</h3>
 
-            <h3 class="text-2xl md:text-3xl font-semibold drop-shadow-md" data-aos="fade-down" data-aos-delay="200"
-                data-aos-duration="1000">POLITEKNIK NEGERI MALANG</h3>
+        <p class="max-w-xl text-lg md:text-xl text-blue-900 drop-shadow"
+           data-aos="fade-up"
+           data-aos-delay="400"
+           data-aos-duration="1000">
+            Get complete information about TOEIC registration, schedules, and exam results.
+        </p>
+    </div>
 
-            <p class="max-w-xl text-lg md:text-xl text-blue-900 drop-shadow" data-aos="fade-up" data-aos-delay="400"
-                data-aos-duration="1000">
-                Get complete information about TOEIC registration, schedule and exam results.
-            </p>
-        </div>
-
-        {{-- Tombol di bagian bawah gambar, center --}}
-        {{-- <div class="w-full flex justify-center absolute bottom-20 z-20"
+    {{-- Button at bottom of image --}}
+    {{-- <div class="w-full flex justify-center absolute bottom-20 z-20"
          data-aos="zoom-in-up"
          data-aos-delay="600"
          data-aos-duration="1000">
         <a href="{{ route('mahasiswa.registrasi.create') }}"
            class="inline-block bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-8 rounded shadow-md transition">
-            Register now
+            Register Now
         </a>
     </div> --}}
     </section>

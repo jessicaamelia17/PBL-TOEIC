@@ -30,4 +30,8 @@ class HasilUjian extends Model
     {
         return $this->belongsTo(JadwalUjianModel::class, 'id_jadwal', 'Id_Jadwal');
     }
+    public function pengambilanSertifikat()
+    {
+    return $this->hasOne(PengambilanSertifikat::class, 'Id_Hasil', 'Id_Hasil');
+    }
 }

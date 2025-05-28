@@ -140,11 +140,12 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
     // Rute Jadwal Ujian
     Route::prefix('jadwal')->name('jadwal.')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('index');
+        Route::get('/create', [JadwalController::class, 'create'])->name('create');
+        Route::post('/', [JadwalController::class, 'store'])->name('store');
         Route::get('/{jadwal}/edit', [JadwalController::class, 'edit'])->name('edit');
         Route::put('/{jadwal}', [JadwalController::class, 'update'])->name('update');
-
-        // Buat bagi peserta ke sesi dan room tetap di sini karena terkait jadwal, tetap di controller sesi
-        Route::post('/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('bagi-peserta');
+        Route::delete('/{jadwal}', [JadwalController::class, 'destroy'])->name('destroy');
+        Route::post('/list', [JadwalController::class, 'list'])->name('list'); // <-- Tambahkan ini
     });
 
     // CRUD Sesi (di SesiJadwalController)
@@ -200,6 +201,8 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
     });
     // Pengambilan Sertifikat
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+    Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+    Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
+    Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
     });
 });

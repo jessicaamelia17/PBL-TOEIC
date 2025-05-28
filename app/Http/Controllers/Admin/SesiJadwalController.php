@@ -153,6 +153,7 @@ class SesiJadwalController extends Controller
             'nama_sesi'   => 'required|string|max:50',
             'waktu_mulai'   => 'required|date_format:H:i',
             'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'kapasitas'     => 'nullable|integer|min:1', // Kapasitas opsional, jika tidak diubah tetap gunakan yang lama
         ]);
 
         $sesi = SesiUjianModel::findOrFail($id);
@@ -160,6 +161,7 @@ class SesiJadwalController extends Controller
             'nama_sesi'     => $request->nama_sesi,
             'waktu_mulai'   => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
+            'kapasitas'     => $request->kapasitas, // Jika kapasitas tidak diubah, tetap gunakan yang lama
         ]);
 
         return redirect()->route('admin.sesi.index', $sesi->id_jadwal)

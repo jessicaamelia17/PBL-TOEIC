@@ -27,23 +27,36 @@
     <div class="card mb-3">
         <div class="card-header">Tambah Sesi</div>
         <div class="card-body">
+            @php
+                $maxSesi = 2;
+                $jumlahSesi = $jadwal->sesi->count();
+                $disableTambah = $jumlahSesi >= $maxSesi;
+            @endphp
             <form action="{{ route('admin.sesi.storeSesi', $jadwal->id_jadwal) }}" method="POST">
                 @csrf
                 <div class="row mb-2">
                     <div class="col">
-                        <input type="text" name="nama_sesi" class="form-control" placeholder="Nama Sesi" required>
+                        <input type="text" name="nama_sesi" class="form-control" placeholder="Nama Sesi" required {{ $disableTambah ? 'disabled' : '' }}>
                     </div>
                     <div class="col">
-                        <input type="time" name="waktu_mulai" class="form-control" placeholder="Jam Mulai" required>
+                        <input type="time" name="waktu_mulai" class="form-control" placeholder="Jam Mulai" required {{ $disableTambah ? 'disabled' : '' }}>
                     </div>
                     <div class="col">
-                        <input type="time" name="waktu_selesai" class="form-control" placeholder="Jam Selesai" required>
+                        <input type="time" name="waktu_selesai" class="form-control" placeholder="Jam Selesai" required {{ $disableTambah ? 'disabled' : '' }}>
                     </div>
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <input type="number" name="kapasitas" class="form-control" placeholder="Kapasitas" required {{ $disableTambah ? 'disabled' : '' }}>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary" {{ $disableTambah ? 'disabled style=background:#ccc;border-color:#ccc;cursor:not-allowed;' : '' }}>
+                            Tambah
+                        </button>
                     </div>
                 </div>
             </form>
+            @if($disableTambah)
+                <div class="text-danger small mt-2">Jumlah sesi maksimal untuk jadwal ini adalah 2.</div>
+            @endif
         </div>
     </div>
 
@@ -51,7 +64,11 @@
     @foreach ($jadwal->sesi as $sesi)
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Sesi: <strong>{{ $sesi->nama_sesi }}</strong> ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})</span>
+            <span>
+                Sesi: <strong>{{ $sesi->nama_sesi }}</strong>
+                ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})
+                | Kapasitas: <strong>{{ $sesi->kapasitas }}</strong>
+            </span>
             <div>
                 <a href="{{ route('admin.sesi.edit', $sesi->id_sesi) }}" class="btn btn-warning btn-sm">Edit</a>
                 <form action="{{ route('admin.sesi.destroy', $sesi->id_sesi) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Hapus sesi ini?')">
@@ -126,9 +143,11 @@
     @endforeach
 
     {{-- Tombol bagi peserta --}}
+    @if($jadwal->sesi->count() > 0)
     <div class="mt-4">
         <button class="btn btn-success" onclick="bagiPeserta({{ $jadwal->id_jadwal }})">Bagi Peserta ke Sesi & Room</button>
     </div>
+    @endif
 </div>
 
 <script>

@@ -12,11 +12,15 @@
         </div>
         <div class="mb-3">
             <label>Jam Mulai</label>
-            <input type="time" name="jam_mulai" value="{{ $sesi->jam_mulai }}" class="form-control">
+            <input type="time" name="waktu_mulai" value="{{ substr($sesi->waktu_mulai, 0, 5) }}" class="form-control">
         </div>
         <div class="mb-3">
             <label>Jam Selesai</label>
-            <input type="time" name="jam_selesai" value="{{ $sesi->jam_selesai }}" class="form-control">
+            <input type="time" name="waktu_selesai" value="{{ substr($sesi->waktu_selesai, 0, 5) }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Kapasitas</label>
+            <input type="number" name="kapasitas" value="{{ $sesi->kapasitas }}" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>

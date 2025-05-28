@@ -17,24 +17,24 @@
                     <i class="fas fa-calendar-alt fs-4"></i>
                 </div>
                 <div class="ms-3">
-                    <h3 class="mb-0 fw-semibold">Daftar Jadwal Ujian TOEIC</h3>
-                    <p class="text-muted mb-0">Lihat dan kelola peserta berdasarkan jadwal ujian.</p>
+                    <h3 class="mb-0 fw-semibold">TOEIC Exam Schedule List</h3>
+                    <p class="text-muted mb-0">View and manage participants based on the exam schedule.</p>
                 </div>
             </div>
 
             @if($jadwal->isEmpty())
                 <div class="alert alert-secondary text-center rounded-3 p-4">
                     <i class="fas fa-info-circle fs-4 text-muted mb-2 d-block"></i>
-                    <strong>Belum ada jadwal ujian.</strong><br>
-                    Tambahkan jadwal terlebih dahulu untuk melihat data peserta.
+                    <strong>No exam schedule available.</strong><br>
+                    Please add a schedule first to view participant data.
                 </div>
             @else
                 <div class="table-responsive">
                     <table class="table table-borderless align-middle">
                         <thead class="bg-light">
                             <tr class="text-muted text-uppercase small">
-                                <th style="width: 60%">Tanggal Ujian</th>
-                                <th class="text-center" style="width: 40%">Aksi</th>
+                                <th style="width: 60%">Exam Date</th>
+                                <th class="text-center" style="width: 40%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,7 +51,7 @@
                                     <td class="text-center">
                                         <a href="{{ route('mahasiswa.schedule.pendaftar', ['id' => $jadwalItem->id_jadwal]) }}"
                                            class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
-                                            <i class="fas fa-users me-1"></i> Lihat Peserta
+                                            <i class="fas fa-users me-1"></i> View Participants
                                         </a>
                                     </td>
                                 </tr>
