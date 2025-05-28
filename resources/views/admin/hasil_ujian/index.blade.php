@@ -5,21 +5,10 @@
     <div class="card-header">
         <h3 class="card-title">Data Hasil Ujian TOEIC</h3>
         <div class="card-tools">
-                <button id="toggleImportForm" class="btn btn-success">                <i class="fas fa-file-import"></i> Import CSV
+            <button class="btn btn-success" data-toggle="modal" data-target="#importCSVModal">
+                <i class="fas fa-file-import"></i> Import CSV
             </button>
         </div>
-    </div>
-
-    {{-- Form Import CSV (hidden default) --}}
-    <div id="importFormContainer" class="card-body d-none border-bottom">
-        <form action="{{ route('admin.hasil-ujian.import') }}" method="POST" enctype="multipart/form-data" class="d-flex gap-2 align-items-center flex-wrap" style="max-width: 480px; margin-left: auto;">
-            @csrf
-            <input type="file" name="file" accept=".csv" required class="form-control form-control-sm" style="max-width: 300px;">
-            <button type="submit" class="btn btn-primary btn-sm">
-                <i class="fas fa-upload"></i> Upload CSV
-            </button>
-            <button type="button" id="cancelImportForm" class="btn btn-secondary btn-sm">Batal</button>
-        </form>
     </div>
 
     <div class="card-body">
@@ -53,10 +42,10 @@
                     <tr>
                         <td class="text-center">{{ $results->firstItem() + $index }}</td>
                         <td>{{ $item->Nama }}</td>
-                        <td class="text-center">{{ $item->NIM }}</td>
-                        <td class="text-center">{{ $item->Listening_1 }}</td>
-                        <td class="text-center">{{ $item->Reading_1 }}</td>
-                        <td class="text-center">{{ $item->Skor_1 }}</td>
+                        <td class="text-center">{{ $item->NIM}}</td>
+                        <td class="text-center">{{ $item->Listening}}</td>
+                        <td class="text-center">{{ $item->Reading}}</td>
+                        <td class="text-center">{{ $item->Skor}}</td>
                         <td class="text-center">{{ $item->Listening_2 }}</td>
                         <td class="text-center">{{ $item->Reading_2 }}</td>
                         <td class="text-center">{{ $item->Skor_2 }}</td>
@@ -73,28 +62,44 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Import CSV -->
+<div class="modal fade" id="importCSVModal" tabindex="-1" aria-labelledby="importCSVModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('admin.hasil-ujian.import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="importCSVModalLabel">Import Hasil Ujian TOEIC</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <div class="form-group mb-3">
+            <label for="file">Pilih File</label>
+            <input type="file" name="file" accept=".csv" required class="form-control" id="file">
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('js')
 <script>
-    // Toggle form Import CSV tampil/sembunyi
-    document.getElementById('toggleImportForm').addEventListener('click', function () {
-        document.getElementById('importFormContainer').classList.toggle('d-none');
-    });
-
-    // Tombol batal sembunyikan form
-    document.getElementById('cancelImportForm').addEventListener('click', function () {
-        document.getElementById('importFormContainer').classList.add('d-none');
-    });
-
-    // DataTable init
     $(document).ready(function () {
         $('#table_hasil_ujian').DataTable({
             paging: false,
             searching: true,
             info: false,
             ordering: true,
-            order: [[9, 'desc']] // Urutkan berdasarkan tanggal ujian
+            order: [[9, 'desc']]
         });
     });
 </script>

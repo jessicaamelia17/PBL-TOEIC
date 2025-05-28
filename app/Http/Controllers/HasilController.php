@@ -11,9 +11,8 @@ class HasilController extends Controller
     public function index()
     {
         $results = HasilUjian::all()->map(function ($r) {
-            $r->Skor = $r->Listening + $r->Reading;
-            $r->Skor_2 = $r->Listening_2 + $r->Reading_2;
-            $r->Status = $r->Skor_2 >= 700 ? 'Lulus' : 'Tidak Lulus';
+            $r->Skor = $r->Skor ?? 0; // default kalau null
+            $r->Status = $r->Skor >= 700 ? 'Lulus' : 'Tidak Lulus';
             return $r;
         });
 
@@ -23,9 +22,8 @@ class HasilController extends Controller
     public function viewPdf($id)
     {
         $hasil = HasilUjian::findOrFail($id);
-        $hasil->Skor = $hasil->Listening + $hasil->Reading;
-        $hasil->Skor_2 = $hasil->Listening_2 + $hasil->Reading_2;
-        $hasil->Status = $hasil->Skor_2 >= 700 ? 'Lulus' : 'Tidak Lulus';
+        $hasil->Skor = $hasil->Skor ?? 0;
+        $hasil->Status = $hasil->Skor >= 700 ? 'Lulus' : 'Tidak Lulus';
 
         $pdf = PDF::loadView('pdf.hasil-individu', compact('hasil'));
         return $pdf->stream('Hasil_TOEIC_' . $hasil->NIM . '.pdf');
@@ -34,9 +32,8 @@ class HasilController extends Controller
     public function downloadPdf($id)
     {
         $hasil = HasilUjian::findOrFail($id);
-        $hasil->Skor = $hasil->Listening + $hasil->Reading;
-        $hasil->Skor_2 = $hasil->Listening_2 + $hasil->Reading_2;
-        $hasil->Status = $hasil->Skor_2 >= 700 ? 'Lulus' : 'Tidak Lulus';
+        $hasil->Skor = $hasil->Skor ?? 0;
+        $hasil->Status = $hasil->Skor >= 700 ? 'Lulus' : 'Tidak Lulus';
 
         $pdf = PDF::loadView('pdf.hasil-individu', compact('hasil'));
         return $pdf->download('Hasil_TOEIC_' . $hasil->NIM . '.pdf');
@@ -45,9 +42,8 @@ class HasilController extends Controller
     public function viewAllPdf()
     {
         $results = HasilUjian::all()->map(function ($r) {
-            $r->Skor = $r->Listening + $r->Reading;
-            $r->Skor_2 = $r->Listening_2 + $r->Reading_2;
-            $r->Status = $r->Skor_2 >= 700 ? 'Lulus' : 'Tidak Lulus';
+            $r->Skor = $r->Skor ?? 0;
+            $r->Status = $r->Skor >= 700 ? 'Lulus' : 'Tidak Lulus';
             return $r;
         });
 
@@ -58,9 +54,8 @@ class HasilController extends Controller
     public function downloadAllPdf()
     {
         $results = HasilUjian::all()->map(function ($r) {
-            $r->Skor = $r->Listening + $r->Reading;
-            $r->Skor_2 = $r->Listening_2 + $r->Reading_2;
-            $r->Status = $r->Skor_2 >= 700 ? 'Lulus' : 'Tidak Lulus';
+            $r->Skor = $r->Skor ?? 0;
+            $r->Status = $r->Skor >= 700 ? 'Lulus' : 'Tidak Lulus';
             return $r;
         });
 

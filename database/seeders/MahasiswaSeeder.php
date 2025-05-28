@@ -53,6 +53,7 @@ class MahasiswaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'alamat' => 'Jl. SImpang Remujung No.21',
+                'alamat' => 'Jl. Kembang Turi No.20',
                 'tmpt_lahir' => 'Blitar',
                 'password' => Hash::make('valina123'),
             ],

@@ -21,4 +21,13 @@ class HasilUjian extends Model
     ];
 
     public $timestamps = true; // Gunakan timestamps jika tabel pakai created_at & updated_at
+        // Relasi ke peserta pendaftaran
+    public function peserta()
+    {
+        return $this->hasMany(RegistrasiModel::class, 'id_room', 'id_room');
+    }
+   public function jadwal()
+    {
+        return $this->belongsTo(JadwalUjianModel::class, 'id_jadwal', 'Id_Jadwal');
+    }
 }
