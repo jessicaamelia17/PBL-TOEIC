@@ -1,11 +1,11 @@
 <style>
     /* Warna teks default untuk semua link menu di sidebar */
-    .nav-sidebar .nav-item > .nav-link {
+    .nav-sidebar .nav-item>.nav-link {
         color: white !important;
     }
 
     /* Style untuk link menu yang aktif */
-    .nav-sidebar .nav-item > .nav-link.active {
+    .nav-sidebar .nav-item>.nav-link.active {
         background-color: white !important;
         /* Latar belakang putih saat aktif */
         color: #3452F9 !important;
@@ -13,7 +13,7 @@
     }
 
     /* Style untuk ikon di dalam link menu yang aktif */
-    .nav-sidebar .nav-item > .nav-link.active i {
+    .nav-sidebar .nav-item>.nav-link.active i {
         color: #3452F9 !important;
         /* Warna ikon biru saat aktif */
     }
@@ -21,6 +21,18 @@
     /* Style untuk ikon tombol search di sidebar */
     .sidebar .form-inline .btn-sidebar i {
         color: white;
+    }
+
+    .nav-sidebar .nav-item>.nav-link.logout-link,
+    .nav-sidebar .nav-item>.nav-link.logout-link p,
+    .nav-sidebar .nav-item>.nav-link.logout-link i {
+        color: #e3342f !important;
+        /* merah */
+    }
+
+    .nav-sidebar .nav-item>.nav-link.logout-link.active {
+        background-color: #fff0f0 !important;
+        color: #e3342f !important;
     }
 </style>
 
@@ -45,21 +57,24 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
-                <a href="{{ url('/admin/home') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'dashboard') ? 'active' : '' }}">
+                <a href="{{ url('/admin/home') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.profile') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'profile') ? 'active' : '' }}">
+                <a href="{{ route('admin.profile') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profil Admin</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.pendaftar.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'pendaftar') ? 'active' : '' }}">
+                <a href="{{ route('admin.pendaftar.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'pendaftar' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-check"></i>
                     <p>Data Pendaftaran</p>
                 </a>
@@ -67,50 +82,56 @@
 
 
             <li class="nav-item">
-                <a href="{{ route('admin.jadwal.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'jadwal') ? 'active' : '' }}">
+                <a href="{{ route('admin.jadwal.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'jadwal' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar-alt"></i>
                     <p>Kelola Jadwal & Kuota</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.surat.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'surat') ? 'active' : '' }}">
+                <a href="{{ route('admin.surat.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'surat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>Surat Pengajuan</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.pengumuman.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'pengumuman') ? 'active' : '' }}">
+                <a href="{{ route('admin.pengumuman.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'pengumuman' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-upload"></i>
                     <p>Upload Pengumuman</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.hasil-ujian.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'hasil-ujian') ? 'active' : '' }}">
+                <a href="{{ route('admin.hasil-ujian.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'hasil-ujian' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-alt"></i>
                     <p>Hasil Ujian</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.mahasiswa.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'mahasiswa') ? 'active' : '' }}">
+                <a href="{{ route('admin.mahasiswa.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'mahasiswa' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-alt"></i>
                     <p>Data Mahasiswa</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.admin.sertifikat.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'sertifikat') ? 'active' : '' }}">
+                <a href="{{ route('admin.admin.sertifikat.index') }}"
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'sertifikat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-alt"></i>
                     <p>Pengambilan Sertifikat</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link text-danger"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="#" class="nav-link logout-link"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                 </a>
