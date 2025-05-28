@@ -44,11 +44,12 @@ use App\Http\Controllers\PengajuanSuratController;
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 //============================Route Mahasiswa ========================
 // 🔑 Login (Bisa diakses oleh umum)
-Route::get('/login-toeic', function () {
-    return view('auth.mahasiswa.login');
-})->name('login-toeic');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
-Route::post('/login-toeic', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // 🔐 Routes yang memerlukan login mahasiswa
 Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(function () {
@@ -81,7 +82,7 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::delete('/surat/hapus-sertifikat', [PengajuanSuratController::class, 'hapusSertifikat'])->name('surat.hapusSertifikat');
 
     // 🚪 Logout dari sistem TOEIC
-    Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
+    // Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
 
 //====================================================================================================
@@ -116,11 +117,11 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 */
 
 // Auth - Login/Register Admin
-Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
-Route::post('/login', [AdminAuthController::class, 'postlogin']);
-Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
-Route::post('/register', [AdminAuthController::class, 'store']);
-Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
+// Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
+// Route::post('/login', [AdminAuthController::class, 'postlogin']);
+// Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
+// Route::post('/register', [AdminAuthController::class, 'store']);
+// Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
