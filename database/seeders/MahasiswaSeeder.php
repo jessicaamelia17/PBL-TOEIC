@@ -52,10 +52,9 @@ class MahasiswaSeeder extends Seeder
                 'no_hp' => '081249135132',
                 'created_at' => now(),
                 'updated_at' => now(),
-<<<<<<< HEAD
-                'alamat' => 'Jl. Kembang Turi No.20',
+                'alamat' => 'Jl. SImpang Remujung No.21',
                 'tmpt_lahir' => 'Blitar',
-                'password' => Hash::make('jessi123'),
+                'password' => Hash::make('valina123'),
             ],
             [
                 'nim' => '2341760066',
@@ -67,11 +66,9 @@ class MahasiswaSeeder extends Seeder
                 'alamat' => 'Jl. Soekarno Hatta Indah IV No. 21B',
                 'tmpt_lahir' => 'Mojokerto',
                 'password' => Hash::make('linoo123'),
-=======
                 'alamat' => 'Jl. Kembang Turi No.02',
                 'tmpt_lahir' => 'Tulungagung',
                 'password' => Hash::make('verenregina214'),
->>>>>>> 9f4b4eb370908fb0c9d22d67fa6eaf4578d19e74
             ]
         ]);
     }
