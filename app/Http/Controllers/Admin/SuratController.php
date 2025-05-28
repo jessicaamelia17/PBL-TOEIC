@@ -18,7 +18,10 @@ class SuratController extends Controller
     
         $activeMenu = 'surat';
     
-        $pengajuan = SuratPengajuan::with('mahasiswa')->get(); // pastikan ada relasi 'mahasiswa'
+        $pengajuan = SuratPengajuan::with('mahasiswa')
+        ->orderByRaw("FIELD(status_verifikasi, 'menunggu', 'disetujui', 'ditolak')")
+        ->orderBy('tanggal_pengajuan', 'desc')
+        ->get();
     
         return view('admin.surat.index', compact('breadcrumb', 'activeMenu', 'pengajuan'));
     }
@@ -93,7 +96,21 @@ class SuratController extends Controller
         return view('admin.surat.detail', compact('surat'));
     }
     
-
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status_verifikasi' => 'required|in:disetujui,ditolak',
+            'catatan' => 'nullable|string'
+        ]);
+    
+        $surat = SuratPengajuan::findOrFail($id);
+        $surat->status_verifikasi = $request->status_verifikasi;
+        $surat->tanggal_verifikasi = now();
+        $surat->catatan = $request->catatan;
+        $surat->save();
+    
+        return redirect()->route('admin.surat.index')->with('success', 'Status pengajuan berhasil diperbarui.');
+    }
     
 
 }

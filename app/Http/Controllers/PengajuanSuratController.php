@@ -115,6 +115,36 @@ public function pengajuanSurat()
     return view('mahasiswa.surat', compact('mahasiswa', 'pengajuan', 'sertifikat'));
 }
 
+public function uploadUlang(Request $request)
+{
+    $request->validate([
+        'file_sertifikat' => 'required|mimes:pdf|max:5120',
+    ]);
+
+    $pengajuan = SuratPengajuan::where('NIM', auth()->user()->nim)
+        ->where('status_verifikasi', 'ditolak')
+        ->latest()
+        ->first();
+
+    if (!$pengajuan) {
+        return back()->with('error', 'Pengajuan tidak ditemukan atau tidak dalam status ditolak.');
+    }
+
+    // Hapus file lama jika ada
+    if ($pengajuan->file_sertifikat && Storage::disk('public')->exists($pengajuan->file_sertifikat)) {
+        Storage::disk('public')->delete($pengajuan->file_sertifikat);
+    }
+
+    // Simpan file baru
+    $file = $request->file('file_sertifikat')->store('sertifikat', 'public');
+    $pengajuan->file_sertifikat = $file;
+    $pengajuan->status_verifikasi = 'menunggu'; // Set status jadi baru
+    $pengajuan->catatan = null; // Reset catatan
+    $pengajuan->tanggal_verifikasi = null; // Reset tanggal verifikasi
+    $pengajuan->save();
+
+    return back()->with('success', 'Sertifikat berhasil diupload ulang. Pengajuan Anda akan diproses ulang oleh admin.');
+}
 
 
 }

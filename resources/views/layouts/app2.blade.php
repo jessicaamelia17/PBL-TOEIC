@@ -72,7 +72,7 @@
 
 
     {{-- Konten --}}
-    <main class="flex-grow pt-24">
+    <main class="flex-grow pt-24 pb-24" >
         {{-- Breadcrumb --}}
         @hasSection('breadcrumb')
             @yield('breadcrumb')

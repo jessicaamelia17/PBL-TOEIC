@@ -72,6 +72,7 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::post('/surat/upload-sertifikat', [PengajuanSuratController::class, 'uploadSertifikat'])->name('surat.uploadSertifikat');
     Route::delete('/surat/hapus-sertifikat', [PengajuanSuratController::class, 'hapusSertifikat'])->name('surat.hapusSertifikat');
 
+    Route::post('/surat/upload-ulang', [PengajuanSuratController::class, 'uploadUlang'])->name('surat.uploadUlang');
     // 🚪 Logout dari sistem TOEIC
     // Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
@@ -188,7 +189,8 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
 
     Route::prefix('surat')->name('surat.')->group(function () {
         Route::get('/', [SuratController::class, 'index'])->name('index');
-        Route::get('/{id}', [SuratController::class, 'show'])->name('show'); // 👈 Tambahkan ini
+        Route::get('/{id}', [SuratController::class, 'show'])->name('show'); 
+        Route::post('/{id}/update_status', [SuratController::class, 'updateStatus'])->name('update_status');
         // ...
     });
     // Data Mahasiswa
