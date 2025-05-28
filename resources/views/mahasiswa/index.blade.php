@@ -26,6 +26,11 @@
                                 class="mt-6 inline-flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
                                 <i class="fa fa-edit mr-2"></i>Edit Profile
                             </a>
+                            <!-- Tombol Reset Password -->
+                            <a href="{{ route('mahasiswa.resetPassword.form', $mahasiswa->nim) }}"
+                                class="mt-3 inline-flex items-center bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
+                                <i class="fa fa-key mr-2"></i>Reset Password
+                            </a>
                         </div>
                         <div class="text-gray-800 text-base w-full">
                             <h2 class="text-2xl font-bold mb-2 text-blue-700">{{ $mahasiswa->nama ?? '-' }}</h2>
@@ -76,6 +81,40 @@
                                 {{ $mahasiswa->created_at ? $mahasiswa->created_at->format('d M Y H:i') : '-' }}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- Modal Reset Password -->
+                <div id="resetPasswordModal"
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 z-50 hidden">
+                    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                        <h2 class="text-xl font-bold mb-4 text-blue-700">Reset Password</h2>
+                        <div id="resetPasswordMsg"></div>
+                        <form id="resetPasswordForm" method="POST"
+                            action="{{ route('mahasiswa.resetPassword', $mahasiswa->nim) }}">
+                            @csrf
+                            <div class="mb-4">
+                                <label class="block text-gray-700 font-semibold mb-2">Password Lama</label>
+                                <input type="password" name="current_password" required
+                                    class="w-full border rounded px-3 py-2" />
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 font-semibold mb-2">Password Baru</label>
+                                <input type="password" name="new_password" required minlength="8"
+                                    class="w-full border rounded px-3 py-2" />
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-semibold mb-2">Konfirmasi Password Baru</label>
+                                <input type="password" name="new_password_confirmation" required minlength="8"
+                                    class="w-full border rounded px-3 py-2" />
+                            </div>
+                            <div class="flex justify-end gap-2">
+                                <button type="button"
+                                    onclick="document.getElementById('resetPasswordModal').classList.add('hidden')"
+                                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</button>
+                                <button type="submit"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Reset</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             @else

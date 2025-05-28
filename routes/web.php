@@ -28,18 +28,6 @@ use App\Http\Controllers\PengajuanSuratController;
 // =============================
 
 //login & register mahasiswa
-// Route::get('/login-toeic', [AuthController::class, 'showLogin'])->name('login-toeic');
-// Route::post('/login-toeic', [AuthController::class, 'login']);
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-// Route::get('/register-user', [RegisterUserController::class, 'showRegister'])->name('register-user');
-// Route::post('/register-user', [RegisterUserController::class, 'register']);
-// // Halaman utama mahasiswa
-// Route::get('/profile', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
-// // Edit profile mahasiswa (form edit)
-// Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
-// // Update profile mahasiswa (proses update)
-// Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
-// Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
 // 🏠 Halaman Login TOEIC
 // 🏠 Landing Page (Bisa diakses oleh umum)
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -60,6 +48,8 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::get('/profile/edit/{nim}', [MahasiswaController::class, 'edit'])->name('edit');
     // Update profile mahasiswa (proses update)
     Route::put('/profile/edit/{nim}', [MahasiswaController::class, 'update'])->name('update');
+    Route::get('/reset-password/{nim}', [MahasiswaController::class, 'resetPasswordForm'])->name('resetPassword.form');
+    Route::post('/reset-password/{nim}', [MahasiswaController::class, 'resetPassword'])->name('resetPassword');
     // 📝 Pengumuman (Hanya bisa diakses oleh pengguna yang login)
     Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
     Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
@@ -117,12 +107,6 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 |--------------------------------------------------------------------------
 */
 
-// Auth - Login/Register Admin
-// Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
-// Route::post('/login', [AdminAuthController::class, 'postlogin']);
-// Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
-// Route::post('/register', [AdminAuthController::class, 'store']);
-// Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
@@ -211,11 +195,9 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::post('/list', [ControllerMahasiswa::class, 'list'])->name('list');
         Route::get('/get-prodi/{id_jurusan}', [ControllerMahasiswa::class, 'getProdiByJurusan'])->name('getProdi');
         Route::post('/import', [ControllerMahasiswa::class, 'import_ajax'])->name('import_ajax');
-
     });
     // Pengambilan Sertifikat
     Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
     });
-
 });

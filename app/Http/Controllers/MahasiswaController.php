@@ -7,6 +7,7 @@ use App\Models\JurusanModel;
 use App\Models\ProdiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
@@ -117,5 +118,35 @@ class MahasiswaController extends Controller
     {
         $prodis = ProdiModel::where('Id_Jurusan', $id_jurusan)->get(['Id_Prodi', 'Nama_Prodi']);
         return response()->json($prodis);
+    }
+    public function resetPasswordForm($nim)
+    {
+        $mahasiswa = Mahasiswa::findOrFail($nim);
+        return view('mahasiswa.reset-password', compact('mahasiswa'));
+    }
+    public function resetPassword(Request $request, $nim)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $mahasiswa = Mahasiswa::findOrFail($nim);
+
+        if (!Hash::check($request->current_password, $mahasiswa->password)) {
+            $msg = ['current_password' => ['Password lama salah.']];
+            if ($request->expectsJson()) {
+                return response()->json(['errors' => $msg], 422);
+            }
+            return back()->withErrors($msg)->withInput();
+        }
+
+        $mahasiswa->password = Hash::make($request->new_password);
+        $mahasiswa->save();
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Password berhasil direset.']);
+        }
+        return back()->with('success', 'Password berhasil direset.');
     }
 }
