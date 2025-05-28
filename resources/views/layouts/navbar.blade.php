@@ -16,15 +16,34 @@
         </div>
 
         <!-- Desktop Menu -->
-        <ul class="hidden md:flex space-x-6 items-center">
-            <li><a href="{{ url('/') }}"
-                    class="hover:underline {{ request()->is('/') ? 'font-bold' : '' }}">Home</a></li>
-            <li><a href="{{ route('mahasiswa.schedule.index') }}"
-                    class="hover:underline {{ request()->is('schedule') ? 'font-bold' : '' }}">Schedule</a></li>
-            <li><a href="{{ url('/hasil-ujian') }}"
-                    class="hover:underline {{ request()->is('/hasil-ujian') ? 'font-bold' : '' }}">Results</a></li>
-            <li><a href="#" class="hover:underline">Guide</a></li>
-            <li><a href="#" class="hover:underline">Contact</a></li>
+        <ul class="hidden md:flex space-x-2 items-center">
+            <li>
+                <a href="{{ url('/') }}"
+                    class="px-3 py-1 rounded transition {{ request()->is('/') ? 'font-bold bg-white/20 text-white' : 'hover:underline' }}">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('mahasiswa.schedule.index') }}"
+                    class="px-3 py-1 rounded transition {{ request()->routeIs('mahasiswa.schedule.index') ? 'font-bold bg-white/20 text-white' : 'hover:underline' }}">
+                    Schedule
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/hasil-ujian') }}"
+                    class="px-3 py-1 rounded transition {{ request()->is('hasil-ujian') ? 'font-bold bg-white/20 text-white' : 'hover:underline' }}">
+                    Results
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/panduan') }}"
+                    class="px-3 py-1 rounded transition {{ request()->is('panduan') ? 'font-bold bg-white/20 text-white' : 'hover:underline' }}">
+                    Guide
+                </a>
+            </li>
+            <li>
+                <a href="#" class="px-3 py-1 rounded transition hover:underline">Contact</a>
+            </li>
 
             @if (Auth::check())
                 <li class="relative" x-data="{ openDropdown: false }" @click.away="openDropdown = false">

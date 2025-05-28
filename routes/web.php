@@ -14,8 +14,6 @@ use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\SesiJadwalController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\RegisterUserController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
 use App\Http\Controllers\Admin\KuotaController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
