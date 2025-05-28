@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
 use App\Http\Controllers\Admin\KuotaController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
+use App\Http\Controllers\Admin\SertifikatController;
 use App\Http\Controllers\PengajuanSuratController;
 
 
@@ -210,4 +211,9 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::post('/import', [ControllerMahasiswa::class, 'import_ajax'])->name('import_ajax');
 
     });
+    // Pengambilan Sertifikat
+    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+    });
+
 });

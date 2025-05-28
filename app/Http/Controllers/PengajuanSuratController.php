@@ -25,7 +25,8 @@ class PengajuanSuratController extends Controller
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
         }
 
-        $pengajuan = SuratPengajuan::where('NIM', $mahasiswa->NIM)->latest()->first();
+         $pengajuan = SuratPengajuan::whereRaw('LOWER(NIM) = ?', [strtolower($mahasiswa->nim)])->latest()->first();
+
 
         if ($pengajuan && $pengajuan->file_sertifikat) {
             // Kalau sudah pernah mengajukan dan ada file, pakai dari DB
@@ -103,9 +104,9 @@ class PengajuanSuratController extends Controller
 }
 public function pengajuanSurat()
 {
-    $mahasiswa = Mahasiswa::where('nim', auth()->user()->nim)->first();
+    $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim)->first();
 
-    $pengajuan = SuratPengajuan::where('nim', auth()->user()->nim)
+    $pengajuan = SuratPengajuan::where('NIM', auth()->user()->nim)
         ->latest()
         ->first();
 

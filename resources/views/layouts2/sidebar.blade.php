@@ -94,6 +94,13 @@
             </li>
 
             <li class="nav-item">
+                <a href="{{ route('admin.admin.sertifikat.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'sertifikat') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>Pengambilan Sertifikat</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="#" class="nav-link text-danger"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
