@@ -17,7 +17,6 @@ class JadwalUjianModel extends Model
         'Tanggal_Ujian',
         'kuota_max',
         'kuota_terpakai',
-        'status_registrasi',
     ];
 
     public function getRouteKeyName()
@@ -34,5 +33,10 @@ class JadwalUjianModel extends Model
     public function getIdJadwalAttribute()
     {
         return $this->attributes['Id_Jadwal'];
+    }
+        // Relasi ke peserta pendaftaran
+    public function peserta()
+    {
+        return $this->hasMany(RegistrasiModel::class, 'id_room', 'id_room');
     }
 }

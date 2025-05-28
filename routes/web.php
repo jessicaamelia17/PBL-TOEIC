@@ -45,11 +45,12 @@ use App\Http\Controllers\PengajuanSuratController;
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 //============================Route Mahasiswa ========================
 // 🔑 Login (Bisa diakses oleh umum)
-Route::get('/login-toeic', function () {
-    return view('auth.mahasiswa.login');
-})->name('login-toeic');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
-Route::post('/login-toeic', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // 🔐 Routes yang memerlukan login mahasiswa
 Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(function () {
@@ -82,7 +83,7 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::delete('/surat/hapus-sertifikat', [PengajuanSuratController::class, 'hapusSertifikat'])->name('surat.hapusSertifikat');
 
     // 🚪 Logout dari sistem TOEIC
-    Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
+    // Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
 
 //====================================================================================================
@@ -117,11 +118,11 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 */
 
 // Auth - Login/Register Admin
-Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
-Route::post('/login', [AdminAuthController::class, 'postlogin']);
-Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
-Route::post('/register', [AdminAuthController::class, 'store']);
-Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
+// Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
+// Route::post('/login', [AdminAuthController::class, 'postlogin']);
+// Route::get('/register', [AdminAuthController::class, 'register'])->name('register');
+// Route::post('/register', [AdminAuthController::class, 'store']);
+// Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
@@ -152,32 +153,33 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/detail/{id}', [PendaftarController::class, 'show'])->name('show');
     });
 
-    // Jadwal Ujian
+    // Rute Jadwal Ujian
     Route::prefix('jadwal')->name('jadwal.')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('index');
         Route::get('/{jadwal}/edit', [JadwalController::class, 'edit'])->name('edit');
         Route::put('/{jadwal}', [JadwalController::class, 'update'])->name('update');
 
-        // Sesi dan Room
-        Route::get('/{id}/sesi', [SesiJadwalController::class, 'index'])->name('sesi.index');
-        Route::post('/{id}/sesi', [SesiJadwalController::class, 'storeSesi'])->name('sesi.store');
-        Route::post('/{id}/room', [SesiJadwalController::class, 'storeRoom'])->name('room.store');
+        // Buat bagi peserta ke sesi dan room tetap di sini karena terkait jadwal, tetap di controller sesi
         Route::post('/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('bagi-peserta');
     });
 
-    // CRUD Sesi
+    // CRUD Sesi (di SesiJadwalController)
     Route::prefix('sesi')->name('sesi.')->group(function () {
+        Route::get('/{id}', [SesiJadwalController::class, 'index'])->name('index');
         Route::get('/{id}/edit', [SesiJadwalController::class, 'edit'])->name('edit');
+        Route::post('/{id}/store-sesi', [SesiJadwalController::class, 'storeSesi'])->name('storeSesi');
         Route::put('/{id}', [SesiJadwalController::class, 'update'])->name('update');
         Route::delete('/{id}', [SesiJadwalController::class, 'destroy'])->name('destroy');
     });
 
-    // CRUD Room
+    // CRUD Room (pindah ke RoomController)
     Route::prefix('room')->name('room.')->group(function () {
-        Route::get('/{id}/edit', [SesiJadwalController::class, 'editRoom'])->name('edit');
-        Route::put('/{id}', [SesiJadwalController::class, 'updateRoom'])->name('update');
-        Route::delete('/{id}', [SesiJadwalController::class, 'destroyRoom'])->name('destroy');
+        Route::get('/{id}/edit', [SesiJadwalController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [SesiJadwalController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SesiJadwalController::class, 'destroy'])->name('destroy');
+        Route::post('/store-room/{id_sesi}', [SesiJadwalController::class, 'storeRoom'])->name('storeRoom'); // Tambahan: jika ada tambah room
     });
+
 
     // Pengumuman
     Route::prefix('pengumumans')->name('pengumuman.')->group(function () {
