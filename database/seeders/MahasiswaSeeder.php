@@ -52,9 +52,10 @@ class MahasiswaSeeder extends Seeder
                 'no_hp' => '081249135132',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'alamat' => 'Jl. SImpang Remujung No.21',
                 'alamat' => 'Jl. Kembang Turi No.20',
                 'tmpt_lahir' => 'Blitar',
-                'password' => Hash::make('jessi123'),
+                'password' => Hash::make('valina123'),
             ],
             [
                 'nim' => '2341760066',
