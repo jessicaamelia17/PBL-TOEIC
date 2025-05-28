@@ -6,27 +6,26 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
-    protected $table = 'admin'; // atau 'admins' sesuai nama tabel Anda
+    protected $table = 'admin'; // Sesuaikan jika tabelnya 'admins'
 
-    protected $primaryKey = 'Id_Admin'; // jika pakai primary key custom
-
+    protected $primaryKey = 'Id_Admin'; // Jika memang primary key-nya ini
 
     protected $fillable = [
-        'Username',
-        'Password',
+        'username',
+        'password',
     ];
 
     protected $hidden = [
-        'Password',
+        'password',
     ];
 
     public function getAuthIdentifierName()
     {
-        return 'Id_Admin';
+        return 'Id_Admin'; // Pastikan field ini unik
     }
 
     public function getAuthPassword()
     {
-        return $this->Password;
+        return $this->password;
     }
 }
