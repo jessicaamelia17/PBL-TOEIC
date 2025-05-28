@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;    
 use App\Imports\HasilUjianImport;
+use App\Exports\HasilUjianExport;
 use App\Models\HasilUjian;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class HasilUjianController extends Controller
         ]);
     }
 
-public function import(Request $request)
+    public function import(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:csv,txt|max:2048'
@@ -52,7 +53,7 @@ public function import(Request $request)
                 return redirect()->back()->with('error', 'File CSV tidak memiliki data.');
             }
 
-            // Ambil header dan buang baris pertama
+            // Ambil header dan hapus baris pertama
             $header = array_map('trim', $data[0]);
             unset($data[0]);
 
@@ -75,9 +76,61 @@ public function import(Request $request)
                 ]);
             }
 
-            return redirect()->back()->with('success', 'Data hasil ujian berhasil diimpor!');
+            return redirect()->back()->with('success', 'Data berhasil diimport.');
+
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengimpor: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat import data: ' . $e->getMessage());
         }
+    }
+    public function exportForm()
+{
+    return view('admin.hasil_ujian.export', [
+        'activeMenu' => 'hasil-ujian'
+    ]);
+}
+
+public function export(Request $request)
+    {
+        $filename = 'hasil_ujian_export_' . date('Ymd_His') . '.csv';
+
+        $results = DB::table('hasil_ujian')->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $columns = [
+            'Nama', 'NIM', 'Listening', 'Reading', 'Skor',
+            'Listening_2', 'Reading_2', 'Skor_2',
+            'Tanggal_Ujian', 'Status', 'Created At', 'Updated At'
+        ];
+
+        $callback = function() use ($results, $columns) {
+            $file = fopen('php://output', 'w');
+            // Tulis header kolom
+            fputcsv($file, $columns);
+
+            foreach ($results as $row) {
+                fputcsv($file, [
+                    $row->Nama,
+                    $row->NIM,
+                    $row->Listening,
+                    $row->Reading,
+                    $row->Skor,
+                    $row->Listening_2,
+                    $row->Reading_2,
+                    $row->Skor_2,
+                    $row->Tanggal_Ujian,
+                    $row->Status,
+                    $row->created_at,
+                    $row->updated_at
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
