@@ -23,6 +23,35 @@ class ControllerPengumuman extends Controller
         return view('admin.pengumuman.index', compact('breadcrumb', 'activeMenu'));
     }
 
+    public function list(Request $request)
+    {
+        $data = Pengumuman::with('admin')->select('pengumuman.*');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('file_pengumuman', function ($row) {
+                return $row->file_pengumuman
+
+                    ? '<a href="' . asset(
+                        'storage/' . $row->file_pengumuman
+                    ) . '" target="_blank">Lihat File</a>'
+                    : '-';
+            })
+            ->addColumn('aksi', function ($row) {
+                $editUrl = route('admin.pengumuman.edit', $row->Id_Pengumuman);
+                $deleteUrl = route('admin.pengumuman.destroy', $row->Id_Pengumuman);
+                return '
+        <a href="' . $editUrl . '" class="btn btn-warning btn-sm me-1">Edit</a>
+        <form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Yakin hapus?\')">
+            ' . csrf_field() . method_field('DELETE') . '
+            <button class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+    ';
+            })
+            ->rawColumns(['file_pengumuman', 'aksi'])
+            ->make(true);
+    }
+
     public function create()
     {
         $breadcrumb = (object)[
@@ -66,39 +95,52 @@ class ControllerPengumuman extends Controller
         $pengumuman = Pengumuman::findOrFail($id);
 
         // Hapus file dari storage jika ada
-        if ($pengumuman->file_pengumuman) {
-            Storage::delete('public/' . $pengumuman->file_pengumuman);
-        }
+        // if ($pengumuman->file_pengumuman) {
+        //     Storage::delete('public/' . $pengumuman->file_pengumuman);
+        // }
 
         $pengumuman->delete();
 
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil dihapus.');
     }
 
-    public function list(Request $request)
+    public function edit($id)
     {
-        $data = Pengumuman::with('admin')->select('pengumuman.*');
+        $pengumuman = Pengumuman::findOrFail($id);
+        $breadcrumb = (object)[
+            'title' => 'Edit Pengumuman',
+            'list' => ['Home', 'Pengumuman', 'Edit']
+        ];
+        $activeMenu = 'pengumuman';
+        return view('admin.pengumuman.edit', compact('pengumuman', 'breadcrumb', 'activeMenu'));
+    }
 
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('file_pengumuman', function ($row) {
-                return $row->file_pengumuman
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi' => 'required|string',
+            'tanggal_pengumuman' => 'required|date',
+            'file_pengumuman' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+        ]);
 
-                    ? '<a href="' . asset(
-                        'storage/' . $row->file_pengumuman
-                    ) . '" target="_blank">Lihat File</a>'
-                    : '-';
-            })
-            ->addColumn('aksi', function ($row) {
-                $url = route('admin.pengumuman.destroy', $row->Id_Pengumuman);
-                return '
-                <form action="' . $url . '" method="POST" onsubmit="return confirm(\'Yakin hapus?\')">
-                    ' . csrf_field() . method_field('DELETE') . '
-                    <button class="btn btn-danger btn-sm">Hapus</button>
-                </form>
-                ';
-            })
-            ->rawColumns(['file_pengumuman', 'aksi'])
-            ->make(true);
+        $pengumuman = Pengumuman::findOrFail($id);
+
+        // Handle file upload
+        if ($request->hasFile('file_pengumuman')) {
+            // Hapus file lama jika ada
+            if ($pengumuman->file_pengumuman) {
+                Storage::delete('public/' . $pengumuman->file_pengumuman);
+            }
+            $filePath = $request->file('file_pengumuman')->store('uploads/pengumuman', 'public');
+            $pengumuman->file_pengumuman = $filePath;
+        }
+
+        $pengumuman->Judul = $request->judul;
+        $pengumuman->Isi = $request->isi;
+        $pengumuman->Tanggal_Pengumuman = $request->tanggal_pengumuman;
+        $pengumuman->save();
+
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diupdate.');
     }
 }

@@ -17,7 +17,7 @@ public function index()
 
 public function show($id)
 {
-    $pengumuman = \App\Models\Pengumuman::findOrFail($id);
+    $pengumuman = Pengumuman::findOrFail($id);
     return view('pengumuman.show', compact('pengumuman'));
 }
 

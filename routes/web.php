@@ -14,8 +14,6 @@ use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\SesiJadwalController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\RegisterUserController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SuratController;
 use App\Http\Controllers\Admin\KuotaController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
@@ -111,15 +109,15 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
-    Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
-        // Dashboard
-        Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
-        Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
+Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
+    // Dashboard
+    Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
 
-        // Profile Admin
-        Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
-        Route::post('/profile/update', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
-    
+    // Profile Admin
+    Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
+
     // Surat Pengajuan
     Route::prefix('surat')->name('surat.')->group(function () {
         Route::get('/', [SuratController::class, 'index'])->name('index'); // <== INI YANG HARUS ADA
@@ -176,6 +174,8 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
         Route::post('/', [ControllerPengumuman::class, 'store'])->name('store');
         Route::delete('/{id}', [ControllerPengumuman::class, 'destroy'])->name('destroy');
         Route::post('/list', [ControllerPengumuman::class, 'list'])->name('list');
+        Route::get('/edit/{id}', [ControllerPengumuman::class, 'edit'])->name('edit');
+        Route::put('/{id}', [ControllerPengumuman::class, 'update'])->name('update');
     });
 
     // Hasil Ujian Admin
@@ -205,8 +205,8 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
     });
     // Pengambilan Sertifikat
     Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
-    Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
-    Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+        Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
+        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
     });
 });
