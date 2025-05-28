@@ -14,14 +14,14 @@ class SertifikatController extends Controller
     // Dummy data sementara
     $sertifikats = [
         (object)[
-            'nama_mahasiswa' => 'Budi Santoso',
+            'nama_mahasiswa' => 'Deva Selviana',
             'nim' => '123456789',
-            'prodi' => 'Teknik Informatika',
+            'prodi' => 'Sistem Informasi Bisnis',
             'tanggal_pengambilan' => '2024-05-20',
             'status' => 'diambil'
         ],
         (object)[
-            'nama_mahasiswa' => 'Sari Dewi',
+            'nama_mahasiswa' => 'Jessica Amelia',
             'nim' => '987654321',
             'prodi' => 'Sistem Informasi',
             'tanggal_pengambilan' => null,

@@ -3,24 +3,20 @@
 @section('title', 'Daftar Sertifikat')
 
 @section('content')
-<div class="container-fluid">
-    <h3 class="mb-4">Daftar Sertifikat</h3>
-
-    {{-- Notifikasi sukses jika ada --}}
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- Tabel sertifikat --}}
-    <div class="card">
+    <div class="card card-outline card-primary">
         <div class="card-header">
-            <h5 class="card-title">Data Pengambilan Sertifikat</h5>
+            <h3 class="card-title">Daftar Sertifikat</h3>
         </div>
+
         <div class="card-body">
-            <table class="table table-bordered table-hover table-striped">
-                <thead class="thead-dark">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_sertifikat">
+                <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama Mahasiswa</th>
@@ -55,5 +51,4 @@
             </table>
         </div>
     </div>
-</div>
 @endsection

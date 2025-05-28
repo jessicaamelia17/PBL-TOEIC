@@ -110,13 +110,15 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
-Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
-    // Dashboard
-    Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+    Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
+        // Dashboard
+        Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+        Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
 
-    //kuota
-    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
-
+        // Profile Admin
+        Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
+        Route::post('/profile/update', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
+    
     // Surat Pengajuan
     Route::prefix('surat')->name('surat.')->group(function () {
         Route::get('/', [SuratController::class, 'index'])->name('index'); // <== INI YANG HARUS ADA
@@ -179,6 +181,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/', [AdminHasilController::class, 'index'])->name('index');
         Route::get('/import', [AdminHasilController::class, 'importForm'])->name('import.form');
         Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
+        Route::get('/export', [AdminHasilController::class, 'exportForm'])->name('export.form');
+        Route::post('/export', [AdminHasilController::class, 'export'])->name('export');
     });
 
     Route::prefix('surat')->name('surat.')->group(function () {

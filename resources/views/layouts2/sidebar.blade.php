@@ -52,11 +52,19 @@
             </li>
 
             <li class="nav-item">
+                <a href="{{ route('admin.profile') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'profile') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>Profil Admin</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="{{ route('admin.pendaftar.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'pendaftar') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-check"></i>
                     <p>Data Pendaftaran</p>
                 </a>
             </li>
+
 
             <li class="nav-item">
                 <a href="{{ route('admin.jadwal.index') }}" class="nav-link {{ (isset($activeMenu) && $activeMenu == 'jadwal') ? 'active' : '' }}">

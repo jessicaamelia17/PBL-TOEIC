@@ -2,14 +2,18 @@
 
 @section('content')
 <div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 class="card-title">Data Hasil Ujian TOEIC</h3>
-        <div class="card-tools">
-            <button class="btn btn-success" data-toggle="modal" data-target="#importCSVModal">
-                <i class="fas fa-file-import"></i> Import CSV
-            </button>
-        </div>
+    <div class="card-header d-flex justify-content-between">
+    <h3 class="card-title">Data Hasil Ujian TOEIC</h3>
+    <div class="ml-auto">
+        <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
+            <i class="fas fa-file-import"></i> Import CSV
+        </button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
+            <i class="fas fa-file-export"></i> Export CSV
+        </button>
     </div>
+</div>
+
 
     <div class="card-body">
         @if(session('success'))
@@ -76,10 +80,10 @@
           </button>
         </div>
         <div class="modal-body">
-        <div class="form-group mb-3">
-            <label for="file">Pilih File</label>
-            <input type="file" name="file" accept=".csv" required class="form-control" id="file">
-        </div>
+          <div class="form-group mb-3">
+              <label for="file">Pilih File CSV</label>
+              <input type="file" name="file" accept=".csv" required class="form-control" id="file">
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
@@ -89,6 +93,32 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Export CSV -->
+<div class="modal fade" id="exportCSVModal" tabindex="-1" aria-labelledby="exportCSVModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('admin.hasil-ujian.export') }}" method="POST">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="exportCSVModalLabel">Export Hasil Ujian TOEIC</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Klik tombol Export untuk mengunduh data hasil ujian dalam format CSV.</p>
+          <!-- Jika ingin ada opsi filter, bisa ditambahkan di sini -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-success">Export</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('js')
