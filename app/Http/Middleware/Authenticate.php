@@ -12,16 +12,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-            if (! $request->expectsJson()) {
-        // Cek jika URL mengandung 'admin' => redirect ke login admin
-        if ($request->is('admin') || $request->is('admin/*')) {
-            return route('login'); // route ke /login (admin)
+        if (! $request->expectsJson()) {
+            return route('login'); // Semua user diarahkan ke halaman login utama
         }
-
-        // Selain itu anggap sebagai mahasiswa
-        return route('login-toeic'); // route ke /login-toeic (mahasiswa)
-    }
-
-    return null;
+        return null;
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PengambilanSertifikat;
 use Illuminate\Http\Request;
 
 class SertifikatController extends Controller
@@ -11,23 +12,12 @@ class SertifikatController extends Controller
     {
     $activeMenu = 'sertifikat';
 
-    // Dummy data sementara
-    $sertifikats = [
-        (object)[
-            'nama_mahasiswa' => 'Deva Selviana',
-            'nim' => '123456789',
-            'prodi' => 'Sistem Informasi Bisnis',
-            'tanggal_pengambilan' => '2024-05-20',
-            'status' => 'diambil'
-        ],
-        (object)[
-            'nama_mahasiswa' => 'Jessica Amelia',
-            'nim' => '987654321',
-            'prodi' => 'Sistem Informasi',
-            'tanggal_pengambilan' => null,
-            'status' => 'belum'
-        ],
-    ];
+    // Ambil sertifikat hanya dari hasil ujian yang LULUS
+    $sertifikats = PengambilanSertifikat::with('hasilUjian')
+        ->whereHas('hasilUjian', function ($query) {
+            $query->where('Status', 'Lulus');
+        })
+        ->get();
 
    $breadcrumb = (object)[
     'title' => 'Daftar Sertifikat',

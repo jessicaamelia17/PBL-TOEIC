@@ -1,0 +1,19 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class PengambilanSertifikat extends Model
+{
+    protected $table = 'pengambilan_sertifikat';
+    protected $primaryKey = 'id_pengambilan';
+
+    protected $fillable = [
+        'Id_Hasil', 'NIM', 'Nama', 'Program_Studi', 'Tanggal_Diambil', 'Status'
+    ];
+
+    public function hasilUjian()
+    {
+        return $this->belongsTo(HasilUjian::class, 'Id_Hasil', 'Id_Hasil');
+    }
+}
