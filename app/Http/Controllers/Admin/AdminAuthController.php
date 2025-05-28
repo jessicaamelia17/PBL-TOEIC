@@ -2,38 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Admin;
-use App\Http\Controllers\Controller;
-use App\Models\PendaftarModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
+use App\Models\PendaftarModel;
 
 class AdminAuthController extends Controller
 {
-    // Halaman dashboard admin
+    // Dashboard Admin
     public function index()
     {
-            $breadcrumb = (object) [
+        $breadcrumb = (object) [
             'title' => 'Selamat Datang',
             'list' => ['Home', 'Welcome']
         ];
 
         $activeMenu = 'dashboard';
-        
         $pendaftar = PendaftarModel::count();
-       // $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total') ?? 0;
-       // $status = DB::table('kuota')->where('id', 1)->value('status_pendaftaran') ?? 'tutup';
 
-        return view('admin.dashboard', [
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu,
-            'pendaftar' => $pendaftar,
-            // 'kuota' => $kuota,
-            // 'status' => $status
-        ]);
-}
+        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar'));
+    }
 
+    // Update kuota
     public function updateKuota(Request $request)
     {
         $request->validate([
@@ -44,23 +37,24 @@ class AdminAuthController extends Controller
             ['id' => 1],
             [
                 'kuota_total' => $request->jumlah_kuota,
-                'status_pendaftaran' => 1, // 1 = dibuka
+                'status_pendaftaran' => 1,
                 'updated_at' => now()
             ]
         );
 
-    return response()->json([
-        'status' => true,
-        'message' => 'Kuota berhasil diperbarui.'
-    ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Kuota berhasil diperbarui.'
+        ]);
     }
 
-    // Menampilkan halaman login
+    // Halaman login
     public function login()
     {
         if (Auth::guard('admin')->check()) {
             return redirect('/admin/home');
         }
+
         return view('auth.login');
     }
 
@@ -70,7 +64,6 @@ class AdminAuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
-            // Jika permintaan AJAX
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'status' => true,
@@ -79,11 +72,9 @@ class AdminAuthController extends Controller
                 ]);
             }
 
-            // Jika bukan AJAX
             return redirect('/admin/home');
         }
 
-        // Jika gagal login
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'status' => false,
@@ -94,24 +85,23 @@ class AdminAuthController extends Controller
         return redirect('/admin/login')->with('error', 'Username atau password salah');
     }
 
-    // Logout admin
+    // Logout
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout(); // logout dari guard admin
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login'); // redirect ke halaman login admin
+        return redirect()->route('login');
     }
 
-
-    // Menampilkan halaman registrasi admin
+    // Halaman registrasi
     public function register()
     {
         return view('admin.auth.register');
     }
 
-    // Proses menyimpan data admin baru
+    // Proses registrasi
     public function store(Request $request)
     {
         $request->validate([
@@ -135,5 +125,43 @@ class AdminAuthController extends Controller
         return redirect('admin/login')->with('success', 'Registrasi berhasil');
     }
 
-        
+    public function profile()
+    {
+        $admin = auth()->guard('admin')->user();
+
+        $breadcrumb = (object)[
+            'list' => ['Dashboard', 'Profil Admin']
+        ];
+
+        return view('admin.profil-admin.profile', compact('admin', 'breadcrumb'));
+    }
+
+    // Update profil admin
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+        // Ambil ulang data admin menggunakan model agar bisa gunakan method save()
+        $admin = Admin::find(auth()->guard('admin')->id());
+
+        // Jika tidak ditemukan
+        if (!$admin) {
+            return back()->with('error', 'Admin tidak ditemukan.');
+        }
+
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+
+        if ($request->filled('password')) {
+            $admin->password = Hash::make($request->password);
+        }
+
+        $admin->save();
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
+    }
 }
