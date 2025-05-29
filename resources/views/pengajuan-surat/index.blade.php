@@ -73,6 +73,9 @@
     {{-- Preview sertifikat hanya jika status BUKAN ditolak --}}
     @if($pengajuan && $pengajuan->status_verifikasi !== 'ditolak')
         <div class="bg-white p-4 rounded shadow mt-4">
+            <a href="{{ route('mahasiswa.surat.preview', $pengajuan->id_surat) }}" target="_blank" class="btn btn-primary mt-3">
+                <i class="fa fa-file-pdf"></i> Preview/Download Surat TOEIC
+            </a>
             <p class="font-semibold mb-2">Preview Sertifikat:</p>
             <embed src="{{ asset('storage/' . $pengajuan->file_sertifikat) }}" type="application/pdf" width="100%" height="500px" />
         </div>
