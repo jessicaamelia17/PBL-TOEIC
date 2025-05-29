@@ -113,6 +113,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
+    Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
     // Profile Admin
     Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
