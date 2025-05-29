@@ -1,5 +1,11 @@
 @extends('layouts.app2')
+@section('breadcrumb')
+    @include('layouts.breadcrumb')
+@endsection
 
+@section('backbutton')
+    @include('layouts.back-button')
+@endsection
 @section('content')
 <div class="max-w-7xl mx-auto mt-32 bg-white p-8 rounded shadow-md animate-fadeIn">
     <h2 class="text-4xl font-bold mb-6 text-blue-800 text-center">Hasil Ujian TOEIC</h2>

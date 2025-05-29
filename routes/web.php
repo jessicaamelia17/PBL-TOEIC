@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\KuotaController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
 use App\Http\Controllers\Admin\SertifikatController;
 use App\Http\Controllers\PengajuanSuratController;
+use App\Http\Controllers\Admin\ProfileAdminController;
 
 
 // =============================
@@ -100,6 +101,16 @@ Route::view('/panduan', 'panduan')->name('panduan');
 // Toggle Pendaftaran (dipanggil oleh AJAX)
 Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePendaftaran']);
 
+Route::post('/go-back', function () {
+    $history = session()->get('page_history', []);
+
+    array_pop($history); // Buang halaman saat ini
+    $previous = array_pop($history); // Ambil halaman sebelumnya
+
+    session(['page_history' => $history]); // Simpan kembali history
+
+    return $previous ? redirect($previous) : redirect('/');
+})->name('go.back');
 
 /*
 |--------------------------------------------------------------------------
@@ -110,15 +121,17 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
-Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard.post'); // kasih nama beda supaya gak bentrok
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
-    Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
+    Route::post('/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('kuota.update');
 
-    // Profile Admin
-    Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
-    Route::post('/profile/update', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
+    // Profil Admin
+    Route::get('profile', [ProfileAdminController::class, 'show'])->name('profile');
+    Route::get('profile/edit', [ProfileAdminController::class, 'edit'])->name('profile.edit');
+    Route::post('profile/update', [ProfileAdminController::class, 'update'])->name('profile.update');
 
     // Surat Pengajuan
     Route::prefix('surat')->name('surat.')->group(function () {
@@ -138,6 +151,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/', [PendaftarController::class, 'index'])->name('index');
         Route::post('/list', [PendaftarController::class, 'list'])->name('list');
         Route::get('/detail/{id}', [PendaftarController::class, 'show'])->name('show');
+        Route::get('/export', [PendaftarController::class, 'exportForm'])->name('export.form');
+        Route::post('/export', [PendaftarController::class, 'export'])->name('export');
+        Route::get('/import', [PendaftarController::class, 'importForm'])->name('import.form');
+        Route::post('/import', [PendaftarController::class, 'import'])->name('import');
+
     });
 
     // Rute Jadwal Ujian
