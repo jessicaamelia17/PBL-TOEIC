@@ -1,137 +1,140 @@
 @extends('layouts2.template')
 
 @section('content')
-    <div class="card card-outline card-primary">
-        <div class="card-header">
-            <h3 class="card-title">{{ $page->title ?? 'Data Pendaftar' }}</h3>
-            <div class="text-right mb-3">
-                {{-- <a href="{{ route('pendaftar.index') }}" class="btn btn-outline-primary btn-sm">
-                <i class="fas fa-user"></i> Profil Saya
-            </a> --}}
-            </div>
-            <div class="card-tools">
-                @cannot('admin')
-                    <button onclick="modalAction('{{ url('/pendaftar/import') }}')" class="btn btn-info">Import Pendaftar</button>
-                    <button onclick="modalAction('{{ url('/pendaftar/create_ajax') }}')" class="btn btn-success">Tambah Pendaftar
-                        (Ajax)</button>
-                @endcannot
-            </div>
-        </div>
-
-        <div class="card-body">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_pendaftar">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>NIM</th>
-                        <th>Nama</th>
-                        <th>No. WA</th>
-                        <th>Email</th>
-                        <th>Jurusan</th>
-                        <th>Prodi</th>
-                        {{-- <th>Scan KTP</th>
-                        <th>Scan KTM</th>
-                        <th>Pas Foto</th> --}}
-                        <th>Tanggal Pendaftaran</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-            </table>
+<div class="card card-outline card-primary">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">{{ $page->title ?? 'Data Pendaftar' }}</h3>
+        <div>
+            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
+                <i class="fas fa-file-import"></i> Import CSV
+            </button>
+            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#exportCSVModal">
+                <i class="fas fa-file-export"></i> Export CSV
+            </button>
+            <button onclick="modalAction('{{ url('/pendaftar/create_ajax') }}')" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Tambah Pendaftar (Ajax)
+            </button>
         </div>
     </div>
 
-    <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-        data-keyboard="false" aria-hidden="true"></div>
+    <div class="card-body">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_pendaftar">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NIM</th>
+                    <th>Nama</th>
+                    <th>No. WA</th>
+                    <th>Email</th>
+                    <th>Jurusan</th>
+                    <th>Prodi</th>
+                    <th>Tanggal Pendaftaran</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Import CSV -->
+<div class="modal fade" id="importCSVModal" tabindex="-1" aria-labelledby="importCSVModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('admin.pendaftar.import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="importCSVModalLabel">Import Data Pendaftar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group mb-3">
+              <label for="file">Pilih File CSV</label>
+              <input type="file" name="file" accept=".csv" required class="form-control" id="file">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Export CSV -->
+<div class="modal fade" id="exportCSVModal" tabindex="-1" aria-labelledby="exportCSVModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('admin.pendaftar.export') }}" method="POST">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="exportCSVModalLabel">Export Data Pendaftar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Klik tombol Export untuk mengunduh data pendaftar dalam format CSV.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-success">Export</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ajax -->
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+    data-keyboard="false" aria-hidden="true"></div>
 @endsection
 
 @push('js')
-    <script>
-        function modalAction(url = '') {
-            $('#myModal').load(url, function() {
-                $('#myModal').modal('show');
-            });
-        }
-
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-
-            $('#table_pendaftar').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('admin.pendaftar.list') }}",
-                    type: "POST",
-                    dataType: "json",
-                    data: function(d) {
-                        // Tambah filter jika diperlukan
-                    }
-                },
-                columns: [{
-                        data: "DT_RowIndex",
-                        className: "text-center",
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: "NIM"
-                    },
-                    {
-                        data: "Nama"
-                    },
-                    {
-                        data: "No_WA"
-                    },
-                    {
-                        data: "email"
-                    },
-                    {
-                        data: "jurusan.Nama_Jurusan",
-                        defaultContent: '-'
-                    },
-                    {
-                        data: "prodi.Nama_Prodi",
-                        defaultContent: '-'
-                    },
-                    // {
-                    //     data: "Scan_KTP",
-                    //     render: function(data) {
-                    //         return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
-                    //     }
-                    // },
-                    // {
-                    //     data: "Scan_KTM",
-                    //     render: function(data) {
-                    //         return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
-                    //     }
-                    // },
-                    // {
-                    //     data: "Pas_Foto",
-                    //     render: function(data) {
-                    //         return `<a href="/storage/${data}" target="_blank">Lihat</a>`;
-                    //     }
-                    // },
-                    {
-                        data: "Tanggal_Pendaftaran"
-                    },
-                    {
-                        data: "aksi",
-                        orderable: false,
-                        searchable: false
-                    }
-                ]
-            });
+<script>
+    function modalAction(url = '') {
+        $('#myModal').load(url, function () {
+            $('#myModal').modal('show');
         });
-    </script>
+    }
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+
+        $('#table_pendaftar').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('admin.pendaftar.list') }}",
+                type: "POST",
+                dataType: "json"
+            },
+            columns: [
+                { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
+                { data: "NIM" },
+                { data: "Nama" },
+                { data: "No_WA" },
+                { data: "email" },
+                { data: "jurusan.Nama_Jurusan", defaultContent: '-' },
+                { data: "prodi.Nama_Prodi", defaultContent: '-' },
+                { data: "Tanggal_Pendaftaran" },
+                { data: "aksi", orderable: false, searchable: false }
+            ]
+        });
+    });
+</script>
 @endpush

@@ -70,7 +70,8 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::post('/surat', [PengajuanSuratController::class, 'store'])->name('surat.store');
     Route::post('/surat/upload-sertifikat', [PengajuanSuratController::class, 'uploadSertifikat'])->name('surat.uploadSertifikat');
     Route::delete('/surat/hapus-sertifikat', [PengajuanSuratController::class, 'hapusSertifikat'])->name('surat.hapusSertifikat');
-
+    Route::get('/surat/cetak/{id}', [PengajuanSuratController::class, 'cetakSurat'])->name('surat.cetak');
+    Route::get('/surat/preview/{id}', [PengajuanSuratController::class, 'preview'])->name('surat.preview');
     Route::post('/surat/upload-ulang', [PengajuanSuratController::class, 'uploadUlang'])->name('surat.uploadUlang');
     // 🚪 Logout dari sistem TOEIC
     // Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
@@ -113,7 +114,11 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
+<<<<<<< HEAD
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard.post'); // kasih nama beda supaya gak bentrok
+=======
+    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
+>>>>>>> 681b348ed7be9db08c87d343977ffbba451fe987
 
     Route::post('/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('kuota.update');
 
@@ -140,6 +145,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/', [PendaftarController::class, 'index'])->name('index');
         Route::post('/list', [PendaftarController::class, 'list'])->name('list');
         Route::get('/detail/{id}', [PendaftarController::class, 'show'])->name('show');
+        Route::get('/export', [PendaftarController::class, 'exportForm'])->name('export.form');
+        Route::post('/export', [PendaftarController::class, 'export'])->name('export');
+        Route::get('/import', [PendaftarController::class, 'importForm'])->name('import.form');
+        Route::post('/import', [PendaftarController::class, 'import'])->name('import');
+
     });
 
     // Rute Jadwal Ujian
@@ -195,6 +205,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/', [SuratController::class, 'index'])->name('index');
         Route::get('/{id}', [SuratController::class, 'show'])->name('show'); 
         Route::post('/{id}/update_status', [SuratController::class, 'updateStatus'])->name('update_status');
+       
+
         // ...
     });
     // Data Mahasiswa
