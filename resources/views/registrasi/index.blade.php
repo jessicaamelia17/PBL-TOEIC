@@ -9,7 +9,7 @@
         <p>
             Tanggal ujian yang Anda dapatkan:
             <b>
-                {{ \Carbon\Carbon::parse(optional($pendaftaran->jadwalUjian)->Tanggal_Ujian)->format('d-m-Y') }}
+                {{ \Carbon\Carbon::parse(optional($pendaftaran->jadwal)->Tanggal_Ujian)->format('d-m-Y') }}
             </b>
         </p>
         <p class="mt-4">Silakan tunggu pengumuman sesi dan room melalui WhatsApp atau Email Anda.</p>

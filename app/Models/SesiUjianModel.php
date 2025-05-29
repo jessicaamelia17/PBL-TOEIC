@@ -18,7 +18,7 @@ class SesiUjianModel extends Model
         'nama_sesi',
         'waktu_mulai',
         'waktu_selesai',
-        'kapasitas',
+     
     ];
 
     // Relasi ke jadwal ujian

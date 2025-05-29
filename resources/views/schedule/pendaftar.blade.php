@@ -11,7 +11,7 @@
     <div class="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <h1 class="text-3xl font-bold text-blue-700 text-center">{{ $breadcrumb->title }}</h1>
             <p class="text-center text-gray-600 mt-4 text-sm">
-                Jadwal: {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('l, d F Y') }}
+                Jadwal: {{ \Carbon\Carbon::parse($jadwal->Tanggal_Ujian)->translatedFormat('l, d F Y') }}
             </p>
             <hr class="my-6 border-t border-gray-300">
 
@@ -58,6 +58,7 @@
                                         {{ $room->nama_room }}
                                     </td>
                                 </tr>
+                                
             
                                 @if ($room->peserta->isEmpty())
                                     {{-- Tidak ada peserta --}}
@@ -68,9 +69,9 @@
                                     @foreach ($room->peserta as $peserta)
                                         <tr>
                                             <td class="px-6 py-4">{{ $no++ }}</td>
-                                            <td class="px-6 py-4">{{ $peserta->Nama }}</td>
+                                            <td class="px-6 py-4">{{ optional($peserta->mahasiswa)->nama ?? '-' }}</td>
                                             <td class="px-6 py-4">{{ $peserta->NIM }}</td>
-                                            <td class="px-6 py-4">{{ $peserta->prodi->Nama_Prodi ?? '-' }}</td>
+                                            <td class="px-6 py-4">{{ optional(optional($peserta->mahasiswa)->prodi)->Nama_Prodi ?? '-' }}</td>
                                             <td class="px-6 py-4">{{ $room->zoom_id }}</td>
                                             <td class="px-6 py-4">{{ $room->zoom_password }}</td>
                                         </tr>

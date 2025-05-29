@@ -8,6 +8,10 @@ use App\Models\RoomUjianModel;
 use App\Models\RegistrasiModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class SesiJadwalController extends Controller
 {
@@ -33,6 +37,7 @@ class SesiJadwalController extends Controller
             'nama_sesi' => 'required|string|max:50',
             'waktu_mulai' => 'required|date_format:H:i',
             'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+           
         ]);
 
         $jadwal = JadwalUjianModel::findOrFail($id_jadwal);
@@ -48,6 +53,7 @@ class SesiJadwalController extends Controller
             'nama_sesi' => $request->nama_sesi,
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
+           
         ]);
 
         return redirect()->route('admin.sesi.index', $jadwal->id_jadwal)
@@ -75,62 +81,82 @@ class SesiJadwalController extends Controller
         return back()->with('success', 'Room berhasil ditambahkan.');
     }
 
-    // Fungsi untuk membagi peserta ke sesi dan room secara otomatis
     public function bagiPesertaKeSesiRoom($id_jadwal)
     {
-        $jadwal = JadwalUjianModel::findOrFail($id_jadwal);
-        $kuotaHarian = $jadwal->kuota;
-
-        $sesiList = SesiUjianModel::where('id_jadwal', $id_jadwal)->with('rooms')->get();
-        $totalKapasitas = $sesiList->flatMap->rooms->sum('kapasitas');
-
-        $pesertaList = RegistrasiModel::where('ID_Jadwal', $id_jadwal)
+        try {
+            $jadwal = JadwalUjianModel::findOrFail($id_jadwal);
+            $kuotaHarian = $jadwal->kuota_max;
+    
+            // Ambil semua sesi beserta room
+            $sesiList = SesiUjianModel::where('id_jadwal', $id_jadwal)->with('rooms')->get();
+            $totalKapasitas = $sesiList->flatMap->rooms->sum('kapasitas');
+    
+            // Ambil peserta yang belum punya sesi/room dan urutkan berdasarkan Prodi lalu Nama
+            $pesertaList = RegistrasiModel::where('Id_Jadwal', $id_jadwal)
             ->whereNull('id_sesi')
             ->whereNull('id_room')
-            ->orderBy('ID_Prodi')
-            ->orderBy('Tanggal_Pendaftaran', 'asc')
-            ->take(min($kuotaHarian, $totalKapasitas))
-            ->get();
-
-        if ($pesertaList->isEmpty()) {
+            ->whereHas('mahasiswa') // pastikan ada relasi
+            ->with('mahasiswa')
+            ->get()
+            ->sortBy(function ($item) {
+                return sprintf('%05d-%s', $item->mahasiswa->Id_Prodi, $item->mahasiswa->nama);
+            })
+            ->values()
+            ->take(min($kuotaHarian, $totalKapasitas));
+        
+            if ($pesertaList->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak ada peserta yang perlu dibagi.'
+                ]);
+            }
+    
+            // Siapkan room queue
+            $roomQueue = [];
+            foreach ($sesiList as $sesi) {
+                foreach ($sesi->rooms as $room) {
+                    $roomQueue[] = [
+                        'room' => $room,
+                        'kapasitas_tersisa' => $room->kapasitas,
+                        'id_sesi' => $sesi->id_sesi,
+                    ];
+                }
+            }
+    
+            // Bagi peserta satu per satu ke room yang tersedia
+            $i = 0;
+            foreach ($pesertaList as $peserta) {
+                // Lewati room yang penuh
+                while ($i < count($roomQueue) && $roomQueue[$i]['kapasitas_tersisa'] <= 0) {
+                    $i++;
+                }
+    
+                if ($i >= count($roomQueue)) {
+                    break; // Semua room sudah penuh
+                }
+    
+                $peserta->update([
+                    'id_sesi' => $roomQueue[$i]['id_sesi'],
+                    'id_room' => $roomQueue[$i]['room']->id_room,
+                ]);
+                $roomQueue[$i]['kapasitas_tersisa']--;
+            }
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Peserta berhasil dibagi ke sesi dan room secara berurutan.',
+            ]);
+        } catch (Exception $e) {
+            Log::error('Gagal membagi peserta: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Tidak ada peserta yang perlu dibagi.'
-            ]);
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
-
-        // Buat antrian room dan kapasitas tersisa
-        $roomQueue = [];
-        foreach ($sesiList as $sesi) {
-            foreach ($sesi->rooms as $room) {
-                $roomQueue[] = [
-                    'room' => $room,
-                    'kapasitas_tersisa' => $room->kapasitas,
-                    'id_sesi' => $sesi->id_sesi,
-                ];
-            }
-        }
-
-        // Alokasikan peserta ke room sampai kapasitas penuh
-        $pesertaIndex = 0;
-        foreach ($roomQueue as &$roomItem) {
-            while ($roomItem['kapasitas_tersisa'] > 0 && $pesertaIndex < $pesertaList->count()) {
-                $peserta = $pesertaList[$pesertaIndex];
-                $peserta->update([
-                    'id_sesi' => $roomItem['id_sesi'],
-                    'id_room' => $roomItem['room']->id_room,
-                ]);
-                $roomItem['kapasitas_tersisa']--;
-                $pesertaIndex++;
-            }
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Peserta berhasil dibagi ke sesi dan room.',
-        ]);
     }
-
+    
+    
+    
     // Form edit sesi
     public function edit($id)
     {
@@ -153,7 +179,7 @@ class SesiJadwalController extends Controller
             'nama_sesi'   => 'required|string|max:50',
             'waktu_mulai'   => 'required|date_format:H:i',
             'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
-            'kapasitas'     => 'nullable|integer|min:1', // Kapasitas opsional, jika tidak diubah tetap gunakan yang lama
+          
         ]);
 
         $sesi = SesiUjianModel::findOrFail($id);
@@ -161,7 +187,7 @@ class SesiJadwalController extends Controller
             'nama_sesi'     => $request->nama_sesi,
             'waktu_mulai'   => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
-            'kapasitas'     => $request->kapasitas, // Jika kapasitas tidak diubah, tetap gunakan yang lama
+           
         ]);
 
         return redirect()->route('admin.sesi.index', $sesi->id_jadwal)
@@ -233,4 +259,28 @@ class SesiJadwalController extends Controller
         return redirect()->route('admin.sesi.index', $id_jadwal)
             ->with('success', 'Room berhasil dihapus.');
     }
+    public function pembagian($id_jadwal)
+    {
+        $jadwal = JadwalUjianModel::with(['sesi.rooms.peserta.mahasiswa.prodi'])->findOrFail($id_jadwal);
+    
+        $breadcrumb = (object) [
+            'title' => 'Pembagian Peserta Sesi & Room',
+            'list' => ['Kelola Jadwal', 'Pembagian Peserta', $jadwal->tanggal_ujian]
+        ];
+    
+        return view('admin.sesi.pembagian', compact('jadwal', 'breadcrumb'));
+    }
+
+    public function resetPembagian($id_jadwal)
+{
+    RegistrasiModel::where('ID_Jadwal', $id_jadwal)
+        ->where(function($query) {
+            $query->whereNotNull('id_sesi')
+                  ->orWhereNotNull('id_room');
+        })
+        ->update(['id_sesi' => null, 'id_room' => null]);
+
+    return redirect()->back()->with('success', 'Pembagian peserta berhasil direset.');
+}
+
 }

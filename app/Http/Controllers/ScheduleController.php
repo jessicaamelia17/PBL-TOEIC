@@ -26,25 +26,26 @@ class ScheduleController extends Controller
     }
     public function pendaftar($id)
 {
-    // Ambil jadwal berdasarkan id yang dipilih
-   $jadwal = JadwalUjianModel::with(['sesi.rooms.peserta'])->findOrFail($id);
-// dump($jadwal->id_jadwal); // pastikan = 1
-// dump($jadwal->sesi->pluck('id_jadwal')); // harusnya keluar isi id_jadwal
-// dd($jadwal->sesi);
+    // Ambil jadwal berdasarkan id yang dipilih, termasuk sesi, room, dan peserta
+    $jadwal = JadwalUjianModel::with(['sesi.rooms.peserta'])->findOrFail($id);
 
+    // Ambil semua program studi
+    $prodiList = ProdiModel::all();
 
-    // Tambahkan breadcrumb dan activeMenu
+    // Ambil data mahasiswa yang sedang login
+    $mahasiswaLogin = auth()->user(); // Pastikan ini sesuai sistem autentikasi kamu
+
+    // Breadcrumb dan menu aktif
     $breadcrumb = (object) [
         'title' => 'Peserta Jadwal TOEIC',
         'list' => ['Home', 'Jadwal Ujian', 'Peserta']
     ];
-
     $activeMenu = 'schedule';
-   // Ambil semua program studi
-   $prodiList = ProdiModel::all();
 
-   return view('schedule.pendaftar', compact('jadwal', 'breadcrumb', 'activeMenu', 'prodiList'));
+    // Kirim semua data ke view
+    return view('schedule.pendaftar', compact('jadwal', 'breadcrumb', 'activeMenu', 'prodiList', 'mahasiswaLogin'));
 }
+
     
 
 }

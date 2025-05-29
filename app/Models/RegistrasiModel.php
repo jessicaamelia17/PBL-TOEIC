@@ -44,7 +44,7 @@ class RegistrasiModel extends Model
     // Relasi ke jadwal ujian
     public function jadwal()
     {
-        return $this->belongsTo(JadwalUjianModel::class, 'ID_Jadwal', 'ID_Jadwal');
+        return $this->belongsTo(JadwalUjianModel::class, 'Id_Jadwal', 'Id_Jadwal');
     }
 
     // Relasi ke room ujian
@@ -52,4 +52,9 @@ class RegistrasiModel extends Model
     {
         return $this->belongsTo(RoomUjianModel::class, 'id_room', 'id_room');
     }
+    public function mahasiswa()
+{
+    return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
+}
+
 }

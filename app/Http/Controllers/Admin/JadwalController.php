@@ -72,4 +72,11 @@ class JadwalController extends Controller
 
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal diperbarui.');
     }
+    public function destroy($id)
+{
+    $jadwal = JadwalUjianModel::findOrFail($id);
+    $jadwal->delete();
+
+    return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dihapus.');
+}
 }

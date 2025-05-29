@@ -45,9 +45,6 @@
                         <input type="time" name="waktu_selesai" class="form-control" placeholder="Jam Selesai" required {{ $disableTambah ? 'disabled' : '' }}>
                     </div>
                     <div class="col">
-                        <input type="number" name="kapasitas" class="form-control" placeholder="Kapasitas" required {{ $disableTambah ? 'disabled' : '' }}>
-                    </div>
-                    <div class="col">
                         <button type="submit" class="btn btn-primary" {{ $disableTambah ? 'disabled style=background:#ccc;border-color:#ccc;cursor:not-allowed;' : '' }}>
                             Tambah
                         </button>
@@ -67,7 +64,7 @@
             <span>
                 Sesi: <strong>{{ $sesi->nama_sesi }}</strong>
                 ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})
-                | Kapasitas: <strong>{{ $sesi->kapasitas }}</strong>
+                
             </span>
             <div>
                 <a href="{{ route('admin.sesi.edit', $sesi->id_sesi) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -147,6 +144,18 @@
     <div class="mt-4">
         <button class="btn btn-success" onclick="bagiPeserta({{ $jadwal->id_jadwal }})">Bagi Peserta ke Sesi & Room</button>
     </div>
+    <div class="mt-2">
+        <form action="{{ route('admin.sesi-jadwal.reset', $jadwal->id_jadwal) }}" method="POST" onsubmit="return confirm('Yakin ingin me-reset pembagian peserta?')">
+            @csrf
+            <button type="submit" class="btn btn-danger">Reset Pembagian Peserta</button>
+        </form>
+    </div>
+    
+    <div class="mt-2">
+        <a href="{{ route('admin.sesi-jadwal.pembagian', $jadwal->id_jadwal) }}" class="btn btn-info">
+            Lihat Pembagian Peserta
+        </a>
+    </div>
     @endif
 </div>
 
@@ -154,16 +163,23 @@
     function bagiPeserta(idJadwal) {
         if (!confirm("Yakin ingin membagi peserta ke sesi & room?")) return;
 
-        fetch(`/admin/sesi-jadwal/${idJadwal}/bagi-peserta`)
-            .then(res => res.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) location.reload();
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Terjadi kesalahan saat membagi peserta.');
-            });
+        fetch(`/admin/sesi-jadwal/${idJadwal}/bagi-peserta`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    }
+})
+.then(res => res.json())
+.then(data => {
+    alert(data.message);
+    if (data.success) location.reload();
+})
+.catch(err => {
+    console.error(err);
+    alert('Terjadi kesalahan saat membagi peserta.');
+});
+
     }
 </script>
 @endsection

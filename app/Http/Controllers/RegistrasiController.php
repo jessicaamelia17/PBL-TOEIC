@@ -17,7 +17,10 @@ class RegistrasiController extends Controller
         $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim)->first();
         //dd($mahasiswa);
          // Cek apakah sudah pernah mendaftar
-        $pendaftaran = RegistrasiModel::where('NIM', $mahasiswa->nim)->first();
+         $pendaftaran = RegistrasiModel::with('jadwal')
+         ->where('NIM', $mahasiswa->nim)
+         ->latest('Tanggal_Pendaftaran')
+         ->first();
         return view('registrasi.index', compact('jurusan','mahasiswa','pendaftaran'));
     }
 

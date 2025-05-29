@@ -150,6 +150,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::delete('/{jadwal}', [JadwalController::class, 'destroy'])->name('destroy');
         Route::post('/list', [JadwalController::class, 'list'])->name('list'); // <-- Tambahkan ini
     });
+    Route::prefix('sesi-jadwal')->name('sesi-jadwal.')->group(function () {
+        Route::post('/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('bagiPeserta');
+        Route::get('/{id_jadwal}/pembagian', [SesiJadwalController::class, 'pembagian'])->name('pembagian');
+        Route::post('/{id}/reset', [SesiJadwalController::class, 'resetPembagian'])->name('reset');
+
+    });
 
     // CRUD Sesi (di SesiJadwalController)
     Route::prefix('sesi')->name('sesi.')->group(function () {
