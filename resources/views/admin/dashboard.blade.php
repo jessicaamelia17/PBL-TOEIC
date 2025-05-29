@@ -16,7 +16,7 @@
                 <i class="fas fa-boxes"></i> Kuota Tersedia:
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                {{-- <h1 class="display-4" id="kuota-terpakai">{{ $kuota }}</h1> --}}
+                <h1 class="display-4" id="kuota-terpakai">{{ $kuota }}</h1>
                 <p class="mb-0">Total kuota pendaftaran</p>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 <i class="fas fa-user-minus"></i> Sisa Kuota:
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                {{-- <h1 class="display-4" id="sisa-kuota">{{ $kuota - $pendaftar }}</h1> --}}
+                <h1 class="display-4" id="sisa-kuota">{{ $kuota - $pendaftar }}</h1>
                 <p class="mb-0">Kuota yang masih tersedia</p>
             </div>
         </div>
@@ -58,7 +58,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="jumlah_kuota">Jumlah Kuota:</label>
-                        {{-- <input type="number" name="jumlah_kuota" id="jumlah_kuota" class="form-control" value="{{ $kuota }}" required> --}}
+                        <input type="number" name="jumlah_kuota" id="jumlah_kuota" class="form-control" value="{{ $kuota }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Simpan Perubahan</button>
                     <div id="kuota-message" class="mt-2 text-success" style="display: none;"></div>

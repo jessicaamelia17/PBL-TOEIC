@@ -22,8 +22,9 @@ class AdminAuthController extends Controller
 
         $activeMenu = 'dashboard';
         $pendaftar = PendaftarModel::count();
+        $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total');
 
-        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar'));
+        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar', 'kuota'));
     }
 
     // Update kuota
