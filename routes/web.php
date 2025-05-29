@@ -113,7 +113,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
-    Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
     // Profile Admin
     Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
@@ -137,6 +136,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function
         Route::get('/', [PendaftarController::class, 'index'])->name('index');
         Route::post('/list', [PendaftarController::class, 'list'])->name('list');
         Route::get('/detail/{id}', [PendaftarController::class, 'show'])->name('show');
+        Route::get('/export', [PendaftarController::class, 'exportForm'])->name('export.form');
+        Route::post('/export', [PendaftarController::class, 'export'])->name('export');
+        Route::get('/import', [PendaftarController::class, 'importForm'])->name('import.form');
+        Route::post('/import', [PendaftarController::class, 'import'])->name('import');
+
     });
 
     // Rute Jadwal Ujian
