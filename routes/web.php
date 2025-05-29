@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\KuotaController;
 use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
 use App\Http\Controllers\Admin\SertifikatController;
 use App\Http\Controllers\PengajuanSuratController;
+use App\Http\Controllers\Admin\ProfileAdminController;
 
 
 // =============================
@@ -109,15 +110,17 @@ Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePen
 Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
 
 // Rute Admin Terproteksi
-Route::middleware(['auth:admin'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
-    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
-    Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('admin.kuota.update');
+    Route::post('/home', [KuotaController::class, 'update'])->name('dashboard.post'); // kasih nama beda supaya gak bentrok
 
-    // Profile Admin
-    Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
-    Route::post('/profile/update', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('kuota.update');
+
+    // Profil Admin
+    Route::get('profile', [ProfileAdminController::class, 'show'])->name('profile');
+    Route::get('profile/edit', [ProfileAdminController::class, 'edit'])->name('profile.edit');
+    Route::post('profile/update', [ProfileAdminController::class, 'update'])->name('profile.update');
 
     // Surat Pengajuan
     Route::prefix('surat')->name('surat.')->group(function () {
