@@ -1,5 +1,11 @@
 @extends('layouts.app2')
+@section('breadcrumb')
+    @include('layouts.breadcrumb')
+@endsection
 
+@section('backbutton')
+    @include('layouts.back-button')
+@endsection
 @section('content')
 <div class="max-w-xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-8 animate-fadeIn">
     <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Form Registrasi TOEIC</h2>

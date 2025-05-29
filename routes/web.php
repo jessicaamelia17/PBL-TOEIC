@@ -101,6 +101,16 @@ Route::view('/panduan', 'panduan')->name('panduan');
 // Toggle Pendaftaran (dipanggil oleh AJAX)
 Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePendaftaran']);
 
+Route::post('/go-back', function () {
+    $history = session()->get('page_history', []);
+
+    array_pop($history); // Buang halaman saat ini
+    $previous = array_pop($history); // Ambil halaman sebelumnya
+
+    session(['page_history' => $history]); // Simpan kembali history
+
+    return $previous ? redirect($previous) : redirect('/');
+})->name('go.back');
 
 /*
 |--------------------------------------------------------------------------
