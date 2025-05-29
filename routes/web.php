@@ -114,12 +114,8 @@ Route::post('/admin/kuota/update', [AdminAuthController::class, 'updateKuota'])-
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/home', [AdminAuthController::class, 'index'])->name('dashboard');
-<<<<<<< HEAD
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard.post'); // kasih nama beda supaya gak bentrok
-=======
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
->>>>>>> 681b348ed7be9db08c87d343977ffbba451fe987
-
     Route::post('/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('kuota.update');
 
     // Profil Admin
