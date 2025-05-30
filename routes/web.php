@@ -235,6 +235,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
         Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
-        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+        Route::post('sertifikat/export', [SertifikatController::class, 'export'])->name('sertifikat.export');
     });
 });
