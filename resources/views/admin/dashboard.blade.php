@@ -68,7 +68,16 @@
     </div>
 </div>
 
+<div class="mt-4 mb-5">
+    <h4 class="fw-bold text-uppercase">Status Pendaftaran TOEIC</h4>
 
+    <span class="badge bg-success px-3 py-2 fs-5">DIBUKA</span> {{-- Ganti ke bg-danger dan teks DITUTUP jika perlu --}}
+
+    <div class="mt-3 d-flex gap-2">
+        <button id="btn-buka" class="btn btn-success fw-semibold" disabled>Buka Pendaftaran</button>
+        <button id="btn-tutup" class="btn btn-danger fw-semibold">Tutup Pendaftaran</button>
+    </div>
+</div>
 
 {{-- jQuery dan AJAX untuk update kuota --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
