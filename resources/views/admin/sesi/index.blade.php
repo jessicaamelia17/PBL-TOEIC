@@ -13,8 +13,26 @@
             @endforeach
         </ol>
     </nav> --}}
-
-    <h4>{{ $breadcrumb->title }} ({{ $jadwal->Tanggal_Ujian }})</h4>
+    
+    {{-- Judul halaman dalam kotak, tanggal & tombol kembali di kanan --}}
+    <div class="card card-outline card-primary">
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+            <div>
+                <h4 class="mb-1 font-weight-bold" style="font-size:1.5rem;">
+                    {{ $breadcrumb->title }}
+                </h4>
+                <div class="text-muted" style="font-size:1.1rem;">
+                    Tanggal Ujian: <b>{{ $jadwal->Tanggal_Ujian }}</b>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="text-muted" style="font-size:1.1rem;">
+        <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary btn-sm mt-2 mt-md-0">
+            <i class="fa fa-arrow-left mr-1"></i> Kembali
+        </a>
+    </div>
 
     {{-- Flash messages --}}
     @if(session('success'))
@@ -22,7 +40,23 @@
     @elseif(session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
-
+    
+    {{-- Tombol aksi utama --}}
+    @if($jadwal->sesi->count() > 0)
+    <div class="d-flex flex-wrap align-items-center my-4">
+        <button class="btn btn-success mb-2 mr-2" onclick="bagiPeserta({{ $jadwal->id_jadwal }})">
+            Bagi Peserta ke Sesi & Room
+        </button>
+        <form action="{{ route('admin.sesi-jadwal.reset', $jadwal->id_jadwal) }}" method="POST" 
+            onsubmit="return confirm('Yakin ingin me-reset pembagian peserta?')" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-danger mb-2 mr-2">Reset Pembagian Peserta</button>
+        </form>
+        <a href="{{ route('admin.sesi-jadwal.pembagian', $jadwal->id_jadwal) }}" class="btn btn-info mb-2">
+            Lihat Pembagian Peserta
+        </a>
+    </div>
+    @endif
     {{-- Form tambah sesi --}}
     <div class="card mb-3">
         <div class="card-header">Tambah Sesi</div>
@@ -139,24 +173,6 @@
     </div>
     @endforeach
 
-    {{-- Tombol bagi peserta --}}
-    @if($jadwal->sesi->count() > 0)
-    <div class="mt-4">
-        <button class="btn btn-success" onclick="bagiPeserta({{ $jadwal->id_jadwal }})">Bagi Peserta ke Sesi & Room</button>
-    </div>
-    <div class="mt-2">
-        <form action="{{ route('admin.sesi-jadwal.reset', $jadwal->id_jadwal) }}" method="POST" onsubmit="return confirm('Yakin ingin me-reset pembagian peserta?')">
-            @csrf
-            <button type="submit" class="btn btn-danger">Reset Pembagian Peserta</button>
-        </form>
-    </div>
-    
-    <div class="mt-2">
-        <a href="{{ route('admin.sesi-jadwal.pembagian', $jadwal->id_jadwal) }}" class="btn btn-info">
-            Lihat Pembagian Peserta
-        </a>
-    </div>
-    @endif
 </div>
 
 <script>
@@ -164,22 +180,21 @@
         if (!confirm("Yakin ingin membagi peserta ke sesi & room?")) return;
 
         fetch(`/admin/sesi-jadwal/${idJadwal}/bagi-peserta`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    }
-})
-.then(res => res.json())
-.then(data => {
-    alert(data.message);
-    if (data.success) location.reload();
-})
-.catch(err => {
-    console.error(err);
-    alert('Terjadi kesalahan saat membagi peserta.');
-});
-
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) location.reload();
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Terjadi kesalahan saat membagi peserta.');
+        });
     }
 </script>
 @endsection

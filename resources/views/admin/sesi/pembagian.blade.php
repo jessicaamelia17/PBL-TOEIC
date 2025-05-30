@@ -1,61 +1,120 @@
 {{-- filepath: resources/views/admin/sesi/pembagian.blade.php --}}
 @extends('layouts2.template')
 
-@section('title', 'Pembagian Peserta Sesi & Room')
-
 @section('content')
-<div class="container-fluid">
-    <h4 class="mb-4">Pembagian Peserta Sesi & Room ({{ $jadwal->Tanggal_Ujian }})</h4>
-    <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Kembali</a>
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <table class="table table-bordered table-hover mb-0" style="background: #f8faff;">
-                <thead class="table-primary align-middle text-center">
-                    <tr>
-                        <th style="width: 50px;">NO</th>
-                        <th style="min-width: 180px;">NAMA PESERTA</th>
-                        <th style="min-width: 120px;">NIM</th>
-                        <th style="min-width: 180px;">PROGRAM STUDI</th>
-                        <th style="min-width: 180px;">ZOOM ID</th>
-                        <th style="min-width: 120px;">PASSWORD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @php $no = 1; @endphp
-                @foreach ($jadwal->sesi as $sesi)
-                    <tr class="table-info">
-                        <td colspan="6" class="fw-bold text-primary" style="background: #eaf4ff;">
-                            <i class="bi bi-clock"></i>
-                            Session {{ $loop->iteration }} ({{ $sesi->waktu_mulai }} - {{ $sesi->waktu_selesai }})
-                        </td>
-                    </tr>
-                    @foreach ($sesi->rooms as $room)
-                        <tr style="background: #f2f4f8;">
-                            <td colspan="6" class="fw-semibold text-dark">
-                                <i class="bi bi-door-closed"></i>
-                                {{ $room->nama_room }}
-                                <span class="badge bg-secondary ms-2">Kapasitas: {{ $room->kapasitas }}</span>
-                            </td>
+<div><a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">Kembali</a></div>
+<br>
+    <div class="card card-outline card-primary">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div><h4 class="card-title mb-0">Daftar Pembagian Peserta Sesi & Room TOEIC</h4></div>
+        </div>
+
+        <div class="card-body">
+            <div class="mb-3 d-flex flex-wrap align-items-center justify-content-between">
+                <div>
+                    <label for="filterProdi" class="form-label mb-0 me-2">Filter Program Studi:</label>
+                    <select id="filterProdi" class="form-select d-inline-block w-auto">
+                        <option value="">- Semua -</option>
+                        @php
+                            $prodiList = [];
+                            foreach ($jadwal->sesi as $sesi) {
+                                foreach ($sesi->rooms as $room) {
+                                    foreach ($room->peserta as $peserta) {
+                                        $prodi = optional(optional($peserta->mahasiswa)->prodi)->Nama_Prodi;
+                                        if ($prodi && !in_array($prodi, $prodiList)) {
+                                            $prodiList[] = $prodi;
+                                        }
+                                    }
+                                }
+                            }
+                            sort($prodiList);
+                        @endphp
+                        @foreach ($prodiList as $prodi)
+                            <option value="{{ trim($prodi) }}">{{ trim($prodi) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="text-end small text-muted mt-2 mt-md-0">
+                    Total Peserta: <b>{{ $jadwal->sesi->flatMap->rooms->flatMap->peserta->count() }}</b>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover table-sm" id="pesertaTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Peserta</th>
+                            <th>NIM</th>
+                            <th>Program Studi</th>
+                            <th>Sesi</th>
+                            <th>Room</th>
+                            <th>Zoom ID</th>
+                            <th>Password</th>
                         </tr>
-                        @forelse ($room->peserta as $i => $peserta)
-                            <tr>
-                                <td class="text-center">{{ $no++ }}</td>
-                                <td>{{ optional($peserta->mahasiswa)->nama ?? '-' }}</td>
-                                <td>{{ $peserta->NIM }}</td>
-                                <td>{{ optional(optional($peserta->mahasiswa)->prodi)->Nama_Prodi ?? '-' }}</td>
-                                <td>{{ $room->zoom_id }}</td>
-                                <td>{{ $room->zoom_password }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">Belum ada peserta di room ini.</td>
-                            </tr>
-                        @endforelse
-                    @endforeach
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @php $no = 1; @endphp
+                        @foreach ($jadwal->sesi as $sesi)
+                            @foreach ($sesi->rooms as $room)
+                                @foreach ($room->peserta as $peserta)
+                                    <tr>
+                                        <td class="text-center">{{ $no++ }}</td>
+                                        <td>{{ optional($peserta->mahasiswa)->nama ?? '-' }}</td>
+                                        <td>{{ $peserta->NIM }}</td>
+                                        <td>{{ trim(optional(optional($peserta->mahasiswa)->prodi)->Nama_Prodi ?? '-') }}</td>
+                                        <td>
+                                            <span class="fw-semibold">{{ $sesi->nama_sesi ?? '-' }}</span><br>
+                                            <span class="text-muted small">
+                                                {{ \Carbon\Carbon::parse($sesi->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($sesi->waktu_selesai)->format('H:i') }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $room->nama_room ?? '-' }}</td>
+                                        <td>{{ $room->zoom_id }}</td>
+                                        <td>{{ $room->zoom_password }}</td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-@endsection
+@endSection
+
+@push('js')
+<script>
+$(document).ready(function () {
+    var table = $('#pesertaTable').DataTable({
+        "lengthMenu": [10, 25, 50, 100],
+        "pageLength": 25,
+        "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ entri",
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            "paginate": {
+                "first": "Pertama",
+                "last": "Terakhir",
+                "next": "Berikutnya",
+                "previous": "Sebelumnya"
+            },
+            "emptyTable": "Tidak ada data tersedia",
+        },
+        "ordering": false,
+        "columnDefs": [
+            { "orderable": false, "targets": "_all" }
+        ]
+    });
+
+    // Filtering Program Studi
+    $('#filterProdi').on('change', function () {
+        var selected = $(this).val();
+        if(selected === "") {
+            table.column(3).search('').draw();
+        } else {
+            table.column(3).search('^' + selected + '$', true, false).draw();
+        }
+    });
+});
+</script>
+@endpush
