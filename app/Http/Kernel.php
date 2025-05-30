@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
 
             // ✅ Tambahkan middleware PageHistory
             \App\Http\Middleware\PageHistory::class,
+            \App\Http\Middleware\SetLocale::class, // Localization MultiLanguange
         ],
 
         'api' => [

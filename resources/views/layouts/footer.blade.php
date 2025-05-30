@@ -8,26 +8,26 @@
       
       <!-- Alamat -->
       <div>
-        <h2 class="font-bold mb-2">Layanan TOEIC</h2>
+        <h2 class="font-bold mb-2">@lang('users.toeic_service')</h2>
         <p>
-          Politeknik Negeri Malang<br>
-          Jl. Soekarno - Hatta No.9, Jatimulyo, Kec. Lowokwaru, Kota Malang,<br>
-          Jawa Timur 65141
+          @lang('users.polinema')<br>
+          @lang('users.polinema_address')<br>
+          @lang('users.polinema_location')
         </p>
       </div>
       
       <!-- Jam Operasional -->
       <div>
-        <h2 class="font-bold mb-2">Jam Operasional Layanan</h2>
+        <h2 class="font-bold mb-2">@lang('users.soh')</h2>
         <p>
-          Senin - Jumat&nbsp;&nbsp;08.00 – 16.00 WIB<br>
-          Sabtu - Minggu&nbsp;&nbsp;Libur
+          @lang('users.soh_monday')&nbsp;&nbsp;08.00 – 16.00 WIB<br>
+          @lang('users.soh_saturday')&nbsp;&nbsp;@lang('users.off')<br>
         </p>
       </div>
       
       <!-- Media Sosial -->
 <div class="text-center">
-    <h2 class="font-bold mb-2">Media Sosial</h2>
+    <h2 class="font-bold mb-2">@lang('users.socmed')</h2>
     <div class="flex justify-center items-center gap-4 text-xl mt-2">
         <a href="https://www.instagram.com/polinema_campus?igsh=ajd4aGtrMWNuN3d4"><i class="fab fa-instagram"></i></a>
         <a href="https://youtube.com/@politekniknegerimalangofficial?si=6XxhGUEVJp5Pngqs"><i class="fab fa-youtube"></i></a>

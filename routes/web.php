@@ -39,6 +39,12 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('locale/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('locale');
+
 // 🔐 Routes yang memerlukan login mahasiswa
 Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(function () {
     // // Profile utama mahasiswa
@@ -155,7 +161,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::post('/export', [PendaftarController::class, 'export'])->name('export');
         Route::get('/import', [PendaftarController::class, 'importForm'])->name('import.form');
         Route::post('/import', [PendaftarController::class, 'import'])->name('import');
-
     });
 
     // Rute Jadwal Ujian
@@ -172,7 +177,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::post('/{id}/bagi-peserta', [SesiJadwalController::class, 'bagiPesertaKeSesiRoom'])->name('bagiPeserta');
         Route::get('/{id_jadwal}/pembagian', [SesiJadwalController::class, 'pembagian'])->name('pembagian');
         Route::post('/{id}/reset', [SesiJadwalController::class, 'resetPembagian'])->name('reset');
-
     });
 
     // CRUD Sesi (di SesiJadwalController)
@@ -215,9 +219,9 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::prefix('surat')->name('surat.')->group(function () {
         Route::get('/', [SuratController::class, 'index'])->name('index');
-        Route::get('/{id}', [SuratController::class, 'show'])->name('show'); 
+        Route::get('/{id}', [SuratController::class, 'show'])->name('show');
         Route::post('/{id}/update_status', [SuratController::class, 'updateStatus'])->name('update_status');
-       
+
 
         // ...
     });

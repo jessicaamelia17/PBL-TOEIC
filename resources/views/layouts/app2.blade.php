@@ -15,7 +15,11 @@
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <script src="//unpkg.com/alpinejs" defer></script>
 
     {{-- Custom Tailwind config --}}
@@ -72,7 +76,7 @@
 
 
     {{-- Konten --}}
-    <main class="flex-grow pt-24 pb-24" >
+    <main class="flex-grow pt-24 pb-24">
         {{-- Breadcrumb --}}
         @hasSection('breadcrumb')
             @yield('breadcrumb')
