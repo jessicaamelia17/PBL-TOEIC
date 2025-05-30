@@ -98,8 +98,7 @@ Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('sur
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
 
-// Toggle Pendaftaran (dipanggil oleh AJAX)
-Route::post('/admin/pendaftaran/toggle', [PendaftarController::class, 'togglePendaftaran']);
+
 
 Route::post('/go-back', function () {
     $history = session()->get('page_history', []);
