@@ -68,24 +68,7 @@
     </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-md-12 text mb-3">
-        <p style="font-size: 24px; font-weight: bold;">
-            {{ session('pendaftaran_dibuka', false) ? '📢 PENDAFTARAN DIBUKA!' : 'PENDAFTARAN DITUTUP!' }}
-        </p>
-    </div>
-</div>
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <form action="{{ url('/admin/pendaftaran/toggle') }}" method="POST">
-            @csrf
-            <button class="btn btn-{{ session('pendaftaran_dibuka', false) ? 'danger' : 'success' }} btn-lg px-5 py-2" style="font-size: 18px;">
-                {{ session('pendaftaran_dibuka', false) ? 'Tutup Pendaftaran' : 'Buka Pendaftaran' }}
-            </button>
-        </form>
-    </div>
-</div>
 
 {{-- jQuery dan AJAX untuk update kuota --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
