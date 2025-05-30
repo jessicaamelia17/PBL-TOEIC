@@ -79,4 +79,34 @@ class JadwalController extends Controller
 
     return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dihapus.');
 }
+public function create()
+{
+    $breadcrumb = (object) [
+        'title' => 'Tambah Jadwal Ujian',
+        'list' => ['Home', 'Jadwal Ujian', 'Tambah']
+    ];
+
+    $activeMenu = 'jadwal';
+
+    return view('admin.jadwal.create', [
+        'breadcrumb' => $breadcrumb,
+        'activeMenu' => $activeMenu
+    ]);
+}
+public function store(Request $request)
+{
+    $request->validate([
+        'Tanggal_Ujian' => 'required|date',
+        'kuota_max' => 'required|integer|min:1',
+        // tambahkan validasi lain jika ada field lain
+    ]);
+
+    JadwalUjianModel::create([
+        'Tanggal_Ujian' => $request->Tanggal_Ujian,
+        'kuota_max' => $request->kuota_max,
+        // tambahkan field lain jika ada
+    ]);
+
+    return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
+}
 }

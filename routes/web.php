@@ -185,7 +185,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     // CRUD Room (pindah ke RoomController)
     Route::prefix('room')->name('room.')->group(function () {
-        Route::get('/{id}/edit', [SesiJadwalController::class, 'edit'])->name('edit');
+        Route::get('/{id}/edit', [SesiJadwalController::class, 'editRoom'])->name('edit');
         Route::put('/{id}', [SesiJadwalController::class, 'update'])->name('update');
         Route::delete('/{id}', [SesiJadwalController::class, 'destroy'])->name('destroy');
         Route::post('/store-room/{id_sesi}', [SesiJadwalController::class, 'storeRoom'])->name('storeRoom'); // Tambahan: jika ada tambah room
@@ -234,6 +234,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
         Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
-        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
+        Route::post('sertifikat/export', [SertifikatController::class, 'export'])->name('sertifikat.export');
     });
 });

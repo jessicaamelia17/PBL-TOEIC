@@ -123,23 +123,55 @@ class SesiJadwalController extends Controller
                 }
             }
     
-            // Bagi peserta satu per satu ke room yang tersedia
-            $i = 0;
-            foreach ($pesertaList as $peserta) {
-                // Lewati room yang penuh
-                while ($i < count($roomQueue) && $roomQueue[$i]['kapasitas_tersisa'] <= 0) {
-                    $i++;
+            
+            // Group peserta berdasarkan Id_Prodi mahasiswa
+            $pesertaByProdi = $pesertaList->groupBy(function($item) {
+                return $item->mahasiswa ? $item->mahasiswa->Id_Prodi : 'undefined';
+            });
+            
+            foreach ($pesertaByProdi as $groupedPeserta) {
+                // Urutkan nama dalam prodi dari A-Z
+                $sortedPeserta = $groupedPeserta->sortBy(function($item) {
+                    return $item->mahasiswa->nama ?? '';
+                })->values();
+            
+                $jumlahPeserta = $sortedPeserta->count();
+                $roomFound = false;
+            
+                // Coba cari room yang kapasitasnya cukup untuk satu prodi
+                foreach ($roomQueue as &$roomItem) {
+                    if ($roomItem['kapasitas_tersisa'] >= $jumlahPeserta) {
+                        foreach ($sortedPeserta as $peserta) {
+                            $peserta->update([
+                                'id_sesi' => $roomItem['id_sesi'],
+                                'id_room' => $roomItem['room']->id_room,
+                            ]);
+                        }
+                        $roomItem['kapasitas_tersisa'] -= $jumlahPeserta;
+                        $roomFound = true;
+                        break;
+                    }
                 }
-    
-                if ($i >= count($roomQueue)) {
-                    break; // Semua room sudah penuh
+            
+                // Jika tidak ada room yang cukup, bagi ke beberapa room berikutnya
+                if (!$roomFound) {
+                    $i = 0;
+                    while ($i < $jumlahPeserta) {
+                        foreach ($roomQueue as &$roomItem) {
+                            if ($roomItem['kapasitas_tersisa'] <= 0) continue;
+                            $batch = $sortedPeserta->slice($i, $roomItem['kapasitas_tersisa']);
+                            foreach ($batch as $peserta) {
+                                $peserta->update([
+                                    'id_sesi' => $roomItem['id_sesi'],
+                                    'id_room' => $roomItem['room']->id_room,
+                                ]);
+                            }
+                            $roomItem['kapasitas_tersisa'] -= $batch->count();
+                            $i += $batch->count();
+                            if ($i >= $jumlahPeserta) break;
+                        }
+                    }
                 }
-    
-                $peserta->update([
-                    'id_sesi' => $roomQueue[$i]['id_sesi'],
-                    'id_room' => $roomQueue[$i]['room']->id_room,
-                ]);
-                $roomQueue[$i]['kapasitas_tersisa']--;
             }
     
             return response()->json([
