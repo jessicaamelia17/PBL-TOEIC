@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-4xl font-extrabold text-blue-700 mb-10 text-center tracking-wide drop-shadow">Student Profile</h1>
+        <h1 class="text-4xl font-extrabold text-blue-700 mb-10 text-center tracking-wide drop-shadow">@lang('users.profile_title')</h1>
 
         @if (session('success'))
             <div
@@ -14,7 +14,7 @@
         <div class="flex justify-center">
             @if ($mahasiswa)
                 <div
-                    class="bg-white shadow-2xl hover:shadow-blue-200 transition duration-300 rounded-3xl overflow-hidden w-full max-w-2xl border border-blue-100">
+                    class="bg-white shadow-2xl hover:shadow-blue-200 transition duration-300 rounded-3xl overflow-hidden w-full max-w-3xl border-4 border-blue-100">
                     <div class="flex flex-col md:flex-row items-center p-8 gap-8">
                         <div class="flex flex-col items-center">
                             <div class="relative">
@@ -24,12 +24,12 @@
                             </div>
                             <a href="{{ route('mahasiswa.edit', $mahasiswa->nim) }}"
                                 class="mt-6 inline-flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
-                                <i class="fa fa-edit mr-2"></i>Edit Profile
+                                <i class="fa fa-edit mr-2"></i>@lang('users.edit_profile')
                             </a>
                             <!-- Tombol Reset Password -->
                             <a href="{{ route('mahasiswa.resetPassword.form', $mahasiswa->nim) }}"
                                 class="mt-3 inline-flex items-center bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
-                                <i class="fa fa-key mr-2"></i>Reset Password
+                                <i class="fa fa-key mr-2"></i>@lang('users.reset_password')
                             </a>
                         </div>
                         <div class="text-gray-800 text-base w-full">
@@ -51,40 +51,36 @@
                                     <span>{{ $mahasiswa->no_hp ?? '-' }}</span>
                                 </li>
                                 <li class="grid grid-cols-4">
-                                    <span class="font-semibold">Department</span>
+                                    <span class="font-semibold">@lang('users.department')</span>
                                     <span class="text-center">:</span>
                                     <span>{{ $mahasiswa->jurusan->Nama_Jurusan ?? '-' }}</span>
                                 </li>
                                 <li class="grid grid-cols-4">
-                                    <span class="font-semibold">Study Program</span>
+                                    <span class="font-semibold">@lang('users.study_program')</span>
                                     <span class="text-center">:</span>
                                     <span>{{ $mahasiswa->prodi->Nama_Prodi ?? '-' }}</span>
                                 </li>
                                 <li class="grid grid-cols-4">
-                                    <span class="font-semibold">Address</span>
+                                    <span class="font-semibold">@lang('users.address')</span>
                                     <span class="text-center">:</span>
                                     <span>{{ $mahasiswa->alamat ?? '-' }}</span>
                                 </li>
                                 <li class="grid grid-cols-4">
-                                    <span class="font-semibold">Birthplace</span>
+                                    <span class="font-semibold">@lang('users.birthplace')</span>
                                     <span class="text-center">:</span>
                                     <span>{{ $mahasiswa->tmpt_lahir ?? '-' }}</span>
                                 </li>
                                 <li class="grid grid-cols-4">
-                                    <span class="font-semibold">Date of Birth</span>
+                                    <span class="font-semibold">@lang('users.dob')</span>
                                     <span class="text-center">:</span>
-                                    <span>{{ $mahasiswa->TTL ? \Carbon\Carbon::parse($mahasiswa->TTL)->format('d M Y') : '-' }}</span>
+                                    <span>{{ $mahasiswa->TTL ? \Carbon\Carbon::parse($mahasiswa->TTL)->translatedFormat('d M Y') : '-' }}</span>
                                 </li>
                             </ul>
-                            <div class="mt-6 text-sm text-gray-500">
-                                <span class="font-semibold">Registration Date:</span>
-                                {{ $mahasiswa->created_at ? $mahasiswa->created_at->format('d M Y H:i') : '-' }}
-                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- Modal Reset Password -->
-                <div id="resetPasswordModal"
+                {{-- <div id="resetPasswordModal"
                     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 z-50 hidden">
                     <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
                         <h2 class="text-xl font-bold mb-4 text-blue-700">Reset Password</h2>
@@ -116,7 +112,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
             @else
                 <div class="text-center text-gray-500">
                     <p>🚫 Tidak ada data mahasiswa.</p>

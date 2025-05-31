@@ -17,24 +17,24 @@
                     <i class="fas fa-calendar-alt fs-4"></i>
                 </div>
                 <div class="ms-3">
-                    <h3 class="mb-0 fw-semibold">TOEIC Exam Schedule List</h3>
-                    <p class="text-muted mb-0">View and manage participants based on the exam schedule.</p>
+                    <h3 class="mb-0 fw-semibold">@lang('users.shcedule_title')</h3>
+                    <p class="text-muted mb-0">@lang('users.shcedule_desc')</p>
                 </div>
             </div>
 
             @if($jadwal->isEmpty())
                 <div class="alert alert-secondary text-center rounded-3 p-4">
                     <i class="fas fa-info-circle fs-4 text-muted mb-2 d-block"></i>
-                    <strong>No exam schedule available.</strong><br>
-                    Please add a schedule first to view participant data.
+                    <strong>@lang('users.no_schedule')</strong><br>
+                    @lang('users.no_schedule_dest')
                 </div>
             @else
                 <div class="table-responsive">
                     <table class="table table-borderless align-middle">
                         <thead class="bg-light">
                             <tr class="text-muted text-uppercase small">
-                                <th style="width: 60%">Exam Date</th>
-                                <th class="text-center" style="width: 40%">Actions</th>
+                                <th style="width: 60%">@lang('users.exam_date')</th>
+                                <th class="text-center" style="width: 40%">@lang('users.actions')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,14 +44,14 @@
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-clock text-primary me-2"></i>
                                             <div>
-                                                <div class="fw-semibold fs-6">{{ \Carbon\Carbon::parse($jadwalItem->Tanggal_Ujian)->format('l, d F Y') }}</div>
+                                                <div class="fw-semibold fs-6">{{ \Carbon\Carbon::parse($jadwalItem->Tanggal_Ujian)->translatedFormat('l, d F Y') }}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('mahasiswa.schedule.pendaftar', ['id' => $jadwalItem->id_jadwal]) }}"
                                            class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
-                                            <i class="fas fa-users me-1"></i> View Participants
+                                            <i class="fas fa-users me-1"></i> @lang('users.view_participants')
                                         </a>
                                     </td>
                                 </tr>

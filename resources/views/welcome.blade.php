@@ -64,7 +64,7 @@
             @if ($pengumuman->count() > 3)
                 <div class="text-center mt-8">
                     <a href="{{ route('mahasiswa.pengumuman') }}"
-                        class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                        class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition">
                         @lang('users.see_announcement')
                     </a>
                 </div>

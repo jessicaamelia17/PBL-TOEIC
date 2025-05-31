@@ -37,7 +37,7 @@ class ScheduleController extends Controller
 
     // Breadcrumb dan menu aktif
     $breadcrumb = (object) [
-        'title' => 'Peserta Jadwal TOEIC',
+        'title' => 'users.participants_breadcrumb',
         'list' => ['Home', 'Jadwal Ujian', 'Peserta']
     ];
     $activeMenu = 'schedule';

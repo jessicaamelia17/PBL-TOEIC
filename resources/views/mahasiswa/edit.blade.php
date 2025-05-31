@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto max-w-2xl py-10">
         <div class="bg-white shadow-lg rounded-2xl p-8">
-            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Edit Profile</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">@lang('users.edit_profile')</h2>
             <form action="{{ route('mahasiswa.update', $mahasiswa->nim) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Name</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.name')</label>
                     <input type="text" name="nama" value="{{ old('nama', $mahasiswa->nama) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400"
                         required>
@@ -29,32 +29,32 @@
                 </div>
 
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Phone Number</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.phone')</label>
                     <input type="text" name="no_hp" value="{{ old('no_hp', $mahasiswa->no_hp) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Address</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.address')</label>
                     <input type="text" name="alamat" value="{{ old('alamat', $mahasiswa->alamat) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Place of Birth</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.birthplace')</label>
                     <input type="text" name="tmpt_lahir" value="{{ old('tmpt_lahir', $mahasiswa->tmpt_lahir) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Birthdate</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.dob')</label>
                     <input type="text" id="birthdate" name="TTL" value="{{ old('TTL', $mahasiswa->TTL) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400"
                         placeholder="Select Birthdate">
                 </div>
 
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Profile Photo</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.profile_photo')</label>
                     <input type="file" name="photo"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
                     @if ($mahasiswa->photo)
@@ -65,10 +65,10 @@
 
                 {{-- JURUSAN --}}
                 <div class="mb-5">
-                    <label class="block mb-2 font-semibold text-gray-700">Department</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.department')</label>
                     <select id="jurusan" name="Id_Jurusan"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
-                        <option value="">-- Select Department --</option>
+                        <option value="">-- @lang('users.department_placeholder') --</option>
                         @foreach ($jurusans as $jurusan)
                             <option value="{{ $jurusan->Id_Jurusan }}"
                                 {{ $mahasiswa->Id_Jurusan == $jurusan->Id_Jurusan ? 'selected' : '' }}>
@@ -80,10 +80,10 @@
 
                 {{-- PRODI --}}
                 <div class="mb-6">
-                    <label class="block mb-2 font-semibold text-gray-700">Study Program</label>
+                    <label class="block mb-2 font-semibold text-gray-700">@lang('users.study_program')</label>
                     <select id="prodi" name="Id_Prodi"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-blue-400">
-                        <option value="">-- Select Study Program --</option>
+                        <option value="">-- @lang('users.study_program_placeholder') --</option>
                         @foreach ($prodis as $prodi)
                             <option value="{{ $prodi->Id_Prodi }}"
                                 {{ $mahasiswa->Id_Prodi == $prodi->Id_Prodi ? 'selected' : '' }}>
@@ -96,11 +96,11 @@
                 <div class="flex justify-between">
                     <a href="{{ route('mahasiswa.profile') }}"
                         class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-                        ← Back
+                        ← @lang('users.back')
                     </a>
                     <button type="submit"
                         class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
-                        💾 Save
+                        💾 @lang('users.save')
                     </button>
                 </div>
             </form>
