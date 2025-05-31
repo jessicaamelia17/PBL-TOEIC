@@ -11,7 +11,7 @@ use App\Models\HasilUjian;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
+use Barryvdh\DomPDF\Facade\Pdf; 
 class HasilUjianController extends Controller
 {
     public function index()
@@ -162,12 +162,22 @@ class HasilUjianController extends Controller
     
         return response()->stream($callback, 200, $headers);
     }
-    public function exportForm()
-{
-    return view('admin.hasil_ujian.export', [
-        'activeMenu' => 'hasil-ujian'
-    ]);
-}
+        public function exportForm()
+    {
+        return view('admin.hasil_ujian.export', [
+            'activeMenu' => 'hasil-ujian'
+        ]);
+    }
+    
+    public function exportPdf()
+    {
+        $results = HasilUjian::with(['mahasiswa', 'jadwal'])->get();
+
+        $pdf = Pdf::loadView('admin.hasil_ujian.exportPDF', compact('results'))
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->download('hasil_ujian_export_' . date('Ymd_His') . '.pdf');
+    }
 
 
 }

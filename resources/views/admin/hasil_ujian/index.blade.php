@@ -11,6 +11,9 @@
             <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
                 <i class="fas fa-file-export"></i> Export CSV
             </button>
+            <a href="{{ route('admin.hasil-ujian.exportPdf') }}" class="btn btn-danger">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </a>
         </div>
     </div>
 

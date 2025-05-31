@@ -4,12 +4,15 @@
 
 @section('content')
 <div class="card card-outline card-primary">
-    <div class="card-header d-flex justify-content-between">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title">Daftar Sertifikat</h3>
-        <div class="ml-auto">
-            <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
+        <div class="d-flex gap-2 ml-auto">
+            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#exportCSVModal">
                 <i class="fas fa-file-export"></i> Export CSV
             </button>
+            <a href="{{ route('admin.sertifikat.exportPdf') }}" class="btn btn-danger">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </a>
         </div>
     </div>
 
@@ -19,7 +22,9 @@
                 {{ session('success') }}
             </div>
         @endif
-
+        <a href="{{ route('admin.sertifikat.sync') }}" class="btn btn-primary mb-2">
+            <i class="fas fa-sync"></i> Sinkron Sertifikat Lulus
+        </a>
         <table class="table table-bordered table-striped table-hover table-sm" id="table_sertifikat">
             <thead>
                 <tr>
@@ -29,39 +34,47 @@
                     <th>Program Studi</th>
                     <th>Tanggal Diambil</th>
                     <th>Status</th>
-                    <th>Checklist</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($sertifikats as $index => $sertifikat)
+                @forelse ($sertifikats as $index => $item)
+                    @php
+                        // Ambil mahasiswa dari hasil ujian, jika tidak ada ambil dari relasi langsung
+                        $mahasiswa = $item->hasilUjian->mahasiswa ?? $item->mahasiswa ?? null;
+                    @endphp
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $sertifikat->Nama }}</td>
-                        <td>{{ $sertifikat->NIM }}</td>
-                        <td>{{ $sertifikat->Program_Studi }}</td>
-                        <td>{{ $sertifikat->Tanggal_Diambil ? date('d-m-Y', strtotime($sertifikat->Tanggal_Diambil)) : '-' }}</td>
+                        <td>{{ $mahasiswa->nama ?? '-' }}</td>
+                        <td>{{ $mahasiswa->nim ?? '-' }}</td>
+                        <td>{{ $mahasiswa->prodi->Nama_Prodi ?? '-' }}</td>
+                        <td>{{ $item->Tanggal_Diambil ? date('d-m-Y', strtotime($item->Tanggal_Diambil)) : '-' }}</td>
                         <td>
-                            @if($sertifikat->Status == 'Diambil')
+                            @if($item->Status == 'Diambil')
                                 <span class="badge badge-success">Diambil</span>
                             @else
                                 <span class="badge badge-warning">Belum Diambil</span>
                             @endif
                         </td>
                         <td>
-                            @if($sertifikat->Status == 'Belum Diambil')
-                                <form method="POST" action="{{ route('admin.sertifikat.update', $sertifikat->id_pengambilan) }}">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="btn btn-sm btn-primary">Sudah Diambil</button>
-                                </form>
+                            @if($item->Status != 'Diambil')
+                            <form action="{{ route('admin.sertifikat.ambil', $item->id_pengambilan) }}" method="POST" class="d-inline form-ambil-sertifikat">
+                                @csrf
+                                @method('PUT')
+                                <button type="button" class="btn btn-sm btn-success btn-ambil-sertifikat">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </form>
                             @else
-                                <i class="text-muted">Sudah</i>
+                                <button class="btn btn-sm btn-secondary" disabled>
+                                    <i class="fas fa-check"></i>
+                                </button>
                             @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center">Tidak ada data sertifikat.</td>
+                        <td colspan="6" class="text-center">Tidak ada data sertifikat.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -71,27 +84,26 @@
 
 <!-- Modal Export CSV -->
 <div class="modal fade" id="exportCSVModal" tabindex="-1" aria-labelledby="exportCSVModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form action="{{ route('admin.admin.sertifikat.export') }}" method="POST">
-        @csrf
-        <div class="modal-header">
-          <h5 class="modal-title" id="exportCSVModalLabel">Export Sertifikat</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Klik tombol Export untuk mengunduh data sertifikat dalam format CSV.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-success">Export</button>
-        </div>
-      </form>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="{{ route('admin.sertifikat.export') }}" method="GET">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exportCSVModalLabel">Export Sertifikat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Klik tombol Export untuk mengunduh data sertifikat dalam format CSV.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-success">Export</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 @endsection
 
 @push('js')
@@ -104,5 +116,25 @@
             ordering: true,
         });
     });
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.btn-ambil-sertifikat').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Yakin ingin menandai sertifikat ini sudah diambil?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, tandai diambil',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    btn.closest('form').submit();
+                }
+            });
+        });
+    });
+});
 </script>
 @endpush

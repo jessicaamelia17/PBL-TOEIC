@@ -171,7 +171,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admin.admin.sertifikat.index') }}"
+                <a href="{{ route('admin.sertifikat.index') }}"
                    class="nav-link {{ (isset($activeMenu) && $activeMenu == 'sertifikat') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-certificate"></i>
                     <p>Pengambilan Sertifikat</p>

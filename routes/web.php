@@ -214,6 +214,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
         Route::get('/export-form', [AdminHasilController::class, 'exportForm'])->name('export.form');
         Route::get('/export', [AdminHasilController::class, 'export'])->name('export');
+        Route::get('/export-pdf', [AdminHasilController::class, 'exportPdf'])->name('exportPdf');
     });
 
     Route::prefix('surat')->name('surat.')->group(function () {
@@ -235,9 +236,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::post('/import', [ControllerMahasiswa::class, 'import_ajax'])->name('import_ajax');
     });
     // Pengambilan Sertifikat
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('sertifikat', [SertifikatController::class, 'index'])->name('sertifikat.index');
-        Route::put('/admin/sertifikat/{id}', [SertifikatController::class, 'update'])->name('admin.sertifikat.update');
-        Route::post('sertifikat/export', [SertifikatController::class, 'export'])->name('sertifikat.export');
+    Route::prefix('sertifikat')->name('sertifikat.')->group(function () {
+        Route::get('/', [SertifikatController::class, 'index'])->name('index');
+        Route::put('/{id}', [SertifikatController::class, 'update'])->name('update');
+        Route::get('/export', [SertifikatController::class, 'export'])->name('export');
+        Route::get('/sync', [SertifikatController::class, 'syncSertifikat'])->name('sync');
+        Route::put('/ambil/{id}', [SertifikatController::class, 'ambil'])->name('ambil');
+        Route::get('/export/pdf', [SertifikatController::class, 'exportPdf'])->name('exportPdf');
     });
 });
