@@ -35,7 +35,7 @@
                 @endif
             @endif
 
-            <a href="{{ route('landing') }}" class="mt-6 inline-block text-blue-600 hover:underline">← Back</a>
+            <a href="{{ route('mahasiswa.pengumuman') }}" class="mt-6 inline-block text-blue-600 hover:underline">← Back</a>
         </div>
     </div>
 @endsection

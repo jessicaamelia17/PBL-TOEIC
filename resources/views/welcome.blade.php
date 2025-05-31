@@ -2,37 +2,32 @@
 
 @section('content')
 
-{{-- Global background color (e.g., light gray) --}}
-<section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100 pt-20">
-    {{-- Full background image --}}
-    <img src="{{ asset('/homepage.png') }}"
-         alt="TOEIC Banner"
-         class="absolute inset-0 w-full h-full object-cover object-center z-0" />
+    {{-- Global background color (e.g., light gray) --}}
+    <section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100 pt-20">
+        {{-- Full background image --}}
+        <img src="{{ asset('/homepage.png') }}" alt="TOEIC Banner"
+            class="absolute inset-0 w-full h-full object-cover object-center z-0" />
 
-    {{-- Dark overlay for contrast --}}
-    <div class="absolute inset-0 bg-grey/40 z-10"></div>
+        {{-- Dark overlay for contrast --}}
+        <div class="absolute inset-0 bg-grey/40 z-10"></div>
 
-    {{-- Text on top of image --}}
-    <div class="absolute inset-0 flex flex-col items-center justify-start text-blue-900 px-2 text-center z-10 pt-20 space-y-4">
-        <h2 class="text-4xl md:text-5xl font-bold drop-shadow-lg"
-            data-aos="fade-down"
-            data-aos-duration="1200">TOEIC Service</h2>
+        {{-- Text on top of image --}}
+        <div
+            class="absolute inset-0 flex flex-col items-center justify-start text-blue-900 px-2 text-center z-10 pt-20 space-y-4">
+            <h2 class="text-4xl md:text-5xl font-bold drop-shadow-lg" data-aos="fade-down" data-aos-duration="1200">
+                @lang('users.toeic_service')</h2>
 
-        <h3 class="text-2xl md:text-3xl font-semibold drop-shadow-md"
-            data-aos="fade-down"
-            data-aos-delay="200"
-            data-aos-duration="1000">POLYTECHNIC STATE OF MALANG</h3>
+            <h3 class="text-2xl md:text-3xl font-semibold drop-shadow-md" data-aos="fade-down" data-aos-delay="200"
+                data-aos-duration="1000">@lang('users.polinema')</h3>
 
-        <p class="max-w-xl text-lg md:text-xl text-blue-900 drop-shadow"
-           data-aos="fade-up"
-           data-aos-delay="400"
-           data-aos-duration="1000">
-            Get complete information about TOEIC registration, schedules, and exam results.
-        </p>
-    </div>
+            <p class="max-w-xl text-lg md:text-xl text-blue-900 drop-shadow" data-aos="fade-up" data-aos-delay="400"
+                data-aos-duration="1000">
+                @lang('users.desc_toeic')
+            </p>
+        </div>
 
-    {{-- Button at bottom of image --}}
-    {{-- <div class="w-full flex justify-center absolute bottom-20 z-20"
+        {{-- Button at bottom of image --}}
+        {{-- <div class="w-full flex justify-center absolute bottom-20 z-20"
          data-aos="zoom-in-up"
          data-aos-delay="600"
          data-aos-duration="1000">
@@ -46,9 +41,9 @@
 
     {{-- Announcement --}}
     <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Announcement</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">@lang('users.announcement')</h2>
         @if ($pengumuman->isEmpty())
-            <div class="text-center text-gray-600">There is no announcements.</div>
+            <div class="text-center text-gray-600">@lang('users.no_announcement')</div>
         @else
             <div class="space-y-6 text-gray-700">
                 @foreach ($pengumuman->take(3) as $item)
@@ -56,11 +51,11 @@
                         <span class="text-lg font-semibold">{{ $item->Judul }}</span>
                         <div class="flex items-center gap-4">
                             <span class="text-sm text-gray-500">
-                                {{ \Carbon\Carbon::parse($item->Tanggal_Pengumuman)->format('d M Y') }}
+                                {{ \Carbon\Carbon::parse($item->Tanggal_Pengumuman)->translatedFormat('d M Y') }}
                             </span>
                             <a href="{{ route('mahasiswa.show-pengumuman', $item->Id_Pengumuman) }}"
                                 class="text-blue-600 hover:underline">
-                                See More
+                                @lang('users.read_more')
                             </a>
                         </div>
                     </div>
@@ -70,7 +65,7 @@
                 <div class="text-center mt-8">
                     <a href="{{ route('mahasiswa.pengumuman') }}"
                         class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-                        See all announcements
+                        @lang('users.see_announcement')
                     </a>
                 </div>
             @endif
@@ -81,38 +76,38 @@
     @php
         $cards = [
             [
-                'title' => 'TOEIC Registration',
-                'desc' => 'Isi formulir pendaftaran dengan data yang valid untuk mengikuti tes TOEIC dari kampus.',
+                'title' => 'users.toeic_registration',
+                'desc' => 'users.toeic_registration_desc',
                 'img' => 'registration.png',
                 'link' => route('mahasiswa.registrasi.create'),
-                'button' => 'Daftar Sekarang',
+                'button' => 'users.toeic_registration_button',
                 'bg' => 'bg-white',
                 'aos' => 'fade-right',
             ],
             [
-                'title' => 'Exam Schedule',
-                'desc' => 'Lihat jadwal terbaru pelaksanaan TOEIC resmi dari kampus.',
+                'title' => 'users.exam_schedule',
+                'desc' => 'users.exam_schedule_desc',
                 'img' => 'jadwal.png',
                 'link' => route('mahasiswa.schedule.index'),
-                'button' => 'Lihat Jadwal',
+                'button' => 'users.exam_schedule_button',
                 'bg' => 'bg-gray-50',
                 'aos' => 'fade-left',
             ],
             [
-                'title' => 'Check Exam Results',
-                'desc' => 'Cek hasil tes TOEIC Anda secara online dan dapatkan skor langsung.',
+                'title' => 'users.exam_results',
+                'desc' => 'users.exam_results_desc',
                 'img' => 'result.png',
                 'link' => url('/hasil-ujian'),
-                'button' => 'Lihat Hasil',
+                'button' => 'users.exam_results_button',
                 'bg' => 'bg-white',
                 'aos' => 'fade-right',
             ],
             [
-                'title' => 'Complete Guide',
-                'desc' => 'Pelajari panduan lengkap TOEIC agar lebih siap menghadapi ujian.',
+                'title' => 'users.toeic_guide',
+                'desc' => 'users.toeic_guide_desc',
                 'img' => 'guide.png',
                 'link' => url('/panduan'),
-                'button' => 'Baca Panduan',
+                'button' => 'users.toeic_guide_button',
                 'bg' => 'bg-gray-50',
                 'aos' => 'fade-left',
             ],
@@ -127,11 +122,11 @@
                 <img src="{{ asset($card['img']) }}" alt="{{ $card['title'] }}"
                     class="w-32 md:w-40 h-auto mx-auto md:mx-0 rounded-lg shadow">
                 <div class="text-center md:text-left">
-                    <h2 class="text-2xl md:text-3xl font-bold text-blue-900">{{ $card['title'] }}</h2>
-                    <p class="text-gray-800 mt-2 text-lg leading-relaxed">{{ $card['desc'] }}</p>
+                    <h2 class="text-2xl md:text-3xl font-bold text-blue-900">{{ __($card['title']) }}</h2>
+                    <p class="text-gray-800 mt-2 text-lg leading-relaxed">{{ __($card['desc']) }}</p>
                     <a href="{{ $card['link'] }}"
                         class="inline-block mt-4 bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                        {{ $card['button'] }}
+                        {{ __($card['button']) }}
                     </a>
                 </div>
             </div>
@@ -148,14 +143,13 @@
             <img src="{{ asset('pengajuan.png') }}" alt="Pengajuan Surat"
                 class="w-40 md:w-56 h-auto mx-auto md:mx-0 rounded-lg shadow">
             <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-blue-900">Butuh Surat Rekomendasi TOEIC?</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-blue-900">@lang('users.toeic_letter')</h2>
                 <p class="text-gray-800 mt-2 text-lg leading-relaxed">
-                    Ajukan surat pengantar atau surat kebutuhan administrasi TOEIC langsung melalui sistem kami. Cukup
-                    login, isi data, dan pantau status pengajuan secara real-time.
+                    @lang('users.toeic_letter_desc')
                 </p>
                 <a href="{{ route('surat.index') }}"
                     class="inline-block mt-4 bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Ajukan Surat Sekarang
+                    @lang('users.toeic_letter_button')
                 </a>
             </div>
         </div>
@@ -168,14 +162,13 @@
             <img src="{{ asset('mandiri.png') }}" alt="Pendaftaran ITC"
                 class="w-40 md:w-56 h-auto mx-auto md:mx-0 rounded-lg shadow">
             <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-yellow-900">Ingin Daftar Mandiri ke ITC?</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-yellow-900">@lang('users.itc_registration')</h2>
                 <p class="text-gray-800 mt-2 text-lg leading-relaxed">
-                    Jika Anda belum sempat mendaftar melalui jalur kampus, Anda tetap bisa ikut tes TOEIC secara mandiri
-                    melalui ITC resmi. Pilih tanggal tes dan lokasi yang sesuai dengan kebutuhan Anda.
+                    @lang('users.itc_registration_desc')
                 </p>
                 <a href="https://itc.example.com" target="_blank"
                     class="inline-block mt-4 bg-yellow-500 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
-                    Daftar Mandiri di ITC
+                    @lang('users.itc_registration_button')
                 </a>
             </div>
         </div>

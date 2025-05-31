@@ -28,6 +28,11 @@
             /* fallback warna biru muda */
         }
     </style>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
     {{-- Alpine.js --}}
     <script src="//unpkg.com/alpinejs" defer></script>

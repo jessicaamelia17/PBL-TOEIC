@@ -16,6 +16,11 @@
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <!-- DataTables CSS -->
    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
@@ -75,7 +80,7 @@
 
 
     {{-- Konten --}}
-    <main class="flex-grow pt-24 pb-24" >
+    <main class="flex-grow pt-24 pb-24">
         {{-- Breadcrumb --}}
         @hasSection('breadcrumb')
             @yield('breadcrumb')

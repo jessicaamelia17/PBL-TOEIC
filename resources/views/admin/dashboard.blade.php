@@ -68,22 +68,14 @@
     </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-md-12 text mb-3">
-        <p style="font-size: 24px; font-weight: bold;">
-            {{ session('pendaftaran_dibuka', false) ? '📢 PENDAFTARAN DIBUKA!' : 'PENDAFTARAN DITUTUP!' }}
-        </p>
-    </div>
-</div>
+<div class="mt-4 mb-5">
+    <h4 class="fw-bold text-uppercase">Status Pendaftaran TOEIC</h4>
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <form action="{{ url('/admin/pendaftaran/toggle') }}" method="POST">
-            @csrf
-            <button class="btn btn-{{ session('pendaftaran_dibuka', false) ? 'danger' : 'success' }} btn-lg px-5 py-2" style="font-size: 18px;">
-                {{ session('pendaftaran_dibuka', false) ? 'Tutup Pendaftaran' : 'Buka Pendaftaran' }}
-            </button>
-        </form>
+    <span class="badge bg-success px-3 py-2 fs-5">DIBUKA</span> {{-- Ganti ke bg-danger dan teks DITUTUP jika perlu --}}
+
+    <div class="mt-3 d-flex gap-2">
+        <button id="btn-buka" class="btn btn-success fw-semibold" disabled>Buka Pendaftaran</button>
+        <button id="btn-tutup" class="btn btn-danger fw-semibold">Tutup Pendaftaran</button>
     </div>
 </div>
 
