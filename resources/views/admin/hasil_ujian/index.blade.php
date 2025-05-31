@@ -3,17 +3,16 @@
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header d-flex justify-content-between">
-    <h3 class="card-title">Data Hasil Ujian TOEIC</h3>
-    <div class="ml-auto">
-        <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
-            <i class="fas fa-file-import"></i> Import CSV
-        </button>
-        <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
-            <i class="fas fa-file-export"></i> Export CSV
-        </button>
+        <h3 class="card-title">Data Hasil Ujian TOEIC</h3>
+        <div class="ml-auto">
+            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
+                <i class="fas fa-file-import"></i> Import CSV
+            </button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
+                <i class="fas fa-file-export"></i> Export CSV
+            </button>
+        </div>
     </div>
-</div>
-
 
     <div class="card-body">
         @if(session('success'))
@@ -42,23 +41,67 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($results as $index => $item)
+                    @foreach ($results as $item)
                     <tr>
-                        <td class="text-center">{{ $results->firstItem() + $index }}</td>
-                        <td>{{ $item->Nama }}</td>
-                        <td class="text-center">{{ $item->NIM}}</td>
-                        <td class="text-center">{{ $item->Listening}}</td>
-                        <td class="text-center">{{ $item->Reading}}</td>
-                        <td class="text-center">{{ $item->Skor}}</td>
+                        <td></td> <!-- Nomor urut akan diisi otomatis oleh DataTables -->
+                        <td>{{ optional($item->mahasiswa)->nama ?? '-' }}</td>
+                        <td class="text-center">{{ $item->NIM }}</td>
+                        <td class="text-center">{{ $item->listening_1 }}</td>
+                        <td class="text-center">{{ $item->reading_1 }}</td>
+                        <td class="text-center">{{ $item->total_skor_1 }}</td>
                         <td class="text-center">{{ $item->Listening_2 }}</td>
                         <td class="text-center">{{ $item->Reading_2 }}</td>
-                        <td class="text-center">{{ $item->Skor_2 }}</td>
-                        <td class="text-center">{{ \Carbon\Carbon::parse($item->Tanggal_Ujian)->format('d-m-Y') }}</td>
+                        <td class="text-center">{{ $item->total_skor_2 }}</td>
+                        <td class="text-center">
+                            {{ optional($item->jadwal)->Tanggal_Ujian
+                                ? \Carbon\Carbon::parse($item->jadwal->Tanggal_Ujian)->format('d-m-Y') 
+                                : '-' }}
+                        </td>
                         <td class="text-center">{{ $item->Status }}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            <!-- Modal Import CSV -->
+            <div class="modal fade" id="importCSVModal" tabindex="-1" role="dialog" aria-labelledby="importCSVModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form action="{{ route('admin.hasil-ujian.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="importCSVModalLabel">Import CSV Hasil Ujian</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="file" name="file" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">Import</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- Modal Export CSV -->
+            <div class="modal fade" id="exportCSVModal" tabindex="-1" role="dialog" aria-labelledby="exportCSVModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form action="{{ route('admin.hasil-ujian.export') }}" method="GET">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exportCSVModalLabel">Export CSV Hasil Ujian</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">Export</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
         </div>
 
         <div class="mt-3">
@@ -66,71 +109,28 @@
         </div>
     </div>
 </div>
-
-<!-- Modal Import CSV -->
-<div class="modal fade" id="importCSVModal" tabindex="-1" aria-labelledby="importCSVModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form action="{{ route('admin.hasil-ujian.import') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="modal-header">
-          <h5 class="modal-title" id="importCSVModalLabel">Import Hasil Ujian TOEIC</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group mb-3">
-              <label for="file">Pilih File CSV</label>
-              <input type="file" name="file" accept=".csv" required class="form-control" id="file">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary">Upload</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Export CSV -->
-<div class="modal fade" id="exportCSVModal" tabindex="-1" aria-labelledby="exportCSVModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form action="{{ route('admin.hasil-ujian.export') }}" method="POST">
-        @csrf
-        <div class="modal-header">
-          <h5 class="modal-title" id="exportCSVModalLabel">Export Hasil Ujian TOEIC</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Klik tombol Export untuk mengunduh data hasil ujian dalam format CSV.</p>
-          <!-- Jika ingin ada opsi filter, bisa ditambahkan di sini -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-success">Export</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 @endsection
 
 @push('js')
 <script>
     $(document).ready(function () {
-        $('#table_hasil_ujian').DataTable({
+        var t = $('#table_hasil_ujian').DataTable({
             paging: false,
             searching: true,
             info: false,
             ordering: true,
-            order: [[9, 'desc']]
+            order: [[1, 'asc']], // urutkan berdasarkan kolom Nama (kolom ke-2)
+            columnDefs: [
+                { orderable: false, searchable: false, targets: 0 } // kolom No tidak bisa di-sort/search
+            ]
         });
+
+        // Auto-numbering kolom No
+        t.on('order.dt search.dt', function () {
+            t.column(0, {search:'applied', order:'applied'}).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
     });
 </script>
 @endpush

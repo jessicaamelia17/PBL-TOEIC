@@ -209,8 +209,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/', [AdminHasilController::class, 'index'])->name('index');
         Route::get('/import', [AdminHasilController::class, 'importForm'])->name('import.form');
         Route::post('/import', [AdminHasilController::class, 'import'])->name('import');
-        Route::get('/export', [AdminHasilController::class, 'exportForm'])->name('export.form');
-        Route::post('/export', [AdminHasilController::class, 'export'])->name('export');
+        Route::get('/export-form', [AdminHasilController::class, 'exportForm'])->name('export.form');
+        Route::get('/export', [AdminHasilController::class, 'export'])->name('export');
     });
 
     Route::prefix('surat')->name('surat.')->group(function () {

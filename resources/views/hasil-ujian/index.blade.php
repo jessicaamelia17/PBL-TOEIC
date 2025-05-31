@@ -43,15 +43,17 @@
             <tbody>
                 @foreach ($results as $r)
                     <tr class="hover:bg-blue-50">
-                        <td class="px-4 py-2">{{ $r->Nama }}</td>
+                        <td class="px-4 py-2">{{ optional($r->mahasiswa)->nama ?? '-' }}</td>
                         <td class="px-4 py-2">{{ $r->NIM }}</td>
-                        <td class="px-4 py-2">{{ $r->Listening }}</td>
-                        <td class="px-4 py-2">{{ $r->Reading }}</td>
-                        <td class="px-4 py-2">{{ $r->Skor }}</td>
+                        <td class="px-4 py-2">{{ $r->listening_1 }}</td>
+                        <td class="px-4 py-2">{{ $r->reading_1 }}</td>
+                        <td class="px-4 py-2">{{ $r->total_skor_1 }}</td>
                         <td class="px-4 py-2">{{ $r->Listening_2 }}</td>
                         <td class="px-4 py-2">{{ $r->Reading_2 }}</td>
-                        <td class="px-4 py-2">{{ $r->Skor_2 }}</td>
-                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($r->Tanggal_Ujian)->format('d-m-Y') }}</td>
+                        <td class="px-4 py-2">{{ $r->total_skor_2 }}</td>
+                        <td class="px-4 py-2">
+                            {{ optional($r->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->jadwal->Tanggal_Ujian)->format('d-m-Y') : '-' }}
+                        </td>
                         <td class="px-4 py-2">{{ $r->Status }}</td>
                         <td class="px-4 py-2 space-y-1">
                             <a href="{{ route('hasil-ujian.pdf.view', $r->Id_Hasil) }}" target="_blank"

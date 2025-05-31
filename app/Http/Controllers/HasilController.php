@@ -10,12 +10,8 @@ class HasilController extends Controller
 {
     public function index()
     {
-        $results = HasilUjian::all()->map(function ($r) {
-            $r->Skor = $r->Skor ?? 0; // default kalau null
-            $r->Status = $r->Skor >= 700 ? 'Lulus' : 'Tidak Lulus';
-            return $r;
-        });
-
+        $results = HasilUjian::with(['mahasiswa', 'jadwal'])->get();
+    
         return view('hasil-ujian.index', compact('results'));
     }
 

@@ -15,7 +15,12 @@ class HasilUjian extends Model
 
     protected $fillable = [
         'NIM',
-        'Skor',
+        'listening_1',
+        'reading_1',
+        'total_skor_1',
+        'Listening_2',
+        'Reading_2',
+        'total_skor_2',
         'Tanggal_Ujian',
         'Status', 
     ];
@@ -33,5 +38,9 @@ class HasilUjian extends Model
     public function pengambilanSertifikat()
     {
     return $this->hasOne(PengambilanSertifikat::class, 'Id_Hasil', 'Id_Hasil');
+    }
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
     }
 }
