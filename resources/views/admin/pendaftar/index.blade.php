@@ -29,14 +29,15 @@
         <table class="table table-bordered table-striped table-hover table-sm" id="table_pendaftar">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>No</th>
                     <th>NIM</th>
                     <th>Nama</th>
-                    <th>No. WA</th>
+                    <th>No HP</th>
                     <th>Email</th>
-                    <th>Jurusan</th>
                     <th>Prodi</th>
+                    <th>Jurusan</th>
                     <th>Tanggal Pendaftaran</th>
+                    <th>Jadwal Ujian</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -124,15 +125,16 @@
                 dataType: "json"
             },
             columns: [
-                { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                { data: "NIM" },
-                { data: "Nama" },
-                { data: "No_WA" },
-                { data: "email" },
-                { data: "jurusan.Nama_Jurusan", defaultContent: '-' },
-                { data: "prodi.Nama_Prodi", defaultContent: '-' },
-                { data: "Tanggal_Pendaftaran" },
-                { data: "aksi", orderable: false, searchable: false }
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'NIM', name: 'NIM' },
+                { data: 'nama', name: 'nama' },
+                { data: 'no_hp', name: 'no_hp' },
+                { data: 'email', name: 'email' },
+                { data: 'Nama_Prodi', name: 'Nama_Prodi' },
+                { data: 'Nama_Jurusan', name: 'Nama_Jurusan' },
+                { data: 'Tanggal_Pendaftaran', name: 'Tanggal_Pendaftaran' },
+                { data: 'Jadwal', name: 'Jadwal' }, // Tambahkan ini
+                { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
             ]
         });
     });

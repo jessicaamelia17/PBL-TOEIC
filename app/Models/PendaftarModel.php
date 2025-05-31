@@ -35,4 +35,11 @@ class PendaftarModel extends Model
     {
         return $this->belongsTo(ProdiModel::class, 'Id_Prodi');
     }
+    public function mahasiswa()
+{
+    return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
+}
+    public function jadwal_ujian() {
+        return $this->belongsTo(JadwalUjianModel::class, 'Id_Jadwal', 'Id_Jadwal');
+    }
 }
