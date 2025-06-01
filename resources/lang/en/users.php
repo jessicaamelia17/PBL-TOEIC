@@ -88,5 +88,12 @@ return [
     'last' => 'Last',
     'next' => 'Next',
     'prev' => 'Previous',
-    'empty_data' => 'There is no data'
+    'empty_data' => 'There is no data',
+    'guide_toeic' => 'TOEIC Guide',
+    'guide_v1' => 'TOEIC Guide Version 1',
+    'guide_v2' => 'TOEIC Guide Version 2',
+    'toeic_score' => 'TOEIC Exam Results',
+    'view_pdf' => 'View PDF',
+    'download_all_result' => 'Download Results Test',
+    'score' => 'Score',
 ];

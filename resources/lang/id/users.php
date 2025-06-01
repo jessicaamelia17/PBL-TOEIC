@@ -88,5 +88,12 @@ return [
     'last' => 'Terakhir',
     'next' => 'Selanjutnya',
     'prev' => 'Sebelumnya',
-    'empty_data' => 'Tidak ada data tersedia'
+    'empty_data' => 'Tidak ada data tersedia',
+    'guide_toeic' => 'Panduan TOEIC',
+    'guide_v1' => 'Panduan TOEIC Versi 1',
+    'guide_v2' => 'Panduan TOEIC Versi 2',
+    'toeic_score' => 'Hasil Ujian TOEIC',
+    'view_pdf' => 'Lihat PDF',
+    'download_all_result' => 'Download Hasil Tes',
+    'score' => 'Skor',
 ];

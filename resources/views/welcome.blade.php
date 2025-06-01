@@ -166,7 +166,7 @@
                 <p class="text-gray-800 mt-2 text-lg leading-relaxed">
                     @lang('users.itc_registration_desc')
                 </p>
-                <a href="https://itc.example.com" target="_blank"
+                <a href="https://itc-indonesia.com/" target="_blank"
                     class="inline-block mt-4 bg-yellow-500 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
                     @lang('users.itc_registration_button')
                 </a>

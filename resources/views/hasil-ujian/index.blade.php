@@ -8,17 +8,17 @@
 @endsection
 @section('content')
 <div class="max-w-7xl mx-auto mt-32 bg-white p-8 rounded shadow-md animate-fadeIn">
-    <h2 class="text-4xl font-bold mb-6 text-blue-800 text-center">Hasil Ujian TOEIC</h2>
+    <h2 class="text-4xl font-bold mb-6 text-blue-800 text-center">@lang('users.toeic_score')</h2>
 
     {{-- Tombol Aksi atas --}}
     <div class="flex justify-end mb-4 space-x-2">
         <a href="{{ route('hasil-ujian.pdf.viewAll') }}" target="_blank"
            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">
-            <i class="fas fa-file-pdf mr-1"></i> View Semua PDF
+            <i class="fas fa-file-pdf mr-1"></i> @lang('users.view_pdf')
         </a>
         <a href="{{ route('hasil-ujian.pdf.downloadAll') }}"
            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded">
-            <i class="fas fa-download mr-1"></i> Download Semua PDF
+            <i class="fas fa-download mr-1"></i> @lang('users.download_all_result')
         </a>
     </div>
 
@@ -27,17 +27,17 @@
         <table id="resultTable" class="min-w-full text-sm text-gray-700 border border-gray-300">
             <thead class="bg-blue-100 text-gray-800 font-semibold">
                 <tr>
-                    <th class="px-4 py-2">Nama</th>
+                    <th class="px-4 py-2">@lang('users.name')</th>
                     <th class="px-4 py-2">NIM</th>
                     <th class="px-4 py-2">Listening 1</th>
                     <th class="px-4 py-2">Reading 1</th>
-                    <th class="px-4 py-2">Skor 1</th>
+                    <th class="px-4 py-2">@lang('users.score') 1</th>
                     <th class="px-4 py-2">Listening 2</th>
                     <th class="px-4 py-2">Reading 2</th>
-                    <th class="px-4 py-2">Skor 2</th>
-                    <th class="px-4 py-2">Tanggal Ujian</th>
+                    <th class="px-4 py-2">@lang('users.score') 2</th>
+                    <th class="px-4 py-2">@lang('users.exam_date')</th>
                     <th class="px-4 py-2">Status</th>
-                    <th class="px-4 py-2">Aksi</th>
+                    <th class="px-4 py-2">@lang('users.actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                         <td class="px-4 py-2">{{ $r->Reading_2 }}</td>
                         <td class="px-4 py-2">{{ $r->total_skor_2 }}</td>
                         <td class="px-4 py-2">
-                            {{ optional($r->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->jadwal->Tanggal_Ujian)->format('d-m-Y') : '-' }}
+                            {{ optional($r->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->jadwal->Tanggal_Ujian)->translatedFormat('d-m-Y') : '-' }}
                         </td>
                         <td class="px-4 py-2">{{ $r->Status }}</td>
                         <td class="px-4 py-2 space-y-1">
@@ -85,12 +85,12 @@
         $(document).ready(function () {
             $('#resultTable').DataTable({
                 language: {
-                    search: "Cari:",
-                    lengthMenu: "Tampilkan _MENU_ entri",
-                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    search: "{{__('users.search')}}:",
+                    lengthMenu: "{{__('users.lenght_menu')}}",
+                    info: "@lang('users.info')",
                     paginate: {
-                        previous: "Sebelumnya",
-                        next: "Berikutnya"
+                        previous: "{{__('users.prev')}}",
+                        next: "{{__('users.next')}}"
                     }
                 },
                 pageLength: 5,
