@@ -43,4 +43,9 @@ class HasilUjian extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
     }
+    public function pendaftaran()
+{
+    return $this->belongsTo(PendaftarModel::class, 'Id_Pendaftaran', 'Id_Pendaftaran');
+}
+
 }

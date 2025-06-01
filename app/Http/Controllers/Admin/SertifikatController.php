@@ -12,18 +12,13 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class SertifikatController extends Controller
 {
-    // Menampilkan daftar sertifikat yang bisa diambil
-    
+    // Menampilkan daftar sertifikat (semua pengambilan, tidak terbatas lulus saja)
     public function index()
     {
         $activeMenu = 'sertifikat';
     
-        // Ambil sertifikat yang hasil ujiannya Lulus, beserta relasi mahasiswa
-        $sertifikats = PengambilanSertifikat::with(['hasilUjian.mahasiswa', 'mahasiswa'])
-            ->whereHas('hasilUjian', function ($query) {
-                $query->where('Status', 'Lulus');
-            })
-            ->get();
+        // Ambil semua data pengambilan sertifikat beserta relasi mahasiswa
+        $sertifikats = PengambilanSertifikat::with(['hasilUjian.pendaftaran.mahasiswa.prodi'])->get();
     
         $breadcrumb = (object)[
             'title' => 'Daftar Sertifikat',
@@ -33,44 +28,32 @@ class SertifikatController extends Controller
         return view('admin.sertifikat.index', compact('activeMenu', 'sertifikats', 'breadcrumb'));
     }
 
+    // Sinkronisasi data sertifikat dari hasil ujian yang Lulus
     public function syncSertifikat()
     {
-        $hasilLulus = HasilUjian::where('Status', 'Lulus')->get();
+        $hasilUjians = HasilUjian::all(); // Ambil semua hasil ujian tanpa filter Status
         $inserted = 0;
-
-        foreach ($hasilLulus as $hasil) {
-            // Cek apakah sudah ada di pengambilan_sertifikat
+    
+        foreach ($hasilUjians as $hasil) {
             $exists = PengambilanSertifikat::where('Id_Hasil', $hasil->Id_Hasil)->exists();
             if (!$exists) {
                 PengambilanSertifikat::create([
                     'Id_Hasil'         => $hasil->Id_Hasil,
-                    'NIM'              => $hasil->NIM,
                     'Tanggal_Diambil'  => null,
                     'Status'           => 'Belum Diambil',
                 ]);
                 $inserted++;
             }
         }
-
+    
         return redirect()->back()->with('success', "$inserted data sertifikat berhasil disinkronisasi.");
     }
-    // Menampilkan arsip sertifikat yang sudah diambil
-    public function arsip()
-    {
-        $activeMenu = 'pengambilan-arsip';
+    
 
-        return view('admin.sertifikat.arsip', compact('activeMenu'));
-    }
-
-    // Export data sertifikat ke CSV
-   
+    // Export data sertifikat ke CSV (semua pengambilan)
     public function export()
     {
-        $sertifikats = PengambilanSertifikat::with(['hasilUjian.mahasiswa'])
-            ->whereHas('hasilUjian', function ($query) {
-                $query->where('Status', 'Lulus');
-            })
-            ->get();
+        $sertifikats = PengambilanSertifikat::with(['hasilUjian.pendaftaran.mahasiswa.prodi'])->get();
 
         $filename = 'daftar_sertifikat_' . now()->format('Ymd_His') . '.csv';
 
@@ -86,14 +69,14 @@ class SertifikatController extends Controller
             fputcsv($file, $columns);
 
             foreach ($sertifikats as $index => $item) {
-                $mahasiswa = $item->hasilUjian->mahasiswa ?? null;
+                $mahasiswa = $item->hasilUjian->pendaftaran->mahasiswa ?? null;
 
                 fputcsv($file, [
                     $index + 1,
                     $mahasiswa->nama ?? '-',
-                    "'".$mahasiswa->nim ?? '-', 
+                    "'".$mahasiswa->nim ?? '-',
                     $mahasiswa->prodi->Nama_Prodi ?? '-',
-                    $item->Tanggal_Diambil ? date('d-m-Y', strtotime($item->tanggal_diambil)) : '-',
+                    $item->Tanggal_Diambil ? date('d-m-Y', strtotime($item->Tanggal_Diambil)) : '-',
                     $item->Status,
                 ]);
             }
@@ -103,24 +86,24 @@ class SertifikatController extends Controller
 
         return Response::stream($callback, 200, $headers);
     }
+
+    // Tandai sertifikat sudah diambil
     public function ambil($id)
     {
         $sertifikat = PengambilanSertifikat::findOrFail($id);
-        $sertifikat->Status = 'Diambil'; // S besar!
-        $sertifikat->tanggal_diambil = now()->toDateString();
+        $sertifikat->Status = 'Diambil'; // Pastikan case sesuai kolom DB
+        $sertifikat->Tanggal_Diambil = now()->toDateString(); // Huruf besar sesuai kolom DB
         $sertifikat->save();
-    
+
         return redirect()->back()->with('success', 'Status sertifikat berhasil diubah menjadi Diambil.');
     }
-    public function exportPdf()
-{
-    $sertifikats = PengambilanSertifikat::with(['hasilUjian.mahasiswa'])
-        ->whereHas('hasilUjian', function ($query) {
-            $query->where('Status', 'Lulus');
-        })
-        ->get();
 
-    $pdf = Pdf::loadView('admin.sertifikat.exportpdf', compact('sertifikats'));
-    return $pdf->download('daftar_sertifikat_' . now()->format('Ymd_His') . '.pdf');
-}
+    // Export data sertifikat ke PDF (semua pengambilan)
+    public function exportPdf()
+    {
+        $sertifikats = PengambilanSertifikat::with(['hasilUjian.pendaftaran.mahasiswa.prodi'])->get();
+
+        $pdf = Pdf::loadView('admin.sertifikat.exportpdf', compact('sertifikats'));
+        return $pdf->download('daftar_sertifikat_' . now()->format('Ymd_His') . '.pdf');
+    }
 }

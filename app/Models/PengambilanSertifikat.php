@@ -9,12 +9,13 @@ class PengambilanSertifikat extends Model
     protected $primaryKey = 'id_pengambilan';
 
     protected $fillable = [
-        'Id_Hasil', 'NIM', 'Nama', 'Program_Studi', 'Tanggal_Diambil', 'Status'
+        'Id_Hasil', 'Nama', 'Program_Studi', 'Tanggal_Diambil', 'Status'
     ];
     public function hasilUjian()
     {
-        return $this->belongsTo(HasilUjian::class, 'Id_Hasil');
+        return $this->belongsTo(HasilUjian::class, 'Id_Hasil', 'Id_Hasil');
     }
+    
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');

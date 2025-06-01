@@ -30,8 +30,8 @@
             @foreach($results as $index => $row)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ optional($row->mahasiswa)->nama ?? '-' }}</td>
-                    <td>{{ $row->NIM }}</td>
+                    <td>{{ optional($row->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
+                    <td>{{ $row->pendaftaran->NIM }}</td>
                     <td>{{ $row->listening_1 }}</td>
                     <td>{{ $row->reading_1 }}</td>
                     <td>{{ $row->total_skor_1 }}</td>
@@ -39,8 +39,8 @@
                     <td>{{ $row->Reading_2 }}</td>
                     <td>{{ $row->total_skor_2 }}</td>
                     <td>
-                        {{ optional($row->jadwal)->Tanggal_Ujian 
-                            ? \Carbon\Carbon::parse($row->jadwal->Tanggal_Ujian)->format('d-m-Y') 
+                        {{ optional($row->pendaftaran->jadwal_ujian)->Tanggal_Ujian 
+                            ? \Carbon\Carbon::parse($row->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
                             : '-' }}
                     </td>
                     <td>{{ $row->Status }}</td>
