@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\HasilUjianController as AdminHasilController;
 use App\Http\Controllers\Admin\SertifikatController;
 use App\Http\Controllers\PengajuanSuratController;
 use App\Http\Controllers\Admin\ProfileAdminController;
+use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\RiwayatSeederController;
 
 
 // =============================
@@ -71,6 +73,7 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
         Route::get('/get-prodi/{idJurusan}', [RegistrasiController::class, 'getProdi'])->name('getProdi');
         Route::get('/check-nim/{nim}', [RegistrasiController::class, 'checkNIM'])->name('checkNIM');
     });
+
     Route::get('/surat', [PengajuanSuratController::class, 'index'])->name('surat.index');
     Route::get('/surat/create', [PengajuanSuratController::class, 'create'])->name('surat.create');
     Route::post('/surat', [PengajuanSuratController::class, 'store'])->name('surat.store');
@@ -79,6 +82,10 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::get('/surat/cetak/{id}', [PengajuanSuratController::class, 'cetakSurat'])->name('surat.cetak');
     Route::get('/surat/preview/{id}', [PengajuanSuratController::class, 'preview'])->name('surat.preview');
     Route::post('/surat/upload-ulang', [PengajuanSuratController::class, 'uploadUlang'])->name('surat.uploadUlang');
+
+// RiwayatPendaftar
+    Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+
     // 🚪 Logout dari sistem TOEIC
     // Route::post('/logout-toeic', [AuthController::class, 'logout'])->name('logout-toeic');
 });
@@ -244,4 +251,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::put('/ambil/{id}', [SertifikatController::class, 'ambil'])->name('ambil');
         Route::get('/export/pdf', [SertifikatController::class, 'exportPdf'])->name('exportPdf');
     });
+    // Manual jalankan pengisian riwayat pendaftar
+    
 });
+//Route::get('/admin/riwayat/isi', [RiwayatSeederController::class, 'isiRiwayat'])->name('admin.riwayat.isi');

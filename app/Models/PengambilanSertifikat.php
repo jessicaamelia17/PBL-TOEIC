@@ -19,5 +19,9 @@ class PengambilanSertifikat extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
     }
+    public function riwayat()
+{
+    return $this->belongsTo(RiwayatPendaftar::class, 'id_pengambilan', 'id_pengambilan');
+}
 
 }

@@ -39,4 +39,9 @@ class JadwalUjianModel extends Model
     {
         return $this->hasMany(RegistrasiModel::class, 'id_jadwal', 'Id_Jadwal');
     }
+    public function hasil()
+{
+    return $this->hasOne(HasilUjian::class, 'id_jadwal', 'Id_Jadwal');
+}
+
 }
