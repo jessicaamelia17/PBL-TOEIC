@@ -93,7 +93,7 @@ class HasilUjianController extends Controller
                     }
                 }
 
-                DB::table('hasil_ujian')->insert([
+                $idHasil = DB::table('hasil_ujian')->insertGetId([
                     'id_pendaftaran' => $id_pendaftaran,
                     'listening_1' => $row[1] ?? null,
                     'reading_1' => $row[2] ?? null,
@@ -105,6 +105,11 @@ class HasilUjianController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
+                if ($id_pendaftaran && $idHasil) {
+                    DB::table('riwayat_pendaftar')
+                        ->where('ID_Pendaftaran', $id_pendaftaran)
+                        ->update(['ID_Hasil' => $idHasil]);
+                }
             }
 
             return redirect()->back()->with('success', 'Data berhasil diimport.');

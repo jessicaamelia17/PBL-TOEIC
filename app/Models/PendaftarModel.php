@@ -48,8 +48,9 @@ class PendaftarModel extends Model
     }
     public function hasil()
 {
-    return $this->hasOne(HasilUjian::class, 'ID_Jadwal', 'Id_Jadwal');
+    return $this->hasOne(HasilUjian::class, 'Id_Pendaftaran', 'Id_Pendaftaran');
 }
+
 
 // Di Hasil.php
 public function pengambilanSertifikat()

@@ -25,25 +25,15 @@ class RiwayatPendaftar extends Model
 
     // Relasi ke tabel pendaftaran (misal: PendaftaranToeic)
     public function pendaftaran()
-    {
-        return $this->belongsTo(PendaftarModel::class, 'ID_Pendaftaran', 'Id_Pendaftaran');
-    }
-
-    // Relasi ke tabel jadwal (misal: JadwalUjian)
-    public function jadwal()
-    {
-        return $this->belongsTo(JadwalUjianModel::class, 'ID_Jadwal', 'Id_Jadwal');
-    }
-
-    // Relasi ke tabel hasil (misal: HasilUjian)
-    public function hasil()
-    {
-        return $this->belongsTo(HasilUjian::class, 'ID_Hasil', 'Id_Hasil');
-    }
-
-    // Relasi ke tabel pengambilan sertifikat (misal: Sertifikat)
-    public function sertifikat()
-    {
-        return $this->hasOne(PengambilanSertifikat::class, 'id_pengambilan', 'id_pengambilan');
-    }
+{
+    return $this->belongsTo(PendaftarModel::class, 'ID_Pendaftaran', 'Id_Pendaftaran');
+}
+public function hasil()
+{
+    return $this->belongsTo(HasilUjian::class, 'ID_Hasil', 'Id_Hasil');
+}
+public function sertifikat()
+{
+    return $this->belongsTo(PengambilanSertifikat::class, 'id_pengambilan', 'id_pengambilan');
+}
 }

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Response;
 use App\Models\HasilUjian;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf; 
+use App\Models\RiwayatPendaftar;
+use Illuminate\Support\Facades\Log;
 
 class SertifikatController extends Controller
 {
@@ -88,13 +90,20 @@ class SertifikatController extends Controller
     }
 
     // Tandai sertifikat sudah diambil
+ 
     public function ambil($id)
     {
         $sertifikat = PengambilanSertifikat::findOrFail($id);
-        $sertifikat->Status = 'Diambil'; // Pastikan case sesuai kolom DB
-        $sertifikat->Tanggal_Diambil = now()->toDateString(); // Huruf besar sesuai kolom DB
+        $sertifikat->Status = 'Diambil';
+        $sertifikat->Tanggal_Diambil = now()->toDateString();
         $sertifikat->save();
-
+    
+        $hasil = $sertifikat->hasilUjian;
+        if ($hasil && $hasil->Id_Pendaftaran) {
+            RiwayatPendaftar::where('ID_Pendaftaran', $hasil->Id_Pendaftaran)
+                ->update(['id_pengambilan' => $sertifikat->id_pengambilan]);
+        }
+    
         return redirect()->back()->with('success', 'Status sertifikat berhasil diubah menjadi Diambil.');
     }
 

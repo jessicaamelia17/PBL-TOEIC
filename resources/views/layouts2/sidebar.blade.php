@@ -85,7 +85,7 @@
     <a href="{{ route('admin.profile') }}" style="display: flex; align-items: center; gap: 15px; color: white; text-decoration:none;">
         <img src="{{ asset('storage/foto_admin/' . auth('admin')->user()->foto) }}"
              alt="Foto Profil Admin"
-             onerror="this.onerror=null;this.src='{{ asset('default-profile.png') }}';">
+             onerror="this.onerror=null;this.src='{{ asset('profile-picture.jpg') }}';">
         <div class="profile-info">
             <p>{{ auth('admin')->user()->nama }}</p>
         </div>

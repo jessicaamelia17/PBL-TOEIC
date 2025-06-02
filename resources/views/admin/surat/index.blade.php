@@ -5,7 +5,7 @@
 @section('title', 'Daftar Pengajuan Surat TOEIC')
 
 @section('content')
-    <div class="card">
+    <div class="card card-outline card-primary">
         <div class="card-header d-flex align-items-center">
             <h3 class="card-title mb-0">Daftar Pengajuan Surat TOEIC</h3>
         </div>

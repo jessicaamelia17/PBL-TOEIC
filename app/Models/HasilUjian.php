@@ -14,7 +14,7 @@ class HasilUjian extends Model
     protected $primaryKey = 'Id_Hasil'; // Primary key tabel (jika tidak 'id')
 
     protected $fillable = [
-        'NIM',
+        'Id_Pendaftaran',
         'listening_1',
         'reading_1',
         'total_skor_1',

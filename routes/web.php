@@ -255,3 +255,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     
 });
 //Route::get('/admin/riwayat/isi', [RiwayatSeederController::class, 'isiRiwayat'])->name('admin.riwayat.isi');
+
+
+// Route::get('/sync-riwayat', [LandingController::class, 'syncRiwayat'])
+//     ->middleware('auth') // agar hanya user login yang bisa akses
+//     ->name('riwayat.sync');
