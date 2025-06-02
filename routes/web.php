@@ -103,6 +103,7 @@ Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->na
 Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
+Route::view('/contacts', 'contacts')->name('contacts');
 
 
 

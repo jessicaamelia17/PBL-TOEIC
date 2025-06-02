@@ -43,7 +43,8 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-3 py-1 rounded transition hover:underline">@lang('users.contacts')</a>
+                <a href="{{ route('contacts') }}"
+                    class="px-3 py-1 rounded transition hover:underline">@lang('users.contacts')</a>
             </li>
 
             {{-- Language Switcher --}}
