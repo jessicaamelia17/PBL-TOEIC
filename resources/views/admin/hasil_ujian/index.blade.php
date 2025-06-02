@@ -47,8 +47,8 @@
                     @foreach ($results as $item)
                     <tr>
                         <td></td> <!-- Nomor urut akan diisi otomatis oleh DataTables -->
-                        <td>{{ optional($item->mahasiswa)->nama ?? '-' }}</td>
-                        <td class="text-center">{{ $item->NIM }}</td>
+                        <td>{{ optional($item->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
+                        <td class="text-center">{{ $item->pendaftaran->NIM }}</td>
                         <td class="text-center">{{ $item->listening_1 }}</td>
                         <td class="text-center">{{ $item->reading_1 }}</td>
                         <td class="text-center">{{ $item->total_skor_1 }}</td>
@@ -56,8 +56,8 @@
                         <td class="text-center">{{ $item->Reading_2 }}</td>
                         <td class="text-center">{{ $item->total_skor_2 }}</td>
                         <td class="text-center">
-                            {{ optional($item->jadwal)->Tanggal_Ujian
-                                ? \Carbon\Carbon::parse($item->jadwal->Tanggal_Ujian)->format('d-m-Y') 
+                            {{ optional($item->pendaftaran->jadwal_ujian)->Tanggal_Ujian
+                                ? \Carbon\Carbon::parse($item->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
                                 : '-' }}
                         </td>
                         <td class="text-center">{{ $item->Status }}</td>

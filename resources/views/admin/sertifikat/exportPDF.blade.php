@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-    <h3>Daftar Mahasiswa Pengambilan Sertifikat TOEIC </h3>
+    <h3>Daftar Mahasiswa Pengambilan Sertifikat TOEIC</h3>
     <table>
         <thead>
             <tr>
@@ -23,7 +23,11 @@
         </thead>
         <tbody>
             @foreach($sertifikats as $index => $item)
-                @php $mahasiswa = $item->hasilUjian->mahasiswa ?? null; @endphp
+                @php
+                    // Ambil mahasiswa lewat relasi pendaftaran dari hasilUjian
+                    $pendaftaran = $item->hasilUjian->pendaftaran ?? null;
+                    $mahasiswa = $pendaftaran ? $pendaftaran->mahasiswa : null;
+                @endphp
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $mahasiswa->nama ?? '-' }}</td>

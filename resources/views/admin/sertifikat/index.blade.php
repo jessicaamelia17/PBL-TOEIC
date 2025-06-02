@@ -40,8 +40,9 @@
             <tbody>
                 @forelse ($sertifikats as $index => $item)
                     @php
-                        // Ambil mahasiswa dari hasil ujian, jika tidak ada ambil dari relasi langsung
-                        $mahasiswa = $item->hasilUjian->mahasiswa ?? $item->mahasiswa ?? null;
+                        // Ambil mahasiswa dari relasi pendaftaran melalui hasilUjian
+                        $pendaftaran = $item->hasilUjian->pendaftaran ?? null;
+                        $mahasiswa = $pendaftaran ? $pendaftaran->mahasiswa : null;
                     @endphp
                     <tr>
                         <td>{{ $index + 1 }}</td>
@@ -74,7 +75,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">Tidak ada data sertifikat.</td>
+                        <td colspan="7" class="text-center">Tidak ada data sertifikat.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -117,24 +118,24 @@
         });
     });
     document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.btn-ambil-sertifikat').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Yakin ingin menandai sertifikat ini sudah diambil?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, tandai diambil',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    btn.closest('form').submit();
-                }
+        document.querySelectorAll('.btn-ambil-sertifikat').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Yakin ingin menandai sertifikat ini sudah diambil?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, tandai diambil',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        btn.closest('form').submit();
+                    }
+                });
             });
         });
     });
-});
 </script>
 @endpush

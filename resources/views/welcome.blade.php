@@ -72,6 +72,78 @@
         @endif
     </section>
 
+    @auth
+    @if($riwayat && count($riwayat) > 0)
+        <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up" data-aos-duration="1000">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Riwayat TOEIC Anda</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left text-gray-800">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Tanggal Daftar</th>
+                            <th class="py-2 px-4 border-b">Jadwal Ujian</th>
+                            <th class="py-2 px-4 border-b">Status Ujian</th>
+                            <th class="py-2 px-4 border-b">Status Hasil</th>
+                            <th class="py-2 px-4 border-b">Nilai</th>
+                            <th class="py-2 px-4 border-b">Pengambilan Sertifikat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($riwayat as $item)
+                            <tr>
+                                <td class="py-2 px-4 border-b">{{ $item->pendaftaran->Tanggal_Pendaftaran ?? '-' }}</td>
+                                <td class="py-2 px-4 border-b">{{ $item->jadwal->Tanggal_Ujian ?? '-' }}</td>
+
+                                {{-- Status Ujian --}}
+                                <td class="py-2 px-4 border-b">
+                                    @if($item->hasil)
+                                        Sudah Ujian
+                                    @else
+                                        Belum Ujian
+                                    @endif
+                                </td>
+
+                                                        {{-- Status Hasil --}}
+                                <td class="py-2 px-4 border-b">
+                                    @if($item->hasil)
+                                        {{-- Tampilkan status dari DB, tapi dengan huruf kapital --}}
+                                        {{ ucfirst($item->hasil->status) }}
+                                    @else
+                                        Menunggu Hasil
+                                    @endif
+                                </td>
+
+                                {{-- Nilai --}}
+                                <td class="py-2 px-4 border-b">
+                                    {{ $item->hasil->total_skor_2 ?? '-' }}
+                                </td>
+
+                                {{-- Pengambilan Sertifikat --}}
+                                <td class="py-2 px-4 border-b">
+                                    @if($item->hasil)
+                                        @if($item->sertifikat)
+                                            Diambil pada {{ \Carbon\Carbon::parse($item->sertifikat->tanggal_pengambilan)->format('d M Y') }}
+                                        @else
+                                            Belum Diambil
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    @else
+        <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up" data-aos-duration="1000">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Riwayat TOEIC Anda</h2>
+            <p class="text-gray-600">Belum ada riwayat pendaftaran TOEIC.</p>
+        </section>
+    @endif
+@endauth
+
     {{-- Info Cards --}}
     @php
         $cards = [
