@@ -146,6 +146,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard.post'); // kasih nama beda supaya gak bentrok
     Route::post('/home', [KuotaController::class, 'update'])->name('dashboard');
     Route::post('/kuota/update', [AdminAuthController::class, 'updateKuota'])->name('kuota.update');
+    Route::post('/kuota/update-status', [AdminAuthController::class, 'updateStatusPendaftaran'])->name('kuota.updateStatus');
 
     // Profil Admin
     Route::get('profile', [ProfileAdminController::class, 'show'])->name('profile');

@@ -72,7 +72,9 @@
     <h4 class="fw-bold text-uppercase">Status Pendaftaran TOEIC</h4>
 
     {{-- Badge status --}}
-    <span id="status-pendaftaran" class="badge bg-success px-3 py-2 fs-5">DIBUKA</span>
+    <span id="status-pendaftaran" class="badge {{ $status_pendaftaran ? 'bg-success' : 'bg-danger' }} px-3 py-2 fs-5">
+        {{ $status_pendaftaran ? 'DIBUKA' : 'DITUTUP' }}
+    </span>
 
     {{-- Tombol buka/tutup --}}
     <div class="mt-3 d-flex gap-2">
@@ -111,25 +113,32 @@
         });
 
         // Tombol buka pendaftaran
-        $('#btn-buka').click(function () {
-            $('#status-pendaftaran')
-                .removeClass('bg-danger')
-                .addClass('bg-success')
-                .text('DIBUKA');
-
-            $('#btn-buka').prop('disabled', true);
-            $('#btn-tutup').prop('disabled', false);
+                $('#btn-buka').click(function () {
+            $.post("{{ route('admin.kuota.updateStatus') }}", {
+                _token: '{{ csrf_token() }}',
+                status_pendaftaran: 1
+            }, function(response) {
+                $('#status-pendaftaran')
+                    .removeClass('bg-danger')
+                    .addClass('bg-success')
+                    .text('DIBUKA');
+                $('#btn-buka').prop('disabled', true);
+                $('#btn-tutup').prop('disabled', false);
+            });
         });
 
-        // Tombol tutup pendaftaran
         $('#btn-tutup').click(function () {
-            $('#status-pendaftaran')
-                .removeClass('bg-success')
-                .addClass('bg-danger')
-                .text('DITUTUP');
-
-            $('#btn-buka').prop('disabled', false);
-            $('#btn-tutup').prop('disabled', true);
+            $.post("{{ route('admin.kuota.updateStatus') }}", {
+                _token: '{{ csrf_token() }}',
+                status_pendaftaran: 0
+            }, function(response) {
+                $('#status-pendaftaran')
+                    .removeClass('bg-success')
+                    .addClass('bg-danger')
+                    .text('DITUTUP');
+                $('#btn-buka').prop('disabled', false);
+                $('#btn-tutup').prop('disabled', true);
+            });
         });
     });
 </script>

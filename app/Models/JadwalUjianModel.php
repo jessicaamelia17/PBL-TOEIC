@@ -43,5 +43,9 @@ class JadwalUjianModel extends Model
 {
     return $this->hasOne(HasilUjian::class, 'id_jadwal', 'Id_Jadwal');
 }
+public function kuota()
+{
+    return $this->belongsTo(KuotaModel::class, 'id_kuota');
+}
 
 }

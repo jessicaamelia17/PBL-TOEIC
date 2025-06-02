@@ -9,6 +9,7 @@ use App\Models\RegistrasiModel;
 use Illuminate\Http\Request;
 use App\Models\Mahasiswa;
 use App\Models\RiwayatPendaftar;
+use App\Models\KuotaModel;
 
 class RegistrasiController extends Controller
 {
@@ -16,12 +17,25 @@ class RegistrasiController extends Controller
     {
         $jurusan = JurusanModel::all();
         $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim)->first();
-        //dd($mahasiswa);
-         // Cek apakah sudah pernah mendaftar
-         $pendaftaran = RegistrasiModel::with('jadwal')
-         ->where('NIM', $mahasiswa->nim)
-         ->latest('Tanggal_Pendaftaran')
-         ->first();
+    
+        $kuota = KuotaModel::first(); // Asumsinya cuma 1 baris data
+    
+        // Cek status pendaftaran
+        if ($kuota && $kuota->status_pendaftaran != 1) {
+            return view('registrasi.tutup', compact('mahasiswa'));
+        }
+    
+        $totalTerpakai = JadwalUjianModel::where('id_kuota', $kuota->id)->sum('kuota_terpakai');
+    
+        if ($totalTerpakai >= $kuota->kuota_total) {
+            return view('registrasi.kuota_habis', compact('mahasiswa'));
+        }
+    
+        $pendaftaran = RegistrasiModel::with('jadwal')
+            ->where('NIM', $mahasiswa->nim)
+            ->latest('Tanggal_Pendaftaran')
+            ->first();
+    
         return view('registrasi.index', compact('jurusan','mahasiswa','pendaftaran'));
     }
 
@@ -52,9 +66,25 @@ class RegistrasiController extends Controller
             ], 422);
         }
     
-        $jadwal = JadwalUjianModel::whereColumn('kuota_terpakai', '<', 'kuota_max')
-            ->orderBy('Tanggal_Ujian', 'asc')
-            ->first();
+        $jadwal = JadwalUjianModel::whereHas('kuota', function($q) {
+            $q->where('status_pendaftaran', 1);
+        })
+        ->whereColumn('kuota_terpakai', '<', 'kuota_max')
+        ->orderBy('Tanggal_Ujian', 'asc')
+        ->first();
+    
+
+        $kuota = $jadwal->kuota;
+        $totalTerpakai = $kuota->jadwal()->sum('kuota_terpakai');
+        
+            
+            if ($totalTerpakai >= $kuota->kuota_total) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kuota total telah habis. Pendaftaran tidak dapat dilanjutkan.'
+                ], 422);
+            }
+            
     
         if (!$jadwal) {
             return response()->json([

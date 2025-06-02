@@ -5,9 +5,13 @@
     <div class="card-header">
         <h3 class="card-title ">Daftar Jadwal Ujian</h3>
         <div class="card-tools">
-            <a href="{{ route('admin.jadwal.create') }}" class="btn btn-success btn-sm">+ Tambah Jadwal</a>
+            <a href="{{ $kuotaPenuh ? '#' : route('admin.jadwal.create') }}"
+               class="btn btn-success btn-sm {{ $kuotaPenuh ? 'disabled bg-secondary border-0' : '' }}"
+               {{ $kuotaPenuh ? 'aria-disabled=true tabindex=-1 style=pointer-events:none;' : '' }}>
+                + Tambah Jadwal
+            </a>
         </div>
-    </div>
+    </div>  
     <div class="card-body">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -20,6 +24,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if($errors->has('kuota_max'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Maaf, kuota sudah penuh anda tidak dapat menambah jadwal.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
         @if($jadwals->count())
         <div class="table-responsive">
