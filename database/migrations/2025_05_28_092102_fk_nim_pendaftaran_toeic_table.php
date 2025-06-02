@@ -27,7 +27,7 @@ return new class extends Migration
     {
         Schema::table('pendaftaran_toeic', function (Blueprint $table) {
             // Hapus relasi foreign key jika di-rollback
-            $table->dropForeign(['nim']);
+            $table->dropForeign(['NIM']);
         });
     }
 };
