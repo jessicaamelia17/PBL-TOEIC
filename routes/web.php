@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SertifikatController;
 use App\Http\Controllers\PengajuanSuratController;
 use App\Http\Controllers\Admin\ProfileAdminController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\RiwayatSeederController;
 
 
@@ -46,6 +47,11 @@ Route::get('locale/{locale}', function ($locale) {
     session()->put('locale', $locale);
     return redirect()->back();
 })->name('locale');
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 
 // 🔐 Routes yang memerlukan login mahasiswa
 Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(function () {
@@ -83,7 +89,7 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::get('/surat/preview/{id}', [PengajuanSuratController::class, 'preview'])->name('surat.preview');
     Route::post('/surat/upload-ulang', [PengajuanSuratController::class, 'uploadUlang'])->name('surat.uploadUlang');
 
-// RiwayatPendaftar
+    // RiwayatPendaftar
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
 
     // 🚪 Logout dari sistem TOEIC
@@ -110,6 +116,7 @@ Route::get('/pengajuan/create', [PengajuanSuratController::class, 'create'])->na
 Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('surat.pengajuan.store');
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
+Route::view('/contacts', 'contacts')->name('contacts');
 
 
 
@@ -252,7 +259,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/export/pdf', [SertifikatController::class, 'exportPdf'])->name('exportPdf');
     });
     // Manual jalankan pengisian riwayat pendaftar
-    
+
 });
 //Route::get('/admin/riwayat/isi', [RiwayatSeederController::class, 'isiRiwayat'])->name('admin.riwayat.isi');
 

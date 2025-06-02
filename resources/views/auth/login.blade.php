@@ -63,7 +63,8 @@
                 {{-- Password --}}
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="{{ __('users.password_placeholder') }}"
+                    <input type="password" id="password" name="password" required
+                        placeholder="{{ __('users.password_placeholder') }}"
                         class="w-full mt-1 p-3 rounded-lg text-black bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white shadow transition" />
                 </div>
 
@@ -80,6 +81,12 @@
                     class="w-full py-3 bg-white text-blue-700 font-semibold rounded-md hover:bg-gray-200 transition transform hover:scale-105">
                     @lang('users.login')
                 </button>
+
+                <div class="mt-4 text-center">
+                    <a href="{{ route('password.request') }}" class="text-white underline hover:text-blue-200">
+                        @lang('users.forgot_password')
+                    </a>
+                </div>
             </form>
         </div>
 

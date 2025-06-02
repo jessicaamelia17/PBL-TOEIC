@@ -96,4 +96,7 @@ return [
     'view_pdf' => 'View PDF',
     'download_all_result' => 'Download Results Test',
     'score' => 'Score',
+    'location' => 'Location',
+    'forgot_password' => 'Forgot Password?',
+    'send_reset_link' => 'Send Reset Link',
 ];

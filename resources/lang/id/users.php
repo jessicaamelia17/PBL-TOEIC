@@ -96,4 +96,7 @@ return [
     'view_pdf' => 'Lihat PDF',
     'download_all_result' => 'Download Hasil Tes',
     'score' => 'Skor',
+    'location' => 'Lokasi',
+    'forgot_password' => 'Lupa Password?',
+    'send_reset_link' => 'Kirim Link Reset',
 ];
