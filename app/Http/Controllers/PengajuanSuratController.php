@@ -8,6 +8,7 @@ use App\Models\SuratPengajuan;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\KepalaUPABahasa;
 
 
 class PengajuanSuratController extends Controller
@@ -148,23 +149,27 @@ public function uploadUlang(Request $request)
 }
 
 
-    public function cetakSurat($id)
-    {
-        $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
+public function cetakSurat($id)
+{
+    $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
 
-        if ($pengajuan->status_verifikasi !== 'disetujui') {
-            abort(403, 'Surat belum disetujui.');
-        }
+    if ($pengajuan->status_verifikasi !== 'disetujui') {
+        abort(403, 'Surat belum disetujui.');
+    }
 
-        return view('pengajuan-surat.cetak', compact('pengajuan'));
-    }
-    public function preview($id)
-    {
-        $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
-    
-        $pdf = Pdf::loadView('pengajuan-surat.cetak', compact('pengajuan'));
-    
-        // Kembalikan response PDF langsung ditampilkan di browser
-        return $pdf->stream('Surat_TOEIC_' . $pengajuan->mahasiswa->nim . '.pdf');
-    }
+    // Ambil kepala yang aktif dari database
+    $kepala = KepalaUPABahasa::where('is_active', true)->first();
+
+    return view('pengajuan-surat.cetak', compact('pengajuan', 'kepala'));
+}
+public function preview($id)
+{
+    $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
+    $kepala = KepalaUPABahasa::where('is_active', true)->first();
+
+    $pdf = Pdf::loadView('pengajuan-surat.cetak', compact('pengajuan', 'kepala'));
+
+    // Kembalikan response PDF langsung ditampilkan di browser
+    return $pdf->stream('Surat_TOEIC_' . $pengajuan->mahasiswa->nim . '.pdf');
+}
 }

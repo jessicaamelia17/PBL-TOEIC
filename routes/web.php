@@ -265,8 +265,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('/', [KepalaUPABahasaController::class, 'index'])->name('index');
         Route::get('/create', [KepalaUPABahasaController::class, 'create'])->name('create'); // Tambahkan ini
         Route::post('/', [KepalaUPABahasaController::class, 'store'])->name('store'); // Tambahkan ini jika ingin proses simpan
-        Route::get('/edit', [KepalaUPABahasaController::class, 'edit'])->name('edit');
-        Route::put('/update', [KepalaUPABahasaController::class, 'update'])->name('update');
+        Route::get('/{id}/edit', [KepalaUPABahasaController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [KepalaUPABahasaController::class, 'update'])->name('update');
+        Route::put('/{id}/set-active', [KepalaUPABahasaController::class, 'setActive'])->name('setActive');
+        Route::put('/{id}/set-nonactive', [KepalaUPABahasaController::class, 'setNonActive'])->name('setNonActive');
     });
     // Manual jalankan pengisian riwayat pendaftar
 
