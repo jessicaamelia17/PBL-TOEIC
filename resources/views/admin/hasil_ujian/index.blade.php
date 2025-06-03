@@ -60,7 +60,13 @@
                                 ? \Carbon\Carbon::parse($item->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
                                 : '-' }}
                         </td>
-                        <td class="text-center">{{ $item->Status }}</td>
+                        <td class="text-center">
+                            @if ($item->status == 'lulus')
+                                <span class="badge badge-success">Lulus</span>
+                            @else 
+                                <span class="badge badge-danger">Tidak Lulus</span>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
