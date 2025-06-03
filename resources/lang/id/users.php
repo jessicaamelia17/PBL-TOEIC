@@ -99,4 +99,6 @@ return [
     'location' => 'Lokasi',
     'forgot_password' => 'Lupa Password?',
     'send_reset_link' => 'Kirim Link Reset',
+    'forgot_password_desc' => 'Masukkan alamat email Anda untuk menerima tautan pengaturan ulang kata sandi.',
 ];
+

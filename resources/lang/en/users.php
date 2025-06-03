@@ -99,4 +99,5 @@ return [
     'location' => 'Location',
     'forgot_password' => 'Forgot Password?',
     'send_reset_link' => 'Send Reset Link',
+    'forgot_password_desc' => 'Enter your email address to receive a link to reset your password.',
 ];
