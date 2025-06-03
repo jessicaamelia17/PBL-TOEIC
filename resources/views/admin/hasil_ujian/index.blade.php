@@ -45,7 +45,7 @@
                 </thead>
                 <tbody>
                     @foreach ($results as $item)
-                    <tr>
+                    <tr class="{{ $item->Status == 'Lulus' ? 'table-success' : 'table-danger' }}">
                         <td></td> <!-- Nomor urut akan diisi otomatis oleh DataTables -->
                         <td>{{ optional($item->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
                         <td class="text-center">{{ $item->pendaftaran->NIM }}</td>
@@ -60,13 +60,7 @@
                                 ? \Carbon\Carbon::parse($item->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
                                 : '-' }}
                         </td>
-                        <td class="text-center">
-                            @if ($item->status == 'lulus')
-                                <span class="badge badge-success">Lulus</span>
-                            @else 
-                                <span class="badge badge-danger">Tidak Lulus</span>
-                            @endif
-                        </td>
+                        <td class="text-center">{{ $item->Status }}</td>
                     </tr>
                     @endforeach
                 </tbody>
