@@ -8,7 +8,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('kepala.update') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.kepala.update', $kepala->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
