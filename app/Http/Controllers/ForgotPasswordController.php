@@ -36,7 +36,28 @@ class ForgotPasswordController extends Controller
         // Kirim email dengan PHPMailer
         $resetLink = url('/reset-password/' . $token . '?email=' . urlencode($request->email));
         $subject = 'Reset Password Akun TOEIC';
-        $body = "Klik link berikut untuk reset password Anda: <a href='$resetLink'>$resetLink</a>";
+        $body = "
+    <h2>Reset Password TOEIC</h2>
+    <p>Halo,</p>
+    <p>Kami menerima permintaan untuk mereset password akun Anda.</p>
+    <p>
+        Klik tombol di bawah ini untuk mengatur ulang password Anda:
+    </p>
+    <p>
+        <a href='$resetLink' style='
+            display:inline-block;
+            padding:10px 20px;
+            background:#2563eb;
+            color:#fff;
+            border-radius:5px;
+            text-decoration:none;
+            font-weight:bold;
+        '>Reset Password</a>
+    </p>
+    <p>Jika Anda tidak meminta reset password, abaikan email ini.</p>
+    <hr>
+    <small>TOEIC Portal</small>
+";
 
         // PHPMailer
         $mail = new PHPMailer(true);

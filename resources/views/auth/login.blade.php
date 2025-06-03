@@ -25,7 +25,7 @@
             <div class="flex items-center mb-6">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo"
                     class="w-10 h-10 mr-3 rounded-full bg-white p-1 shadow" />
-                <h2 class="text-2xl font-bold tracking-wide">TOEIC</h2>
+                <h2 class="text-2xl font-bold tracking-wide">TOEIC POLINEMA</h2>
             </div>
 
             <h3 class="text-3xl font-bold mb-2">@lang('users.login')</h3>
