@@ -177,6 +177,13 @@
                     <p>Pengambilan Sertifikat</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.kepala.index') }}"
+                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'sertifikat') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-certificate"></i>
+                    <p>Kepala UPA</p>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a href="#" class="nav-link logout-link"
