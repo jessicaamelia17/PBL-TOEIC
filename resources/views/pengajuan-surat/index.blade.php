@@ -41,7 +41,7 @@
 
     {{-- Judul --}}
 
-    <h2 class="text-3xl font-bold text-blue-700 text-center">Pengajuan Surat TOEIC</h2>
+    <h2 class="text-3xl font-bold text-blue-700 text-center">@lang('users.submission_letter_toeic')</h2>
 
 
     
@@ -61,29 +61,29 @@
 
     {{-- Data Mahasiswa --}}
     <div class="bg-white p-6 rounded shadow border">
-        <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Data Mahasiswa</h3>
+        <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">@lang('users.student_data')</h3>
         <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-            <p><strong>Nama:</strong> {{ $mahasiswa->nama }}</p>
+            <p><strong>@lang('users.name'):</strong> {{ $mahasiswa->nama }}</p>
             <p><strong>NIM:</strong> {{ $mahasiswa->nim }}</p>
-            <p><strong>Program Studi:</strong> {{ $mahasiswa->prodi->Nama_Prodi }}</p>
-            <p><strong>Jurusan:</strong> {{ $mahasiswa->jurusan->Nama_Jurusan }}</p>
-            <p><strong>Tempat, Tanggal Lahir:</strong> {{ $mahasiswa->tmpt_lahir }}, {{ $mahasiswa->TTL }}</p>
-            <p><strong>Alamat:</strong> {{ $mahasiswa->alamat }}</p>
+            <p><strong>@lang('users.study_program'):</strong> {{ $mahasiswa->prodi->Nama_Prodi }}</p>
+            <p><strong>@lang('users.department'):</strong> {{ $mahasiswa->jurusan->Nama_Jurusan }}</p>
+            <p><strong>@lang('users.place_and_dob'):</strong> {{ $mahasiswa->tmpt_lahir }}, {{ $mahasiswa->TTL }}</p>
+            <p><strong>@lang('users.address'):</strong> {{ $mahasiswa->alamat }}</p>
         </div>
 
         {{-- Status Verifikasi --}}
         <div class="mt-6 {{ $box }} px-4 py-3 rounded flex items-center">
             {!! $ikon !!}
             <div class="{{ $warna }} font-semibold text-sm">
-                Status Verifikasi: {{ ucfirst($status) ?: '-' }}
+                @lang('users.verification_status'): {{ ucfirst($status) ?: '-' }}
             </div>
         </div>
 
         {{-- Tanggal --}}
         @if($pengajuan)
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm">
-            <p><strong>Tanggal Pengajuan:</strong> {{ \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->translatedFormat('d F Y') }}</p>
-            <p><strong>Tanggal Verifikasi:</strong> 
+            <p><strong>@lang('users.submission_date'):</strong> {{ \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->translatedFormat('d F Y') }}</p>
+            <p><strong>@lang('users.verification_date')</strong> 
                 {{ $pengajuan->tanggal_verifikasi ? \Carbon\Carbon::parse($pengajuan->tanggal_verifikasi)->translatedFormat('d F Y') : '-' }}
             </p>
         </div>
@@ -126,31 +126,31 @@
     @if(!$pengajuan)
         @if(!$sertifikat)
             <div class="bg-gray-50 p-6 rounded shadow border">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">Upload Sertifikat TOEIC</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">@lang('users.upload_certificate')</h3>
                 <form action="{{ route('mahasiswa.surat.uploadSertifikat') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <label for="file_sertifikat" class="block font-semibold mb-1">Upload File Sertifikat (PDF, maksimal 5MB):</label>
+                    <label for="file_sertifikat" class="block font-semibold mb-1">@lang('users.file_placeholder')</label>
                     <input type="file" name="file_sertifikat" accept="application/pdf" class="block w-full border rounded px-3 py-2 mt-1" required>
                     @error('file_sertifikat')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                     <button type="submit" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                        Upload Sertifikat
+                        @lang('users.upload_button')
                     </button>
                 </form>
             </div>
         @else
             <div class="bg-white p-6 rounded shadow border">
-                <p class="text-green-700 font-semibold mb-2">✅ Sertifikat berhasil diupload</p>
-                <p><strong>Lihat Sertifikat:</strong> 
-                    <a href="{{ asset('storage/' . session('sertifikat_uploaded')) }}" class="text-blue-600 underline" target="_blank">Klik di sini</a>
+                <p class="text-green-700 font-semibold mb-2">✅ @lang('users.upload_success')</p>
+                <p><strong>@lang('users.view_certificate'):</strong> 
+                    <a href="{{ asset('storage/' . session('sertifikat_uploaded')) }}" class="text-blue-600 underline" target="_blank">@lang('users.click_here')</a>
                 </p>
 
                 <form action="{{ route('mahasiswa.surat.hapusSertifikat') }}" method="POST" class="inline-block mt-3">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="text-red-600 underline text-sm hover:text-red-800 transition" onclick="return confirm('Hapus sertifikat yang sudah diupload?')">
-                        Hapus Sertifikat
+                        @lang('users.del_certificate')
                     </button>
                 </form>
 
@@ -158,7 +158,7 @@
                     @csrf
                     <input type="hidden" name="NIM" value="{{ auth()->user()->nim }}">
                     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                        Ajukan Surat
+                        @lang('users.submit_letter')
                     </button>
                 </form>
             </div>

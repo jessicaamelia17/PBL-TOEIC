@@ -100,4 +100,19 @@ return [
     'forgot_password' => 'Forgot Password?',
     'send_reset_link' => 'Send Reset Link',
     'forgot_password_desc' => 'Enter your email address to receive a link to reset your password.',
+    'submission_letter_toeic'=> 'TOEIC Submission Letter',
+    'student_data' => 'Student Data',
+    'place_and_dob' => 'Place and date of birth',
+    'verification_status' => 'Verification Status',
+    'submission_date' => 'Submission Date',
+    'verification_date' => 'Verification Date',
+    'upload_certificate' => 'Upload the TOEIC Certificate',
+    'file_placeholder' => 'Upload Certificate File (PDF, maximum 5MB):',
+    'upload_button' => 'Upload',
+    'upload_success' => 'Certificate uploaded successfully',
+    'view_certificate' => 'View Certificate',
+    'del_certificate' => 'Delete Certificate',
+    'click_here' => 'Click Here',
+    'submit_letter' => 'Apply for a Letter'
+
 ];

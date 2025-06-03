@@ -100,5 +100,18 @@ return [
     'forgot_password' => 'Lupa Password?',
     'send_reset_link' => 'Kirim Link Reset',
     'forgot_password_desc' => 'Masukkan alamat email Anda untuk menerima tautan pengaturan ulang kata sandi.',
+    'submission_letter_toeic' => 'Pengajuan Surat TOEIC',
+    'student_data' => 'Data Mahasiswa',
+    'place_and_dob' => 'Tempat dan Tanggal Lahir',
+    'verification_status' => 'Status Verifikasi',
+    'submission_date' => 'Tanggal Pengajuan',
+    'verification_date' => 'Tanggal Verifikasi',
+    'upload_certificate' => 'Upload Sertifikat TOEIC',
+    'file_placeholder' => 'Upload File Sertifikat (PDF, maksimal 5MB):',
+    'upload_button' => 'Unggah',
+    'upload_success' => 'Sertifikat berhasil diupload',
+    'view_certificate' => 'Lihat Sertifikat',
+    'del_certificate' => 'Hapus Sertifikat',
+    'click_here' => 'Klik Disini',
+    'submit_letter' => 'Ajukan Surat'
 ];
-
