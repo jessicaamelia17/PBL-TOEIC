@@ -91,12 +91,14 @@
     </div>
 
     {{-- Preview surat & sertifikat --}}
-    @if($pengajuan && $pengajuan->status_verifikasi !== 'ditolak')
+    @if($pengajuan && $pengajuan->status_verifikasi != 'ditolak')
         <div class="bg-white p-6 rounded shadow border">
             <h3 class="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Preview Surat Keterangan & Sertifikat</h3>
-            <a href="{{ route('mahasiswa.surat.preview', $pengajuan->id_surat) }}" target="_blank" class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition mb-4">
-                <i class="fa fa-file-pdf mr-2"></i> Preview / Download Surat Keterangan TOEIC 2x
-            </a>
+            @if($pengajuan->status_verifikasi == 'disetujui')
+                <a href="{{ route('mahasiswa.surat.preview', $pengajuan->id_surat) }}" target="_blank" class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition mb-4">
+                    <i class="fa fa-file-pdf mr-2"></i> Preview / Download Surat Keterangan TOEIC 2x
+                </a>
+            @endif
             <p class="font-bold text-sm text-gray-600 mb-2">Sertifikat TOEIC 2x:</p>
             <embed src="{{ asset('storage/' . $pengajuan->file_sertifikat) }}" type="application/pdf" width="100%" height="500px" class="border rounded" />
         </div>

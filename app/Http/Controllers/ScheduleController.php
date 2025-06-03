@@ -10,19 +10,20 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        // Ambil semua jadwal dengan sesi dan rooms
-        $jadwal = JadwalUjianModel::with('sesi.rooms')->get();
-
+        // Ambil semua jadwal dengan sesi dan rooms, urutkan terbaru di atas
+        $jadwal = JadwalUjianModel::with('sesi.rooms')
+            ->orderBy('Tanggal_Ujian', 'desc')
+            ->get();
+    
         // Buat breadcrumb dan activeMenu untuk tampilan
         $breadcrumb = (object) [
             'title' => 'Jadwal Ujian TOEIC',
             'list' => ['Home', 'Jadwal Ujian TOEIC']
         ];
-
-        $activeMenu = 'schedule'; // Misalnya menu yang aktif adalah 'schedule'
-
-        return view('schedule.index', compact('jadwal', 'breadcrumb', 'activeMenu'));
     
+        $activeMenu = 'schedule'; // Misalnya menu yang aktif adalah 'schedule'
+    
+        return view('schedule.index', compact('jadwal', 'breadcrumb', 'activeMenu'));
     }
     public function pendaftar($id)
 {
