@@ -179,8 +179,8 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('admin.kepala.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'sertifikat') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-certificate"></i>
+                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'kepala') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-chalkboard-teacher"></i>
                     <p>Kepala UPA</p>
                 </a>
             </li>

@@ -12,46 +12,53 @@ class KepalaUPABahasaController extends Controller
     public function index()
     {
         $kepalas = KepalaUPABahasa::all();
-        return view('admin.kepala.index', compact('kepalas'));
+        $breadcrumb = (object)[
+            'list' => ['Admin', 'Kepala UPA Bahasa']
+        ];
+
+        $activeMenu = 'kepala';
+        return view('admin.kepala.index', compact('kepalas', 'breadcrumb', 'activeMenu'));
     }
     public function activate($id)
-{
-    // Nonaktifkan semua dulu
-    KepalaUPABahasa::where('is_active', true)->update(['is_active' => false]);
+    {
+        // Nonaktifkan semua dulu
+        KepalaUPABahasa::where('is_active', true)->update(['is_active' => false]);
 
-    // Aktifkan kepala baru
-    $kepala = KepalaUPABahasa::findOrFail($id);
-    $kepala->is_active = true;
-    $kepala->save();
+        // Aktifkan kepala baru
+        $kepala = KepalaUPABahasa::findOrFail($id);
+        $kepala->is_active = true;
+        $kepala->save();
 
-    return redirect()->route('kepala.index')->with('success', 'Kepala UPA Bahasa berhasil diaktifkan.');
-}
-
- public function create()
-{
-    return view('admin.kepala.create');
-}
-
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'nama' => 'required|string|max:255',
-        'nip' => 'required|string|max:30',
-        'pangkat' => 'required|string|max:100',
-        'jabatan' => 'required|string|max:100',
-        'ttd' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-    ]);
-
-    // Upload TTD jika ada
-    if ($request->hasFile('ttd')) {
-        $path = $request->file('ttd')->store('ttd_kepala', 'public');
-        $validated['ttd_path'] = $path;
+        return redirect()->route('admin.kepala.index')->with('success', 'Kepala UPA Bahasa berhasil diaktifkan.');
     }
 
-    $validated['is_active'] = false; // Default tidak aktif
-    KepalaUPABahasa::create($validated);
+    public function create()
+    {
+        $breadcrumb = (object)[
+            'list' => ['Admin', 'Kepala UPA Bahasa', 'Tambah']
+        ];
+        return view('admin.kepala.create', compact('breadcrumb'));
+    }
 
-    return redirect()->route('kepala.index')->with('success', 'Data kepala berhasil ditambahkan.');
-}
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:30',
+            'pangkat' => 'required|string|max:100',
+            'jabatan' => 'required|string|max:100',
+            'ttd' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
 
+        // Upload TTD jika ada
+        if ($request->hasFile('ttd')) {
+            $path = $request->file('ttd')->store('ttd_kepala', 'public');
+            $validated['ttd_path'] = $path;
+        }
+
+        $validated['is_active'] = false; // Default tidak aktif
+        KepalaUPABahasa::create($validated);
+
+        return redirect()->route('admin.kepala.index')->with('success', 'Data kepala berhasil ditambahkan.');
+    }
 }
