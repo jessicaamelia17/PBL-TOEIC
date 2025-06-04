@@ -99,17 +99,17 @@
                                 {{-- Status Ujian: Berdasarkan apakah tanggal ujian sudah lewat --}}
                                 <td class="py-2 px-4 border-b">
                                     @php
-                                        $tanggalUjian = $item->jadwal_ujian->Tanggal_Ujian ?? null;
+                                        $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
                                     @endphp
                                     @if($tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast())
-                                    Sudah Ujian
-                                @else
-                                    Belum Ujian <br>
-                                    <a href="{{ route('mahasiswa.schedule.pendaftar', $item->pendaftaran->jadwal_ujian->Id_Jadwal ?? '') }}"
-                                       class="text-blue-600 underline hover:text-blue-800">
-                                        Lihat Jadwal
-                                    </a>
-                                @endif
+                                        Sudah Ujian
+                                    @else
+                                        Belum Ujian <br>
+                                        <a href="{{ route('mahasiswa.schedule.pendaftar', $item->pendaftaran->jadwal_ujian->Id_Jadwal ?? '') }}"
+                                        class="text-blue-600 underline hover:text-blue-800">
+                                            Lihat Jadwal
+                                        </a>
+                                    @endif
                                 </td>
 
                                 {{-- Status Hasil: Berdasarkan kolom status dari hasil_ujian --}}
