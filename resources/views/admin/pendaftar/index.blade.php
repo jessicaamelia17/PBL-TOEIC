@@ -2,17 +2,14 @@
 
 @section('content')
 <div class="card card-outline card-primary">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">{{ $page->title ?? 'Data Pendaftar' }}</h3>
-        <div>
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title mb-0">{{ $page->title ?? 'Data Pendaftar' }}</h3>
+        <div class="d-flex justify-content-end w-100" style="gap: 8px;">
             <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
                 <i class="fas fa-file-import"></i> Import CSV
             </button>
-            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#exportCSVModal">
+            <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
                 <i class="fas fa-file-export"></i> Export CSV
-            </button>
-            <button onclick="modalAction('{{ url('/pendaftar/create_ajax') }}')" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Pendaftar (Ajax)
             </button>
         </div>
     </div>

@@ -1,4 +1,3 @@
-
 @extends('layouts2.template')
 @section('content')
 <div class="container py-4">
@@ -11,6 +10,15 @@
                 <div class="card-body">
                     <form action="{{ route('admin.jadwal.store') }}" method="POST">
                         @csrf
+
+                        {{-- Input hidden untuk id_kuota --}}
+                        <input type="hidden" name="id_kuota" value="{{ $kuota->id }}">
+
+                        {{-- Menampilkan info kuota --}}
+                        <div class="alert alert-info">
+                            Kuota Total: <strong>{{ $kuota->kuota_total }}</strong>
+                        </div>
+
                         <div class="form-group mb-3">
                             <label class="font-weight-bold">Tanggal Ujian</label>
                             <input type="date" name="Tanggal_Ujian" class="form-control" required>

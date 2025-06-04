@@ -50,23 +50,24 @@ class JadwalController extends Controller
 }
     
 
-    public function edit($id)
-    {
-        $breadcrumb = (object) [
-            'title' => 'Edit Jadwal Ujian',
-            'list' => ['Home', 'Jadwal Ujian', 'Edit']
-        ];
+public function edit($id)
+{
+    $breadcrumb = (object) [
+        'title' => 'Edit Jadwal Ujian',
+        'list' => ['Home', 'Jadwal Ujian', 'Edit']
+    ];
 
-        $activeMenu = 'jadwal';
+    $activeMenu = 'jadwal';
 
-        $jadwal = JadwalUjianModel::findOrFail($id);
+    $jadwal = JadwalUjianModel::findOrFail($id);
 
-        return view('admin.jadwal.edit', [
-            'jadwal' => $jadwal,
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu
-        ]);
-    }
+    return view('admin.jadwal.edit', [
+        'jadwal' => $jadwal,
+        'breadcrumb' => $breadcrumb,
+        'activeMenu' => $activeMenu
+    ]);
+}
+
 
     
     // ...existing code...
@@ -139,9 +140,14 @@ public function create()
 
     $activeMenu = 'jadwal';
 
+    $kuota = KuotaModel::first(); // hanya satu kuota aktif
+
     return view('admin.jadwal.create', [
         'breadcrumb' => $breadcrumb,
-        'activeMenu' => $activeMenu
+        'activeMenu' => $activeMenu,
+        'kuota' => $kuota // singular, bukan kuotas
     ]);
 }
+
+
 }
