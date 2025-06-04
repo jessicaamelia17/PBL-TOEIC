@@ -23,8 +23,9 @@ class AdminAuthController extends Controller
         $activeMenu = 'dashboard';
         $pendaftar = PendaftarModel::count();
         $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total');
+        $status_pendaftaran = DB::table('kuota')->where('id', 1)->value('status_pendaftaran'); // Tambahkan baris ini
 
-        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar', 'kuota'));
+        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar', 'kuota','status_pendaftaran'));
     }
 
     // Update kuota
@@ -48,8 +49,25 @@ class AdminAuthController extends Controller
             'message' => 'Kuota berhasil diperbarui.'
         ]);
     }
+  
+    public function updateStatusPendaftaran(Request $request)
+    {
+        $request->validate([
+            'status_pendaftaran' => 'required|in:0,1',
+        ]);
 
-    // Halaman login
+        DB::table('kuota')->where('id', 1)->update([
+            'status_pendaftaran' => $request->status_pendaftaran,
+            'updated_at' => now(),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status pendaftaran berhasil diubah.'
+        ]);
+    }
+
+        // Halaman login
     public function login()
     {
         if (Auth::guard('admin')->check()) {

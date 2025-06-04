@@ -126,10 +126,10 @@
     <div class="isi">
         <p>Yang bertanda tangan di bawah ini:</p>
         <table>
-            <tr><td style="width: 35%;">Nama</td><td>: Atiqah Nurul Asri, S.Pd., M.Pd.</td></tr>
-            <tr><td>NIP</td><td>: 197606252005012001</td></tr>
-            <tr><td>Pangkat, Golongan, Ruang</td><td>: Penata Tingkat 1 / III D</td></tr>
-            <tr><td>Jabatan</td><td>: Kepala UPA Bahasa</td></tr>
+            <tr><td style="width: 35%;">Nama</td><td>: {{ $kepala->nama }}</td></tr>
+            <tr><td>NIP</td><td>: {{ $kepala->nip }}</td></tr>
+            <tr><td>Pangkat, Golongan, Ruang</td><td>: {{ $kepala->pangkat }}</td></tr>
+            <tr><td>Jabatan</td><td>: {{ $kepala->jabatan }}</td></tr>
         </table>
 
         <p class="paragraf">Dengan ini menyatakan dengan sesungguhnya bahwa:</p>
@@ -155,9 +155,11 @@
     <div class="ttd">
         <p>Malang, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
         <p>Kepala UPA Bahasa,</p>
-        <br><br>
-        <p><b>Atiqah Nurul Asri, S.Pd., M.Pd.</b></p>
-        <p>NIP. 197606252005012001</p>
+        @if($kepala->ttd_path)
+        <img src="{{ public_path('storage/' . $kepala->ttd_path) }}" alt="TTD Kepala" style="width:120px;">
+    @endif<br>
+        <p><b>{{ $kepala->nama }}</b></p>
+        <p>NIP. {{ $kepala->nip }}</p>
     </div>
 
     <div class="lampiran">

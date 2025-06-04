@@ -92,24 +92,39 @@
                         @foreach($riwayat as $item)
                             <tr>
                                 <td class="py-2 px-4 border-b">{{ $item->pendaftaran->Tanggal_Pendaftaran ?? '-' }}</td>
-                                <td class="py-2 px-4 border-b">{{ $item->jadwal->Tanggal_Ujian ?? '-' }}</td>
-
-                                {{-- Status Ujian --}}
                                 <td class="py-2 px-4 border-b">
-                                    @if($item->hasil)
+                                    {{ $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? '-' }}
+                                </td>
+
+                                {{-- Status Ujian: Berdasarkan apakah tanggal ujian sudah lewat --}}
+                                <td class="py-2 px-4 border-b">
+                                    @php
+                                        $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
+                                    @endphp
+                                    @if($tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast())
                                         Sudah Ujian
                                     @else
-                                        Belum Ujian
+                                        Belum Ujian <br>
+                                        <a href="{{ route('mahasiswa.schedule.pendaftar', $item->pendaftaran->jadwal_ujian->Id_Jadwal ?? '') }}"
+                                        class="text-blue-600 underline hover:text-blue-800">
+                                            Lihat Jadwal
+                                        </a>
                                     @endif
                                 </td>
 
-                                                        {{-- Status Hasil --}}
+                                {{-- Status Hasil: Berdasarkan kolom status dari hasil_ujian --}}
                                 <td class="py-2 px-4 border-b">
-                                    @if($item->hasil)
-                                        {{-- Tampilkan status dari DB, tapi dengan huruf kapital --}}
-                                        {{ ucfirst($item->hasil->status) }}
-                                    @else
+                                    @php
+                                        $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
+                                        $sudahUjian = $tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast();
+                                    @endphp
+
+                                    @if(!$sudahUjian)
+                                        -
+                                    @elseif($sudahUjian && !$item->hasil)
                                         Menunggu Hasil
+                                    @else
+                                        {{ ucfirst($item->hasil->Status) }}
                                     @endif
                                 </td>
 
@@ -118,11 +133,11 @@
                                     {{ $item->hasil->total_skor_2 ?? '-' }}
                                 </td>
 
-                                {{-- Pengambilan Sertifikat --}}
+                                {{-- Pengambilan Sertifikat: Berdasarkan status di tabel pengambilan --}}
                                 <td class="py-2 px-4 border-b">
-                                    @if($item->hasil)
-                                        @if($item->sertifikat)
-                                            Diambil pada {{ \Carbon\Carbon::parse($item->sertifikat->tanggal_pengambilan)->format('d M Y') }}
+                                    @if($item->sertifikat)
+                                        @if($item->sertifikat->Status === 'Diambil')
+                                            Diambil pada {{ \Carbon\Carbon::parse($item->sertifikat->Tanggal_Diambil)->format('d M Y') }}
                                         @else
                                             Belum Diambil
                                         @endif
@@ -143,6 +158,7 @@
         </section>
     @endif
 @endauth
+
 
     {{-- Info Cards --}}
     @php

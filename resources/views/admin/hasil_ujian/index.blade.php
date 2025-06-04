@@ -45,7 +45,7 @@
                 </thead>
                 <tbody>
                     @foreach ($results as $item)
-                    <tr>
+                    <tr class="{{ $item->Status == 'Lulus' ? 'table-success' : 'table-danger' }}">
                         <td></td> <!-- Nomor urut akan diisi otomatis oleh DataTables -->
                         <td>{{ optional($item->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
                         <td class="text-center">{{ $item->pendaftaran->NIM }}</td>

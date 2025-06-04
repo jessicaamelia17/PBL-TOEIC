@@ -5,24 +5,33 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\JadwalUjianModel;
 use Illuminate\Http\Request;
+use App\Models\KuotaModel;
 
 class JadwalController extends Controller
 {
+ 
     public function index()
     {
         $breadcrumb = (object) [
             'title' => 'Kelola Jadwal Ujian',
             'list' => ['Home', 'Jadwal Ujian']
         ];
-
+    
         $activeMenu = 'jadwal';
-
+    
         $jadwals = JadwalUjianModel::all();
-
+    
+        // Tambahkan kode ini:
+        $kuota = \App\Models\KuotaModel::first();
+        $totalKuotaJadwal = \App\Models\JadwalUjianModel::where('id_kuota', $kuota->id)->sum('kuota_max');
+        $kuotaPenuh = $totalKuotaJadwal >= $kuota->kuota_total;
+    
+        // Kirim $kuotaPenuh ke view
         return view('admin.jadwal.index', [
             'breadcrumb' => $breadcrumb,
             'activeMenu' => $activeMenu,
-            'jadwals' => $jadwals
+            'jadwals' => $jadwals,
+            'kuotaPenuh' => $kuotaPenuh
         ]);
     }
     
@@ -59,24 +68,66 @@ class JadwalController extends Controller
         ]);
     }
 
+    
+    // ...existing code...
+    
     public function update(Request $request, $id)
     {
         $request->validate([
             'kuota_max' => 'required|integer|min:1',
-          
         ]);
-
+    
         $jadwal = JadwalUjianModel::findOrFail($id);
+    
+        // Hitung total kuota jadwal lain (selain yang sedang diedit)
+        $totalKuotaJadwalLain = JadwalUjianModel::where('id_kuota', $jadwal->id_kuota)
+            ->where('Id_Jadwal', '!=', $id)
+            ->sum('kuota_max');
+    
+        $kuotaTotal = KuotaModel::find($jadwal->id_kuota)->kuota_total;
+    
+        // Cek apakah penambahan kuota melebihi kuota total
+        if (($totalKuotaJadwalLain + $request->kuota_max) > $kuotaTotal) {
+            return back()->withErrors(['kuota_max' => 'Total kuota seluruh jadwal melebihi kuota total ('.$kuotaTotal.')!']);
+        }
+    
         $jadwal->kuota_max = $request->kuota_max;
         $jadwal->save();
-
+    
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal diperbarui.');
+    }
+    
+    public function store(Request $request)
+    {
+        $request->validate([
+            'Tanggal_Ujian' => 'required|date',
+            'kuota_max' => 'required|integer|min:1',
+            'id_kuota' => 'required|exists:kuota,id', // Pastikan ada id_kuota di form
+        ]);
+    
+        // Hitung total kuota jadwal yang sudah ada
+        $totalKuotaJadwal = JadwalUjianModel::where('id_kuota', $request->id_kuota)->sum('kuota_max');
+        $kuotaTotal = KuotaModel::find($request->id_kuota)->kuota_total;
+    
+        // Cek apakah penambahan kuota melebihi kuota total
+        if (($totalKuotaJadwal + $request->kuota_max) > $kuotaTotal) {
+            return back()->withErrors(['kuota_max' => 'Total kuota seluruh jadwal melebihi kuota total ('.$kuotaTotal.')!']);
+        }
+    
+        JadwalUjianModel::create([
+            'Tanggal_Ujian' => $request->Tanggal_Ujian,
+            'kuota_max' => $request->kuota_max,
+            'id_kuota' => $request->id_kuota,
+            // tambahkan field lain jika ada
+        ]);
+    
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
     }
     public function destroy($id)
 {
     $jadwal = JadwalUjianModel::findOrFail($id);
     $jadwal->delete();
-
+    
     return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dihapus.');
 }
 public function create()
@@ -92,21 +143,5 @@ public function create()
         'breadcrumb' => $breadcrumb,
         'activeMenu' => $activeMenu
     ]);
-}
-public function store(Request $request)
-{
-    $request->validate([
-        'Tanggal_Ujian' => 'required|date',
-        'kuota_max' => 'required|integer|min:1',
-        // tambahkan validasi lain jika ada field lain
-    ]);
-
-    JadwalUjianModel::create([
-        'Tanggal_Ujian' => $request->Tanggal_Ujian,
-        'kuota_max' => $request->kuota_max,
-        // tambahkan field lain jika ada
-    ]);
-
-    return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
 }
 }
