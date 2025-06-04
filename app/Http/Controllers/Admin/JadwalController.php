@@ -73,57 +73,34 @@ public function edit($id)
     // ...existing code...
     
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'kuota_max' => 'required|integer|min:1',
-        ]);
-    
-        $jadwal = JadwalUjianModel::findOrFail($id);
-    
-        // Hitung total kuota jadwal lain (selain yang sedang diedit)
-        $totalKuotaJadwalLain = JadwalUjianModel::where('id_kuota', $jadwal->id_kuota)
-            ->where('Id_Jadwal', '!=', $id)
-            ->sum('kuota_max');
-    
-        $kuotaTotal = KuotaModel::find($jadwal->id_kuota)->kuota_total;
-    
-        // Cek apakah penambahan kuota melebihi kuota total
-        if (($totalKuotaJadwalLain + $request->kuota_max) > $kuotaTotal) {
-            return back()->withErrors(['kuota_max' => 'Total kuota seluruh jadwal melebihi kuota total ('.$kuotaTotal.')!']);
-        }
-    
-        $jadwal->kuota_max = $request->kuota_max;
-        $jadwal->save();
-    
-        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal diperbarui.');
+{
+    $request->validate([
+        'Tanggal_Ujian' => 'required|date',
+        'kuota_max' => 'required|integer|min:1',
+    ]);
+
+    $jadwal = JadwalUjianModel::findOrFail($id);
+
+    // Hitung total kuota jadwal lain (selain yang sedang diedit)
+    $totalKuotaJadwalLain = JadwalUjianModel::where('id_kuota', $jadwal->id_kuota)
+        ->where('Id_Jadwal', '!=', $id)
+        ->sum('kuota_max');
+
+    $kuotaTotal = KuotaModel::find($jadwal->id_kuota)->kuota_total;
+
+    // Cek apakah penambahan kuota melebihi kuota total
+    if (($totalKuotaJadwalLain + $request->kuota_max) > $kuotaTotal) {
+        return back()->withErrors(['kuota_max' => 'Total kuota seluruh jadwal melebihi kuota total ('.$kuotaTotal.')!']);
     }
-    
-    public function store(Request $request)
-    {
-        $request->validate([
-            'Tanggal_Ujian' => 'required|date',
-            'kuota_max' => 'required|integer|min:1',
-            'id_kuota' => 'required|exists:kuota,id', // Pastikan ada id_kuota di form
-        ]);
-    
-        // Hitung total kuota jadwal yang sudah ada
-        $totalKuotaJadwal = JadwalUjianModel::where('id_kuota', $request->id_kuota)->sum('kuota_max');
-        $kuotaTotal = KuotaModel::find($request->id_kuota)->kuota_total;
-    
-        // Cek apakah penambahan kuota melebihi kuota total
-        if (($totalKuotaJadwal + $request->kuota_max) > $kuotaTotal) {
-            return back()->withErrors(['kuota_max' => 'Total kuota seluruh jadwal melebihi kuota total ('.$kuotaTotal.')!']);
-        }
-    
-        JadwalUjianModel::create([
-            'Tanggal_Ujian' => $request->Tanggal_Ujian,
-            'kuota_max' => $request->kuota_max,
-            'id_kuota' => $request->id_kuota,
-            // tambahkan field lain jika ada
-        ]);
-    
-        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
-    }
+
+    // ✅ Update kedua field
+    $jadwal->Tanggal_Ujian = $request->Tanggal_Ujian;
+    $jadwal->kuota_max = $request->kuota_max;
+    $jadwal->save();
+
+    return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal diperbarui.');
+}
+
     public function destroy($id)
 {
     $jadwal = JadwalUjianModel::findOrFail($id);

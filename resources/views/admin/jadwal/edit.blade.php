@@ -23,8 +23,9 @@
                         <div class="form-group mb-3">
                             <label class="font-weight-bold">Tanggal Ujian</label>
                             <input type="date" name="Tanggal_Ujian" class="form-control" 
-                                   value="{{ $jadwal->Tanggal_Ujian }}" required>
+                                   value="{{ \Carbon\Carbon::parse($jadwal->Tanggal_Ujian)->format('Y-m-d') }}" required>
                         </div>
+                        
 
                         <div class="form-group mb-3">
                             <label class="font-weight-bold">Kuota Maksimum</label>
