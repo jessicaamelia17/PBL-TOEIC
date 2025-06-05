@@ -30,7 +30,7 @@ return [
     'desc_toeic' => 'Get complete information about TOEIC registration, schedules, and exam results.',
     'toeic_registration' => 'TOEIC Registration',
     'toeic_registration_desc' => 'Fill out the registration form to take the TOEIC test from the campus.',
-    'toeic_registration_button' => 'Register Now',
+    'toeic_registration_button' => 'Register',
     'exam_schedule' => 'Exam Schedule',
     'exam_schedule_desc' => 'Check out the latest official TOEIC schedule from the campus.',
     'exam_schedule_button' => 'View Schedule',

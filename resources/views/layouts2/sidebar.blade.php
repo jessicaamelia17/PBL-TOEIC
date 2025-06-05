@@ -1,14 +1,14 @@
 <style>
-    .nav-sidebar .nav-item > .nav-link {
+    .nav-sidebar .nav-item>.nav-link {
         color: white !important;
     }
 
-    .nav-sidebar .nav-item > .nav-link.active {
+    .nav-sidebar .nav-item>.nav-link.active {
         background-color: white !important;
         color: #3452F9 !important;
     }
 
-    .nav-sidebar .nav-item > .nav-link.active i {
+    .nav-sidebar .nav-item>.nav-link.active i {
         color: #3452F9 !important;
     }
 
@@ -16,13 +16,13 @@
         color: white;
     }
 
-    .nav-sidebar .nav-item > .nav-link.logout-link,
-    .nav-sidebar .nav-item > .nav-link.logout-link p,
-    .nav-sidebar .nav-item > .nav-link.logout-link i {
+    .nav-sidebar .nav-item>.nav-link.logout-link,
+    .nav-sidebar .nav-item>.nav-link.logout-link p,
+    .nav-sidebar .nav-item>.nav-link.logout-link i {
         color: #e3342f !important;
     }
 
-    .nav-sidebar .nav-item > .nav-link.logout-link.active {
+    .nav-sidebar .nav-item>.nav-link.logout-link.active {
         background-color: #fff0f0 !important;
         color: #e3342f !important;
     }
@@ -79,23 +79,6 @@
 </style>
 
 <div class="sidebar">
-
-    {{-- Profil Admin --}}
-    <div class="sidebar-profile">
-    <a href="{{ route('admin.profile') }}" style="display: flex; align-items: center; gap: 15px; color: white; text-decoration:none;">
-        <img src="{{ asset('storage/foto_admin/' . auth('admin')->user()->foto) }}"
-             alt="Foto Profil Admin"
-             onerror="this.onerror=null;this.src='{{ asset('profile-picture.jpg') }}';">
-        <div class="profile-info">
-            <p>{{ auth('admin')->user()->nama }}</p>
-        </div>
-    </a>
-    <a href="{{ route('admin.profile.edit') }}" class="btn-edit-profile" title="Edit Profil Admin">
-        <i class="fas fa-edit"></i> Edit Profile
-    </a>
-</div>
-
-
     <div class="sidebar-separator"></div>
 
     {{-- Sidebar Search Form --}}
@@ -110,13 +93,14 @@
         </div>
     </div>
 
+
     {{-- Sidebar Menu --}}
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
                 <a href="{{ url('/admin/home') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'dashboard') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
@@ -124,7 +108,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.pendaftar.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'pendaftar') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'pendaftar' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-check"></i>
                     <p>Data Pendaftaran</p>
                 </a>
@@ -132,7 +116,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.jadwal.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'jadwal') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'jadwal' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar-alt"></i>
                     <p>Kelola Jadwal & Kuota</p>
                 </a>
@@ -140,7 +124,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.surat.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'surat') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'surat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>Surat Pengajuan</p>
                 </a>
@@ -148,7 +132,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.pengumuman.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'pengumuman') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'pengumuman' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-upload"></i>
                     <p>Upload Pengumuman</p>
                 </a>
@@ -156,7 +140,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.hasil-ujian.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'hasil-ujian') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'hasil-ujian' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-alt"></i>
                     <p>Hasil Ujian</p>
                 </a>
@@ -164,7 +148,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.mahasiswa.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'mahasiswa') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'mahasiswa' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user-graduate"></i>
                     <p>Data Mahasiswa</p>
                 </a>
@@ -172,14 +156,14 @@
 
             <li class="nav-item">
                 <a href="{{ route('admin.sertifikat.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'sertifikat') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'sertifikat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-certificate"></i>
                     <p>Pengambilan Sertifikat</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('admin.kepala.index') }}"
-                   class="nav-link {{ (isset($activeMenu) && $activeMenu == 'kepala') ? 'active' : '' }}">
+                    class="nav-link {{ isset($activeMenu) && $activeMenu == 'kepala' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chalkboard-teacher"></i>
                     <p>Kepala UPA</p>
                 </a>
@@ -187,7 +171,7 @@
 
             <li class="nav-item">
                 <a href="#" class="nav-link logout-link"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                 </a>

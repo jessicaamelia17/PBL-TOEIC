@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\PendaftarModel;
+use Illuminate\Support\Facades\Storage;
 
 class AdminAuthController extends Controller
 {
@@ -25,7 +26,7 @@ class AdminAuthController extends Controller
         $kuota = DB::table('kuota')->where('id', 1)->value('kuota_total');
         $status_pendaftaran = DB::table('kuota')->where('id', 1)->value('status_pendaftaran'); // Tambahkan baris ini
 
-        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar', 'kuota','status_pendaftaran'));
+        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'pendaftar', 'kuota', 'status_pendaftaran'));
     }
 
     // Update kuota
@@ -49,7 +50,7 @@ class AdminAuthController extends Controller
             'message' => 'Kuota berhasil diperbarui.'
         ]);
     }
-  
+
     public function updateStatusPendaftaran(Request $request)
     {
         $request->validate([
@@ -67,7 +68,7 @@ class AdminAuthController extends Controller
         ]);
     }
 
-        // Halaman login
+    // Halaman login
     public function login()
     {
         if (Auth::guard('admin')->check()) {
@@ -159,24 +160,39 @@ class AdminAuthController extends Controller
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'email' => 'required|email',
-            'password' => 'nullable|min:6|confirmed',
+            'Username' => 'required|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'Password' => 'nullable|min:6|confirmed',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Ambil ulang data admin menggunakan model agar bisa gunakan method save()
         $admin = Admin::find(auth()->guard('admin')->id());
 
-        // Jika tidak ditemukan
         if (!$admin) {
             return back()->with('error', 'Admin tidak ditemukan.');
         }
 
-        $admin->name = $request->name;
+        $admin->nama = $request->nama;
         $admin->email = $request->email;
+        $admin->Username = $request->Username;
+        $admin->no_hp = $request->no_hp;
 
-        if ($request->filled('password')) {
-            $admin->password = Hash::make($request->password);
+        if ($request->filled('Password')) {
+            $admin->Password = Hash::make($request->Password);
+        }
+
+        // Proses upload foto
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($admin->foto && Storage::disk('public')->exists('foto_admin/' . $admin->foto)) {
+                Storage::disk('public')->delete('foto_admin/' . $admin->foto);
+            }
+            $file = $request->file('foto');
+            $filename = uniqid('admin_') . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('foto_admin', $filename, 'public');
+            $admin->foto = $filename;
         }
 
         $admin->save();
