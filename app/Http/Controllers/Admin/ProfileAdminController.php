@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ class ProfileAdminController extends Controller
 
         return view('admin.profil-admin.profile', [
             'admin' => $admin,
-            'breadcrumb' => (object)[ 'list' => ['Dashboard', 'Profil'] ],
+            'breadcrumb' => (object)['list' => ['Dashboard', 'Profil']],
         ]);
     }
 
@@ -25,36 +26,41 @@ class ProfileAdminController extends Controller
 
         return view('admin.profil-admin.edit', [
             'admin' => $admin,
-            'breadcrumb' => (object)[ 'list' => ['Dashboard', 'Profil', 'Edit'] ],
+            'breadcrumb' => (object)['list' => ['Dashboard', 'Profil', 'Edit']],
         ]);
     }
 
     public function update(Request $request)
     {
-        $admin = auth()->guard('admin')->user();
+        $admin = Admin::find(auth()->guard('admin')->id());
 
         $request->validate([
+            'Username' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:admins,email,' . $admin->Id_Admin,
-            'password' => 'nullable|min:6|confirmed',
+            'email' => 'required|email|max:255|unique:admin,email,' . $admin->Id_Admin . ',Id_Admin',
+            'no_hp' => 'nullable|string|max:20',
+            'Password' => 'nullable|min:8|confirmed',
             'foto' => 'nullable|image|max:2048',
         ]);
 
+        $admin->Username = $request->Username;
         $admin->nama = $request->nama;
         $admin->email = $request->email;
+        $admin->no_hp = $request->no_hp;
 
-        if ($request->filled('password')) {
-            $admin->password = Hash::make($request->password);
+        if ($request->filled('Password')) {
+            $admin->Password = Hash::make($request->Password);
         }
 
         if ($request->hasFile('foto')) {
             if ($admin->foto && Storage::exists('public/foto_admin/' . $admin->foto)) {
                 Storage::delete('public/foto_admin/' . $admin->foto);
             }
-
             $path = $request->file('foto')->store('public/foto_admin');
             $admin->foto = basename($path);
         }
+
+        $admin->save();
 
         return redirect()->route('admin.profile')->with('success', 'Profil berhasil diperbarui.');
     }

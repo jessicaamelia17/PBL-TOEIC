@@ -30,7 +30,7 @@ return [
     'desc_toeic' => 'Dapatkan informasi lengkap mengenai pendaftaran, jadwal, dan hasil ujian TOEIC.',
     'toeic_registration' => 'Pendaftaran TOEIC',
     'toeic_registration_desc' => 'Isi formulir pendaftaran untuk mengikuti tes TOEIC dari kampus.',
-    'toeic_registration_button' => 'Daftar Sekarang',
+    'toeic_registration_button' => 'Daftar',
     'exam_schedule' => 'Jadwal Ujian',
     'exam_schedule_desc' => 'Lihat jadwal terbaru pelaksanaan TOEIC resmi dari kampus.',
     'exam_schedule_button' => 'Lihat Jadwal',

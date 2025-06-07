@@ -17,11 +17,17 @@
         </div>
 
         <!-- Desktop Menu -->
-        <ul class="hidden lg:flex space-x-6 items-center">
+        <ul class="hidden lg:flex space-x-4 items-center">
             <li>
                 <a href="{{ url('/') }}"
                     class="px-3 py-1 rounded transition {{ request()->is('/') ? 'font-bold bg-white/20 text-white' : 'hover:underline' }}">
                     @lang('users.home')
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/mahasiswa/registrasi') }}"
+                    class="px-3 py-1 rounded transition {{ request()->is('mahasiswa/registrasi') ? 'font-bold bg-white/20 text-white' : 'hover:underline' }}">
+                    @lang('users.toeic_registration_button')
                 </a>
             </li>
             <li>
@@ -46,6 +52,7 @@
                 <a href="{{ route('contacts') }}"
                     class="px-3 py-1 rounded transition hover:underline">@lang('users.contacts')</a>
             </li>
+
 
             {{-- Language Switcher --}}
             <li class="relative" x-data="{ openLang: false }" x-init="openLang = false">
@@ -126,6 +133,12 @@
                 <a href="{{ url('/') }}"
                     class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-50 text-blue-700 font-medium transition text-left">
                     <i class="fas fa-home w-5 h-5"></i> @lang('users.home')
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/mahasiswa/registrasi') }}"
+                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-50 text-blue-700 font-medium transition text-left">
+                    <i class="fas fa-user-plus w-5 h-5"></i> @lang('users.toeic_registration_button')
                 </a>
             </li>
             <li>

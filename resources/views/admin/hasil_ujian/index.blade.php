@@ -27,41 +27,53 @@
         @endif
 
         <div class="table-responsive">
-            <table id="table_hasil_ujian" class="table table-bordered table-striped table-hover table-sm">
+            <table id="table_hasil_ujian" class="table table-bordered table-striped table-hove text-center table-sm">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>NIM</th>
-                        <th>Listening 1</th>
-                        <th>Reading 1</th>
-                        <th>Skor 1</th>
-                        <th>Listening 2</th>
-                        <th>Reading 2</th>
-                        <th>Skor 2</th>
-                        <th>Tanggal Ujian</th>
-                        <th>Status</th>
+                      <th><strong>No</strong></th>
+                      <th><strong>Nama</strong></th>
+                      <th><strong>NIM</strong></th>
+                      <th><strong>Listening 1</strong></th>
+                      <th><strong>Reading 1</strong></th>
+                      <th><strong>Skor 1</strong></th>
+                      <th><strong>Listening 2</strong></th>
+                      <th><strong>Reading 2</strong></th>
+                      <th><strong>Skor 2</strong></th>
+                      <th><strong>Tanggal Ujian</strong></th>
+                      <th><strong>Status</strong></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($results as $item)
                     <tr class="{{ $item->Status == 'Lulus' ? 'table-success' : 'table-danger' }}">
                         <td></td> <!-- Nomor urut akan diisi otomatis oleh DataTables -->
-                        <td>{{ optional($item->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
+                        <td class="text-left">{{ optional($item->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
                         <td class="text-center">{{ $item->pendaftaran->NIM }}</td>
                         <td class="text-center">{{ $item->listening_1 }}</td>
                         <td class="text-center">{{ $item->reading_1 }}</td>
-                        <td class="text-center">{{ $item->total_skor_1 }}</td>
+                    <td>
+                        <span class="badge {{ $item->Status === 'Lulus' ? 'bg-primary' : 'bg-danger' }} px-3 py-2 fs-6">
+                            <strong>{{ $item->total_skor_1 }}</strong>
+                        </span>
+                    </td>
                         <td class="text-center">{{ $item->Listening_2 }}</td>
                         <td class="text-center">{{ $item->Reading_2 }}</td>
-                        <td class="text-center">{{ $item->total_skor_2 }}</td>
-                        <td class="text-center">
+                        <td>
+                        <span class="badge {{ $item->Status === 'Lulus' ? 'bg-primary' : 'bg-danger' }} px-3 py-2 fs-6">
+                            <strong>{{ $item->total_skor_2 }}</strong>
+                        </span>
+                    </td>
+                        <td>
                             {{ optional($item->pendaftaran->jadwal_ujian)->Tanggal_Ujian
                                 ? \Carbon\Carbon::parse($item->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
                                 : '-' }}
                         </td>
-                        <td class="text-center">{{ $item->Status }}</td>
-                    </tr>
+                        <td>
+                        <span class="badge {{ $item->Status === 'Lulus' ? 'bg-success' : 'bg-danger' }} px-3 py-2 fs-6">
+                            <strong>{{ $item->Status }}</strong>
+                        </span>
+                    </td>
+                </tr>
                     @endforeach
                 </tbody>
             </table>
