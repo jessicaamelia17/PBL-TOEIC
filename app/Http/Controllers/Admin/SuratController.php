@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\SuratPengajuan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\StatusSuratMail;
 
 class SuratController extends Controller
 {
@@ -96,6 +98,7 @@ class SuratController extends Controller
         return view('admin.surat.detail', compact('surat'));
     }
     
+    
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -103,14 +106,27 @@ class SuratController extends Controller
             'catatan' => 'nullable|string'
         ]);
     
-        $surat = SuratPengajuan::findOrFail($id);
+        $surat = SuratPengajuan::with('mahasiswa')->findOrFail($id);
         $surat->status_verifikasi = $request->status_verifikasi;
         $surat->tanggal_verifikasi = now();
         $surat->catatan = $request->catatan;
         $surat->save();
     
-        return redirect()->route('admin.surat.index')->with('success', 'Status pengajuan berhasil diperbarui.');
+        // Kirim email ke mahasiswa
+        if ($surat->mahasiswa && $surat->mahasiswa->email) {
+            Mail::to($surat->mahasiswa->email)->send(
+                new StatusSuratMail(
+                    $surat->mahasiswa->nama,
+                    $surat->status_verifikasi,
+                    $surat->catatan
+                )
+            );
+        }
+    
+        return redirect()->route('admin.surat.index')->with('success', 'Status pengajuan berhasil diperbarui dan email telah dikirim.');
     }
+    
+    
     
 
 }

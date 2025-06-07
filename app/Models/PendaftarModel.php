@@ -51,6 +51,15 @@ class PendaftarModel extends Model
     return $this->hasOne(HasilUjian::class, 'Id_Pendaftaran', 'Id_Pendaftaran');
 }
 
+public function sesi()
+{
+    return $this->belongsTo(SesiUjianModel::class, 'id_sesi', 'id_sesi');
+}
+public function room()
+{
+    return $this->belongsTo(RoomUjianModel::class, 'id_room', 'id_room');
+}
+
 
 // Di Hasil.php
 public function pengambilanSertifikat()

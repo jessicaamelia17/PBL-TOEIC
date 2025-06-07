@@ -8,8 +8,9 @@ use App\Models\RoomUjianModel;
 use App\Models\RegistrasiModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InfoUjianMail;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Facades\Log;
 use Exception;
 
@@ -138,7 +139,6 @@ class SesiJadwalController extends Controller
                 $jumlahPeserta = $sortedPeserta->count();
                 $roomFound = false;
             
-                // Coba cari room yang kapasitasnya cukup untuk satu prodi
                 foreach ($roomQueue as &$roomItem) {
                     if ($roomItem['kapasitas_tersisa'] >= $jumlahPeserta) {
                         foreach ($sortedPeserta as $peserta) {
@@ -146,6 +146,17 @@ class SesiJadwalController extends Controller
                                 'id_sesi' => $roomItem['id_sesi'],
                                 'id_room' => $roomItem['room']->id_room,
                             ]);
+                            // Kirim email setelah penempatan
+                            // Mail::to($peserta->mahasiswa->email)->send(new InfoUjianMail($peserta));
+                            try {
+                                if ($peserta->mahasiswa && $peserta->mahasiswa->email) {
+                                    Mail::to($peserta->mahasiswa->email)->queue(new InfoUjianMail($peserta));
+                                    Log::info('Email info ujian berhasil dikirim ke: ' . $peserta->mahasiswa->email);
+                                }
+                            } catch (\Exception $e) {
+                                Log::error('Gagal kirim email ke ' . $peserta->mahasiswa->email . ': ' . $e->getMessage());
+                            }
+                            
                         }
                         $roomItem['kapasitas_tersisa'] -= $jumlahPeserta;
                         $roomFound = true;
@@ -153,7 +164,7 @@ class SesiJadwalController extends Controller
                     }
                 }
             
-                // Jika tidak ada room yang cukup, bagi ke beberapa room berikutnya
+                // Jika tidak ada room yang cukup, bagi ke beberapa room
                 if (!$roomFound) {
                     $i = 0;
                     while ($i < $jumlahPeserta) {
@@ -165,6 +176,17 @@ class SesiJadwalController extends Controller
                                     'id_sesi' => $roomItem['id_sesi'],
                                     'id_room' => $roomItem['room']->id_room,
                                 ]);
+                                // Kirim email setelah penempatan
+                                // Mail::to($peserta->mahasiswa->email)->send(new InfoUjianMail($peserta));
+                                try {
+                                    if ($peserta->mahasiswa && $peserta->mahasiswa->email) {
+                                        Mail::to($peserta->mahasiswa->email)->queue(new InfoUjianMail($peserta));
+                                        Log::info('Email info ujian berhasil dikirim ke: ' . $peserta->mahasiswa->email);
+                                    }
+                                } catch (\Exception $e) {
+                                    Log::error('Gagal kirim email ke ' . $peserta->mahasiswa->email . ': ' . $e->getMessage());
+                                }
+                                
                             }
                             $roomItem['kapasitas_tersisa'] -= $batch->count();
                             $i += $batch->count();
@@ -173,6 +195,7 @@ class SesiJadwalController extends Controller
                     }
                 }
             }
+            
     
             return response()->json([
                 'success' => true,

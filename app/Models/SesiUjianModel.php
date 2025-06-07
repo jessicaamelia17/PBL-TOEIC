@@ -33,5 +33,13 @@ class SesiUjianModel extends Model
         return $this->hasMany(RoomUjianModel::class, 'id_sesi', 'id_sesi');
     }
 
-    
+    public function pendaftar()
+    {
+        return $this->hasMany(PendaftarModel::class, 'id_sesi', 'id_sesi');
+    }
+
+    public function registrasi()
+    {
+        return $this->hasMany(RegistrasiModel::class, 'id_sesi', 'id_sesi');
+    }
 }

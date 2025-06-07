@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\HasilUjian;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\HasilUjianMail;
+use Illuminate\Support\Facades\Mail;
 
 class HasilUjianController extends Controller
 {
@@ -61,29 +63,28 @@ class HasilUjianController extends Controller
 
             foreach ($data as $row) {
                 $row = array_map('trim', $row);
-
+            
                 $nim = $row[0] ?? null;
                 $skor = $row[3] ?? 0;
                 $tanggalUjian = $row[7];
                 $tanggalUjianDb = Carbon::createFromFormat('d/m/Y', $tanggalUjian)->format('Y-m-d');
-
-                $pendaftaran = DB::table('pendaftaran_toeic')
-                ->join('mahasiswa', 'pendaftaran_toeic.nim', '=', 'mahasiswa.nim')
-                ->join('prodi', 'mahasiswa.Id_Prodi', '=', 'prodi.Id_Prodi')
-                ->join('jadwal_ujian', 'pendaftaran_toeic.id_jadwal', '=', 'jadwal_ujian.Id_Jadwal')
-                ->where('pendaftaran_toeic.nim', $nim)
-                ->whereDate('jadwal_ujian.Tanggal_Ujian', $tanggalUjianDb)
-                ->select('pendaftaran_toeic.id_pendaftaran', 'prodi.Nama_Prodi')
-                ->first();
             
-
+                $pendaftaran = DB::table('pendaftaran_toeic')
+                    ->join('mahasiswa', 'pendaftaran_toeic.nim', '=', 'mahasiswa.nim')
+                    ->join('prodi', 'mahasiswa.Id_Prodi', '=', 'prodi.Id_Prodi')
+                    ->join('jadwal_ujian', 'pendaftaran_toeic.id_jadwal', '=', 'jadwal_ujian.Id_Jadwal')
+                    ->where('pendaftaran_toeic.nim', $nim)
+                    ->whereDate('jadwal_ujian.Tanggal_Ujian', $tanggalUjianDb)
+                    ->select('pendaftaran_toeic.id_pendaftaran', 'prodi.Nama_Prodi', 'mahasiswa.email', 'mahasiswa.nama', 'mahasiswa.nim')
+                    ->first();
+            
                 if (!$pendaftaran) {
                     $status = 'Belum Validasi';
                     $id_pendaftaran = null;
                 } else {
                     $prodi = $pendaftaran->Nama_Prodi;
                     $id_pendaftaran = $pendaftaran->id_pendaftaran;
-
+            
                     if (strpos($prodi, 'D-III') === 0) {
                         $status = $skor < 400 ? 'Tidak Lulus' : 'Lulus';
                     } elseif (strpos($prodi, 'D-IV') === 0) {
@@ -92,7 +93,7 @@ class HasilUjianController extends Controller
                         $status = 'Belum Validasi';
                     }
                 }
-
+            
                 $idHasil = DB::table('hasil_ujian')->insertGetId([
                     'id_pendaftaran' => $id_pendaftaran,
                     'listening_1' => $row[1] ?? null,
@@ -105,12 +106,29 @@ class HasilUjianController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
+            
                 if ($id_pendaftaran && $idHasil) {
                     DB::table('riwayat_pendaftar')
                         ->where('ID_Pendaftaran', $id_pendaftaran)
                         ->update(['ID_Hasil' => $idHasil]);
                 }
+            
+                // Kirim email jika data mahasiswa valid
+                if ($pendaftaran && $pendaftaran->email) {
+                    // Kirim email hasil ujian
+                    $hasil = HasilUjian::with(['pendaftaran.mahasiswa'])->find($idHasil);
+
+                    if ($hasil && $hasil->pendaftaran && $hasil->pendaftaran->mahasiswa) {
+                        $email = $hasil->pendaftaran->mahasiswa->email;
+                    
+                        if ($email) {
+                            Mail::to($email)->queue(new HasilUjianMail($hasil));
+                        }
+                    }
+                    
+                }
             }
+            
 
             return redirect()->back()->with('success', 'Data berhasil diimport.');
 
