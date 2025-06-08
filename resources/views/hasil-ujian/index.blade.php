@@ -43,8 +43,8 @@
             <tbody>
                 @foreach ($results as $r)
                     <tr class="hover:bg-blue-50">
-                        <td class="px-4 py-2">{{ optional($r->mahasiswa)->nama ?? '-' }}</td>
-                        <td class="px-4 py-2">{{ $r->NIM }}</td>
+                        <td class="px-4 py-2">{{ optional($r->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $r->pendaftaran->nim }}</td>
                         <td class="px-4 py-2">{{ $r->listening_1 }}</td>
                         <td class="px-4 py-2">{{ $r->reading_1 }}</td>
                         <td class="px-4 py-2">{{ $r->total_skor_1 }}</td>
@@ -52,7 +52,7 @@
                         <td class="px-4 py-2">{{ $r->Reading_2 }}</td>
                         <td class="px-4 py-2">{{ $r->total_skor_2 }}</td>
                         <td class="px-4 py-2">
-                            {{ optional($r->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->jadwal->Tanggal_Ujian)->translatedFormat('d-m-Y') : '-' }}
+                            {{ optional($r->pendaftaran->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->jadwal->Tanggal_Ujian)->translatedFormat('d-m-Y') : '-' }}
                         </td>
                         <td class="px-4 py-2">{{ $r->Status }}</td>
                         <td class="px-4 py-2 space-y-1">
