@@ -31,10 +31,10 @@ class HasilUjian extends Model
     {
         return $this->hasMany(RegistrasiModel::class, 'id_room', 'id_room');
     }
-   public function jadwal()
-    {
-        return $this->belongsTo(JadwalUjianModel::class, 'id_jadwal', 'Id_Jadwal');
-    }
+//    public function jadwal()
+//     {
+//         return $this->belongsTo(JadwalUjianModel::class, 'id_jadwal', 'Id_Jadwal');
+//     }
     public function pengambilanSertifikat()
     {
     return $this->hasOne(PengambilanSertifikat::class, 'Id_Hasil', 'Id_Hasil');
@@ -45,7 +45,7 @@ class HasilUjian extends Model
     }
     public function pendaftaran()
 {
-    return $this->belongsTo(PendaftarModel::class, 'Id_Pendaftaran', 'Id_Pendaftaran');
+    return $this->belongsTo(RegistrasiModel::class, 'Id_Pendaftaran', 'Id_Pendaftaran');
 }
 
 }

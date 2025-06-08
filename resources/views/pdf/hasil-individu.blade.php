@@ -15,16 +15,19 @@
         <div class="header">
             <h2>Hasil Ujian TOEIC</h2>
         </div>
-        <p><strong>Nama:</strong> {{ $hasil->Nama }}</p>
-        <p><strong>NIM:</strong> {{ $hasil->NIM }}</p>
+        
+        <p><strong>Nama:</strong> {{ $hasil->pendaftaran->mahasiswa->nama ?? '-' }}</p>
+        <p><strong>NIM:</strong> {{ $hasil->pendaftaran->NIM ?? '-' }}</p>
+        <p><strong>Tanggal Ujian:</strong> {{ $hasil->pendaftaran->jadwal->Tanggal_Ujian ?? '-' }}</p>
+
         <table>
-            <tr><th>Listening 1</th><td>{{ $hasil->Listening }}</td></tr>
-            <tr><th>Reading 1</th><td>{{ $hasil->Reading }}</td></tr>
-            <tr><th>Skor 1</th><td>{{ $hasil->Skor }}</td></tr>
-            <tr><th>Listening 2</th><td>{{ $hasil->Listening_2 }}</td></tr>
-            <tr><th>Reading 2</th><td>{{ $hasil->Reading_2 }}</td></tr>
-            <tr><th>Skor 2</th><td>{{ $hasil->Skor_2 }}</td></tr>
-            <tr><th>Status</th><td>{{ $hasil->Status }}</td></tr>
+            <tr><th>Listening 1</th><td>{{ $hasil->listening_1 ?? '-' }}</td></tr>
+            <tr><th>Reading 1</th><td>{{ $hasil->reading_1 ?? '-' }}</td></tr>
+            <tr><th>Total Skor 1</th><td>{{ $hasil->total_skor_1 ?? '-' }}</td></tr>
+            <tr><th>Listening 2</th><td>{{ $hasil->Listening_2 ?? '-' }}</td></tr>
+            <tr><th>Reading 2</th><td>{{ $hasil->Reading_2 ?? '-' }}</td></tr>
+            <tr><th>Total Skor 2</th><td>{{ $hasil->total_skor_2 ?? '-' }}</td></tr>
+            <tr><th>Status</th><td>{{ $hasil->Status ?? '-' }}</td></tr>
         </table>
     </div>
 </body>

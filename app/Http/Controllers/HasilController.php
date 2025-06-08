@@ -10,10 +10,14 @@ class HasilController extends Controller
 {
     public function index()
     {
-        $results = HasilUjian::with(['mahasiswa', 'jadwal'])->get();
+        $results = HasilUjian::with([
+            'pendaftaran.mahasiswa',
+            'pendaftaran.jadwal'
+        ])->get();
     
         return view('hasil-ujian.index', compact('results'));
     }
+    
 
     public function viewPdf($id)
     {
