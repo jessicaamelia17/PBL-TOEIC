@@ -10,7 +10,7 @@ class HasilController extends Controller
 {
     public function index()
     {
-        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal'])->get();
+        $results = HasilUjian::with(['mahasiswa', 'jadwal'])->get();
     
         return view('hasil-ujian.index', compact('results'));
     }
