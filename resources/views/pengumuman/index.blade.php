@@ -2,11 +2,11 @@
 
 @section('content')
     <section class="container mx-auto py-12 px-6">
-        <h2 class="text-3xl font-bold text-center text-blue-900 mb-6">All Announcements</h2>
+        <h2 class="text-3xl font-bold text-center text-blue-900 mb-6">@lang('users.announcement_all')</h2>
 
         @if ($pengumuman->isEmpty())
             <div class="bg-white p-6 rounded-lg shadow text-center text-gray-600">
-                Belum ada pengumuman.
+                @lang('users.no_announcement')
             </div>
         @else
             <div class="bg-white p-6 rounded-lg shadow">
@@ -16,11 +16,11 @@
                             <span>{{ $item->Judul }}</span>
                             <div class="flex items-center gap-4">
                                 <span class="text-sm text-gray-500">
-                                    {{ \Carbon\Carbon::parse($item->Tanggal_Pengumuman)->format('d M Y') }}
+                                    {{ \Carbon\Carbon::parse($item->Tanggal_Pengumuman)->translatedFormat('d M Y') }}
                                 </span>
                                 <a href="{{ route('mahasiswa.show-pengumuman', $item->Id_Pengumuman) }}"
                                     class="text-white whitespace-nowrap btn btn-primary hover:underline">
-                                    Read More
+                                    @lang('users.read_more')
                                 </a>
                             </div>
                         </li>
@@ -31,6 +31,8 @@
                 <div class="mt-6">
                     {{ $pengumuman->links('vendor.pagination.tailwind') }}
                 </div>
+                <a href="{{ route('landing') }}" class="mt-6 inline-block text-blue-600 hover:underline">←
+                    @lang('users.back')</a>
             </div>
         @endif
     </section>

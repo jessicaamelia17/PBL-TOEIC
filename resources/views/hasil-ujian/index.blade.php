@@ -58,11 +58,11 @@
                         <td class="px-4 py-2 space-y-1">
                             <a href="{{ route('hasil-ujian.pdf.view', $r->Id_Hasil) }}" target="_blank"
                                class="block bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 text-xs rounded text-center">
-                                <i class="fas fa-eye mr-1"></i> Lihat
+                                <i class="fas fa-eye mr-1"></i> @lang('users.view')
                             </a>
                             <a href="{{ route('hasil-ujian.pdf.download', $r->Id_Hasil) }}"
                                class="block bg-green-600 hover:bg-green-700 text-white px-3 py-1 text-xs rounded text-center mt-1">
-                                <i class="fas fa-download mr-1"></i> Unduh
+                                <i class="fas fa-download mr-1"></i> @lang('users.download')
                             </a>
                         </td>
                     </tr>
