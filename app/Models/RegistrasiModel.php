@@ -53,12 +53,12 @@ class RegistrasiModel extends Model
         return $this->belongsTo(RoomUjianModel::class, 'id_room', 'id_room');
     }
     public function sesi()
-{
+    {
     return $this->belongsTo(SesiUjianModel::class, 'id_sesi', 'id_sesi');
-}
+    }
     public function mahasiswa()
-{
+    {
     return $this->belongsTo(Mahasiswa::class, 'NIM', 'nim');
-}
+    }
 
 }

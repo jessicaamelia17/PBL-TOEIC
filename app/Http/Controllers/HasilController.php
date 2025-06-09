@@ -10,15 +10,19 @@ class HasilController extends Controller
 {
     public function index()
     {
-        $results = HasilUjian::with(['mahasiswa', 'jadwal'])->get();
 
-         $breadcrumb = [
-        ['label' => __('users.home'), 'url' => route('landing')],
-        ['label' => __('users.result'), 'url' => null],
-    ];
-    
+        $breadcrumb = [
+            ['label' => __('users.home'), 'url' => route('landing')],
+            ['label' => __('users.result'), 'url' => null],
+        ];
+        $results = HasilUjian::with([
+            'pendaftaran.mahasiswa',
+            'pendaftaran.jadwal'
+        ])->get();
+
         return view('hasil-ujian.index', compact('results', 'breadcrumb'));
     }
+
 
     public function viewPdf($id)
     {

@@ -16,6 +16,7 @@
             <tr>
                 <th>Nama</th>
                 <th>NIM</th>
+                <th>Tanggal Ujian</th>
                 <th>Listening 1</th>
                 <th>Reading 1</th>
                 <th>Skor 1</th>
@@ -28,15 +29,16 @@
         <tbody>
             @foreach ($results as $r)
                 <tr>
-                    <td>{{ $r->Nama }}</td>
-                    <td>{{ $r->NIM }}</td>
-                    <td>{{ $r->Listening }}</td>
-                    <td>{{ $r->Reading }}</td>
-                    <td>{{ $r->Skor }}</td>
-                    <td>{{ $r->Listening_2 }}</td>
-                    <td>{{ $r->Reading_2 }}</td>
-                    <td>{{ $r->Skor_2 }}</td>
-                    <td>{{ $r->Status }}</td>
+                    <td>{{ $r->pendaftaran->mahasiswa->nama ?? '-' }}</td>
+                    <td>{{ $r->pendaftaran->NIM ?? '-' }}</td>
+                    <td>{{ \Carbon\Carbon::parse($r->pendaftaran->jadwal->Tanggal_Ujian)->format('d-m-Y') ?? '-' }}</td>
+                    <td>{{ $r->listening_1 ?? '-' }}</td>
+                    <td>{{ $r->reading_1 ?? '-' }}</td>
+                    <td>{{ $r->total_skor_1 ?? '-' }}</td>
+                    <td>{{ $r->Listening_2 ?? '-' }}</td>
+                    <td>{{ $r->Reading_2 ?? '-' }}</td>
+                    <td>{{ $r->total_skor_2 ?? '-' }}</td>
+                    <td>{{ $r->Status ?? '-' }}</td>
                 </tr>
             @endforeach
         </tbody>

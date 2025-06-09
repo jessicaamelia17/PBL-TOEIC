@@ -12,10 +12,10 @@
 
     {{-- Tombol Aksi atas --}}
     <div class="flex justify-end mb-4 space-x-2">
-        <a href="{{ route('hasil-ujian.pdf.viewAll') }}" target="_blank"
+        {{-- <a href="{{ route('hasil-ujian.pdf.viewAll') }}" target="_blank"
            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">
             <i class="fas fa-file-pdf mr-1"></i> @lang('users.view_pdf')
-        </a>
+        </a> --}}
         <a href="{{ route('hasil-ujian.pdf.downloadAll') }}"
            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded">
             <i class="fas fa-download mr-1"></i> @lang('users.download_all_result')
@@ -44,7 +44,7 @@
                 @foreach ($results as $r)
                     <tr class="hover:bg-blue-50">
                         <td class="px-4 py-2">{{ optional($r->pendaftaran->mahasiswa)->nama ?? '-' }}</td>
-                        <td class="px-4 py-2">{{ $r->pendaftaran->nim }}</td>
+                        <td class="px-4 py-2">{{ $r->pendaftaran->mahasiswa->nim }}</td>
                         <td class="px-4 py-2">{{ $r->listening_1 }}</td>
                         <td class="px-4 py-2">{{ $r->reading_1 }}</td>
                         <td class="px-4 py-2">{{ $r->total_skor_1 }}</td>
@@ -52,7 +52,7 @@
                         <td class="px-4 py-2">{{ $r->Reading_2 }}</td>
                         <td class="px-4 py-2">{{ $r->total_skor_2 }}</td>
                         <td class="px-4 py-2">
-                            {{ optional($r->pendaftaran->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->jadwal->Tanggal_Ujian)->translatedFormat('d-m-Y') : '-' }}
+                            {{ optional($r->pendaftaran->jadwal)->Tanggal_Ujian ? \Carbon\Carbon::parse($r->pendaftaran->jadwal->Tanggal_Ujian)->translatedFormat('d-m-Y') : '-' }}
                         </td>
                         <td class="px-4 py-2">{{ $r->Status }}</td>
                         <td class="px-4 py-2 space-y-1">
