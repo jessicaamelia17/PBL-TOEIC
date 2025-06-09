@@ -11,8 +11,13 @@ class HasilController extends Controller
     public function index()
     {
         $results = HasilUjian::with(['mahasiswa', 'jadwal'])->get();
+
+         $breadcrumb = [
+        ['label' => __('users.home'), 'url' => route('landing')],
+        ['label' => __('users.result'), 'url' => null],
+    ];
     
-        return view('hasil-ujian.index', compact('results'));
+        return view('hasil-ujian.index', compact('results', 'breadcrumb'));
     }
 
     public function viewPdf($id)

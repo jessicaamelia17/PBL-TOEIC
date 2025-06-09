@@ -1,4 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.app2')
+
+@section('breadcrumb')
+    @include('layouts.breadcrumb')
+@endsection
+
+@section('backbutton')
+    @include('layouts.back-button')
+@endsection
 
 @section('content')
     <section class="container mx-auto py-12 px-6">
@@ -18,7 +26,7 @@
                                 <span class="text-sm text-gray-500">
                                     {{ \Carbon\Carbon::parse($item->Tanggal_Pengumuman)->translatedFormat('d M Y') }}
                                 </span>
-                                <a href="{{ route('mahasiswa.show-pengumuman', $item->Id_Pengumuman) }}"
+                                <a href="{{ route('show-pengumuman', $item->Id_Pengumuman) }}"
                                     class="text-white whitespace-nowrap btn btn-primary hover:underline">
                                     @lang('users.read_more')
                                 </a>
@@ -31,8 +39,6 @@
                 <div class="mt-6">
                     {{ $pengumuman->links('vendor.pagination.tailwind') }}
                 </div>
-                <a href="{{ route('landing') }}" class="mt-6 inline-block text-blue-600 hover:underline">←
-                    @lang('users.back')</a>
             </div>
         @endif
     </section>

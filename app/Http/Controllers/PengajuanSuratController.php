@@ -21,13 +21,16 @@ class PengajuanSuratController extends Controller
         }
 
         $mahasiswa = Mahasiswa::with(['prodi', 'jurusan'])->where('NIM', $user->nim)->first();
-
+        $breadcrumb = [
+            ['label' => __('users.home'), 'url' => route('landing')],
+            ['label' => __('users.submission_letter_toeic'), 'url' => null],
+        ];
 
         if (!$mahasiswa) {
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
         }
 
-         $pengajuan = SuratPengajuan::whereRaw('LOWER(NIM) = ?', [strtolower($mahasiswa->nim)])->latest()->first();
+        $pengajuan = SuratPengajuan::whereRaw('LOWER(NIM) = ?', [strtolower($mahasiswa->nim)])->latest()->first();
 
 
         if ($pengajuan && $pengajuan->file_sertifikat) {
@@ -40,7 +43,7 @@ class PengajuanSuratController extends Controller
             $sertifikat = null;
         }
 
-        return view('pengajuan-surat.index', compact('mahasiswa', 'pengajuan', 'sertifikat'));
+        return view('pengajuan-surat.index', compact('mahasiswa', 'pengajuan', 'sertifikat', 'breadcrumb'));
     }
 
     public function store(Request $request)
@@ -74,13 +77,13 @@ class PengajuanSuratController extends Controller
     public function uploadSertifikat(Request $request)
     {
         $existing = SuratPengajuan::where('NIM', Auth::user()->nim)
-        ->whereIn('status_verifikasi', ['menunggu', 'diterima']) // bisa ditambah status lain
-        ->first();
-    
-    if ($existing) {
-        return back()->with('error', 'Anda sudah mengajukan surat. Tidak dapat mengunggah ulang sertifikat.');
-    }
-    
+            ->whereIn('status_verifikasi', ['menunggu', 'diterima']) // bisa ditambah status lain
+            ->first();
+
+        if ($existing) {
+            return back()->with('error', 'Anda sudah mengajukan surat. Tidak dapat mengunggah ulang sertifikat.');
+        }
+
 
         $request->validate([
             'file_sertifikat' => 'required|mimes:pdf|max:5120', // max 5MB
@@ -95,81 +98,81 @@ class PengajuanSuratController extends Controller
     }
 
     public function hapusSertifikat()
-{
-    if (session()->has('sertifikat_uploaded')) {
-        $path = session('sertifikat_uploaded');
-        Storage::disk('public')->delete($path);
-        session()->forget('sertifikat_uploaded');
+    {
+        if (session()->has('sertifikat_uploaded')) {
+            $path = session('sertifikat_uploaded');
+            Storage::disk('public')->delete($path);
+            session()->forget('sertifikat_uploaded');
+        }
+
+        return back()->with('success', 'Sertifikat berhasil dihapus.');
+    }
+    public function pengajuanSurat()
+    {
+        $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim)->first();
+
+        $pengajuan = SuratPengajuan::where('NIM', auth()->user()->nim)
+            ->latest()
+            ->first();
+
+        $sertifikat = $pengajuan->file_sertifikat ?? null;
+
+        return view('mahasiswa.surat', compact('mahasiswa', 'pengajuan', 'sertifikat'));
     }
 
-    return back()->with('success', 'Sertifikat berhasil dihapus.');
-}
-public function pengajuanSurat()
-{
-    $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim)->first();
+    public function uploadUlang(Request $request)
+    {
+        $request->validate([
+            'file_sertifikat' => 'required|mimes:pdf|max:5120',
+        ]);
 
-    $pengajuan = SuratPengajuan::where('NIM', auth()->user()->nim)
-        ->latest()
-        ->first();
+        $pengajuan = SuratPengajuan::where('NIM', auth()->user()->nim)
+            ->where('status_verifikasi', 'ditolak')
+            ->latest()
+            ->first();
 
-    $sertifikat = $pengajuan->file_sertifikat ?? null;
+        if (!$pengajuan) {
+            return back()->with('error', 'Pengajuan tidak ditemukan atau tidak dalam status ditolak.');
+        }
 
-    return view('mahasiswa.surat', compact('mahasiswa', 'pengajuan', 'sertifikat'));
-}
+        // Hapus file lama jika ada
+        if ($pengajuan->file_sertifikat && Storage::disk('public')->exists($pengajuan->file_sertifikat)) {
+            Storage::disk('public')->delete($pengajuan->file_sertifikat);
+        }
 
-public function uploadUlang(Request $request)
-{
-    $request->validate([
-        'file_sertifikat' => 'required|mimes:pdf|max:5120',
-    ]);
+        // Simpan file baru
+        $file = $request->file('file_sertifikat')->store('sertifikat', 'public');
+        $pengajuan->file_sertifikat = $file;
+        $pengajuan->status_verifikasi = 'menunggu'; // Set status jadi baru
+        $pengajuan->catatan = null; // Reset catatan
+        $pengajuan->tanggal_verifikasi = null; // Reset tanggal verifikasi
+        $pengajuan->save();
 
-    $pengajuan = SuratPengajuan::where('NIM', auth()->user()->nim)
-        ->where('status_verifikasi', 'ditolak')
-        ->latest()
-        ->first();
-
-    if (!$pengajuan) {
-        return back()->with('error', 'Pengajuan tidak ditemukan atau tidak dalam status ditolak.');
+        return back()->with('success', 'Sertifikat berhasil diupload ulang. Pengajuan Anda akan diproses ulang oleh admin.');
     }
 
-    // Hapus file lama jika ada
-    if ($pengajuan->file_sertifikat && Storage::disk('public')->exists($pengajuan->file_sertifikat)) {
-        Storage::disk('public')->delete($pengajuan->file_sertifikat);
+
+    public function cetakSurat($id)
+    {
+        $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
+
+        if ($pengajuan->status_verifikasi !== 'disetujui') {
+            abort(403, 'Surat belum disetujui.');
+        }
+
+        // Ambil kepala yang aktif dari database
+        $kepala = KepalaUPABahasa::where('is_active', true)->first();
+
+        return view('pengajuan-surat.cetak', compact('pengajuan', 'kepala'));
     }
+    public function preview($id)
+    {
+        $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
+        $kepala = KepalaUPABahasa::where('is_active', true)->first();
 
-    // Simpan file baru
-    $file = $request->file('file_sertifikat')->store('sertifikat', 'public');
-    $pengajuan->file_sertifikat = $file;
-    $pengajuan->status_verifikasi = 'menunggu'; // Set status jadi baru
-    $pengajuan->catatan = null; // Reset catatan
-    $pengajuan->tanggal_verifikasi = null; // Reset tanggal verifikasi
-    $pengajuan->save();
+        $pdf = Pdf::loadView('pengajuan-surat.cetak', compact('pengajuan', 'kepala'));
 
-    return back()->with('success', 'Sertifikat berhasil diupload ulang. Pengajuan Anda akan diproses ulang oleh admin.');
-}
-
-
-public function cetakSurat($id)
-{
-    $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
-
-    if ($pengajuan->status_verifikasi !== 'disetujui') {
-        abort(403, 'Surat belum disetujui.');
+        // Kembalikan response PDF langsung ditampilkan di browser
+        return $pdf->stream('Surat_TOEIC_' . $pengajuan->mahasiswa->nim . '.pdf');
     }
-
-    // Ambil kepala yang aktif dari database
-    $kepala = KepalaUPABahasa::where('is_active', true)->first();
-
-    return view('pengajuan-surat.cetak', compact('pengajuan', 'kepala'));
-}
-public function preview($id)
-{
-    $pengajuan = SuratPengajuan::with('mahasiswa.prodi')->findOrFail($id);
-    $kepala = KepalaUPABahasa::where('is_active', true)->first();
-
-    $pdf = Pdf::loadView('pengajuan-surat.cetak', compact('pengajuan', 'kepala'));
-
-    // Kembalikan response PDF langsung ditampilkan di browser
-    return $pdf->stream('Surat_TOEIC_' . $pengajuan->mahasiswa->nim . '.pdf');
-}
 }

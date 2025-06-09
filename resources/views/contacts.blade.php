@@ -1,5 +1,19 @@
 {{-- filepath: c:\laragon\www\PBL-TOEIC\resources\views\contacts.blade.php --}}
+@php
+    $breadcrumb = [
+        ['label' => __('users.home'), 'url' => route('landing')],
+        ['label' => __('users.contacts'), 'url' => null],
+    ];
+@endphp
 @extends('layouts.app2')
+
+@section('breadcrumb')
+    @include('layouts.breadcrumb')
+@endsection
+
+@section('backbutton')
+    @include('layouts.back-button')
+@endsection
 
 @section('content')
     <div class="max-w-2xl mx-auto mt-20 bg-white rounded-2xl shadow-lg p-8">

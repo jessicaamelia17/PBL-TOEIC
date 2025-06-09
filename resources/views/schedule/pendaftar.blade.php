@@ -9,7 +9,7 @@
 @section('content')
     <div class="min-h-screen bg-blue-100 py-10 px-4">
         <div class="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-            <h1 class="text-3xl font-bold text-blue-700 text-center">{{ __($breadcrumb->title) }}</h1>
+            <h1 class="text-3xl font-bold text-blue-700 text-center">{{ __('users.participants_breadcrumb') }}</h1>
             <p class="text-center text-gray-600 mt-4 text-sm">
                 @lang('users.schedule'): {{ \Carbon\Carbon::parse($jadwal->Tanggal_Ujian)->translatedFormat('l, d F Y') }}
             </p>

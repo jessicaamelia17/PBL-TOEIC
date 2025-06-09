@@ -96,7 +96,7 @@ return [
     'toeic_score' => 'Hasil Ujian TOEIC',
     'view_pdf' => 'Lihat PDF',
     'download_all_result' => 'Download Hasil Tes',
-    'score' => 'Skor',
+    'score' => 'Nilai',
     'location' => 'Lokasi',
     'forgot_password' => 'Lupa Password?',
     'send_reset_link' => 'Kirim Link Reset',
@@ -129,5 +129,17 @@ return [
     'quota_full' => 'Kuota Sudah Penuh',
     'quota_full_desc' => 'Maaf, kuota pendaftaran TOEIC sudah habis. Silakan tunggu periode berikutnya.',
     'view' => 'Lihat',
-    'download' => 'Unduh'
+    'download' => 'Unduh',
+    'exam_history' => 'Riwayat Ujian TOEIC Anda',
+    'registered_date' => 'Tanggal Daftar',
+    'exam_status' => 'Status Ujian',
+    'result_status' => 'Status Hasil',
+    'certificate_retrieval' => 'Pengambilan Sertifikat',
+    'tested' => 'Sudah Ujian',
+    'not_exam' => 'Belum Ujian',
+    'awaiting_exam_results' => 'Menunggu Hasil Ujian',
+    'retrieved_on' => 'Diambil pada',
+    'not_yet_taken' => 'Belum Diambil',
+    'non_history_toeic' => 'Belum ada riwayat pendaftaran TOEIC.'
+
 ];

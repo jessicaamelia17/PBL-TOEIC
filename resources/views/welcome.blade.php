@@ -53,7 +53,7 @@
                             <span class="text-sm text-gray-500">
                                 {{ \Carbon\Carbon::parse($item->Tanggal_Pengumuman)->translatedFormat('d M Y') }}
                             </span>
-                            <a href="{{ route('mahasiswa.show-pengumuman', $item->Id_Pengumuman) }}"
+                            <a href="{{ route('show-pengumuman', $item->Id_Pengumuman) }}"
                                 class="text-blue-600 hover:underline">
                                 @lang('users.read_more')
                             </a>
@@ -63,7 +63,7 @@
             </div>
             @if ($pengumuman->count() > 3)
                 <div class="text-center mt-8">
-                    <a href="{{ route('mahasiswa.pengumuman') }}"
+                    <a href="{{ route('pengumuman') }}"
                         class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition">
                         @lang('users.see_announcement')
                     </a>
@@ -73,91 +73,95 @@
     </section>
 
     @auth
-    @if($riwayat && count($riwayat) > 0)
-        <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-2xl font-bold text-blue-900 mb-6">Riwayat TOEIC Anda</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-left text-gray-800">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b">Tanggal Daftar</th>
-                            <th class="py-2 px-4 border-b">Jadwal Ujian</th>
-                            <th class="py-2 px-4 border-b">Status Ujian</th>
-                            <th class="py-2 px-4 border-b">Status Hasil</th>
-                            <th class="py-2 px-4 border-b">Nilai</th>
-                            <th class="py-2 px-4 border-b">Pengambilan Sertifikat</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($riwayat as $item)
+        @if ($riwayat && count($riwayat) > 0)
+            <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up"
+                data-aos-duration="1000">
+                <h2 class="text-2xl font-bold text-blue-900 mb-6">@lang('users.exam_history')</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left text-gray-800">
+                        <thead>
                             <tr>
-                                <td class="py-2 px-4 border-b">{{ $item->pendaftaran->Tanggal_Pendaftaran ?? '-' }}</td>
-                                <td class="py-2 px-4 border-b">
-                                    {{ $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? '-' }}
-                                </td>
-
-                                {{-- Status Ujian: Berdasarkan apakah tanggal ujian sudah lewat --}}
-                                <td class="py-2 px-4 border-b">
-                                    @php
-                                        $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
-                                    @endphp
-                                    @if($tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast())
-                                        Sudah Ujian
-                                    @else
-                                        Belum Ujian <br>
-                                        <a href="{{ route('mahasiswa.schedule.pendaftar', $item->pendaftaran->jadwal_ujian->Id_Jadwal ?? '') }}"
-                                        class="text-blue-600 underline hover:text-blue-800">
-                                            Lihat Jadwal
-                                        </a>
-                                    @endif
-                                </td>
-
-                                {{-- Status Hasil: Berdasarkan kolom status dari hasil_ujian --}}
-                                <td class="py-2 px-4 border-b">
-                                    @php
-                                        $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
-                                        $sudahUjian = $tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast();
-                                    @endphp
-
-                                    @if(!$sudahUjian)
-                                        -
-                                    @elseif($sudahUjian && !$item->hasil)
-                                        Menunggu Hasil
-                                    @else
-                                        {{ ucfirst($item->hasil->Status) }}
-                                    @endif
-                                </td>
-
-                                {{-- Nilai --}}
-                                <td class="py-2 px-4 border-b">
-                                    {{ $item->hasil->total_skor_2 ?? '-' }}
-                                </td>
-
-                                {{-- Pengambilan Sertifikat: Berdasarkan status di tabel pengambilan --}}
-                                <td class="py-2 px-4 border-b">
-                                    @if($item->sertifikat)
-                                        @if($item->sertifikat->Status === 'Diambil')
-                                            Diambil pada {{ \Carbon\Carbon::parse($item->sertifikat->Tanggal_Diambil)->format('d M Y') }}
-                                        @else
-                                            Belum Diambil
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </td>
+                                <th class="py-2 px-4 border-b">@lang('users.registered_date')</th>
+                                <th class="py-2 px-4 border-b">@lang('users.exam_date')</th>
+                                <th class="py-2 px-4 border-b">@lang('users.exam_status')</th>
+                                <th class="py-2 px-4 border-b">@lang('users.result_status')</th>
+                                <th class="py-2 px-4 border-b">@lang('users.score')</th>
+                                <th class="py-2 px-4 border-b">@lang('users.certificate_retrieval')</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    @else
-        <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-2xl font-bold text-blue-900 mb-6">Riwayat TOEIC Anda</h2>
-            <p class="text-gray-600">Belum ada riwayat pendaftaran TOEIC.</p>
-        </section>
-    @endif
-@endauth
+                        </thead>
+                        <tbody>
+                            @foreach ($riwayat as $item)
+                                <tr>
+                                    <td class="py-2 px-4 border-b">{{ $item->pendaftaran->Tanggal_Pendaftaran ?? '-' }}</td>
+                                    <td class="py-2 px-4 border-b">
+                                        {{ $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? '-' }}
+                                    </td>
+
+                                    {{-- Status Ujian: Berdasarkan apakah tanggal ujian sudah lewat --}}
+                                    <td class="py-2 px-4 border-b">
+                                        @php
+                                            $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
+                                        @endphp
+                                        @if ($tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast())
+                                            @lang('users.tested')
+                                        @else
+                                            @lang('users.not_exam') <br>
+                                            <a href="{{ route('mahasiswa.schedule.pendaftar', $item->pendaftaran->jadwal_ujian->Id_Jadwal ?? '') }}"
+                                                class="text-blue-600 underline hover:text-blue-800">
+                                                @lang('users.exam_schedule_button')
+                                            </a>
+                                        @endif
+                                    </td>
+
+                                    {{-- Status Hasil: Berdasarkan kolom status dari hasil_ujian --}}
+                                    <td class="py-2 px-4 border-b">
+                                        @php
+                                            $tanggalUjian = $item->pendaftaran->jadwal_ujian->Tanggal_Ujian ?? null;
+                                            $sudahUjian =
+                                                $tanggalUjian && \Carbon\Carbon::parse($tanggalUjian)->isPast();
+                                        @endphp
+
+                                        @if (!$sudahUjian)
+                                            -
+                                        @elseif($sudahUjian && !$item->hasil)
+                                            @lang('users.awaiting_exam_results')
+                                        @else
+                                            {{ ucfirst($item->hasil->Status) }}
+                                        @endif
+                                    </td>
+
+                                    {{-- Nilai --}}
+                                    <td class="py-2 px-4 border-b">
+                                        {{ $item->hasil->total_skor_2 ?? '-' }}
+                                    </td>
+
+                                    {{-- Pengambilan Sertifikat: Berdasarkan status di tabel pengambilan --}}
+                                    <td class="py-2 px-4 border-b">
+                                        @if ($item->sertifikat)
+                                            @if ($item->sertifikat->Status === 'Diambil')
+                                                @lang('users.retrieved_on')
+                                                {{ \Carbon\Carbon::parse($item->sertifikat->Tanggal_Diambil)->translatedFormat('d M Y') }}
+                                            @else
+                                                @lang('users.not_yet_taken')
+                                            @endif
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        @else
+            <section class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-12" data-aos="fade-up"
+                data-aos-duration="1000">
+                <h2 class="text-2xl font-bold text-blue-900 mb-6">@lang('users.exam_history')</h2>
+                <p class="text-gray-600">@lang('users.non_history_toeic')</p>
+            </section>
+        @endif
+    @endauth
 
 
     {{-- Info Cards --}}

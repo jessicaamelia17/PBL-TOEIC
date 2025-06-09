@@ -130,4 +130,15 @@ return [
     'quota_full_desc' => 'Sorry, the TOEIC registration quota has run out. Please wait for the next period.',
     'view' => 'View',
     'download' => 'Download',
+    'exam_history' => 'Your TOEIC exam history',
+    'registered_date' => 'Date of Registration',
+    'exam_status' => 'Exam Status',
+    'result_status' => 'Result Status',
+    'certificate_retrieval' => 'Certificate Retrieval',
+    'tested' => 'Tested',
+    'not_exam' => 'Not yet Exam',
+    'awaiting_exam_results' => 'Awaiting Exam Results',
+    'retrieved_on' => 'Retrieved On',
+    'not_yet_taken' => 'Not Yet Taken',
+    'non_history_toeic' => 'There is no history of TOEIC enrollment.'
 ];

@@ -39,7 +39,12 @@ class RegistrasiController extends Controller
             ->latest('Tanggal_Pendaftaran')
             ->first();
 
-        return view('registrasi.index', compact('jurusan', 'mahasiswa', 'pendaftaran'));
+        $breadcrumb = [
+            ['label' => __('users.home'), 'url' => route('landing')],
+            ['label' => __('users.toeic_registration'), 'url' => null],
+        ];
+
+        return view('registrasi.index', compact('jurusan', 'mahasiswa', 'pendaftaran','breadcrumb'));
     }
 
 

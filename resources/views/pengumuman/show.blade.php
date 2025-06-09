@@ -1,5 +1,13 @@
 @extends('layouts.app2')
 
+@section('breadcrumb')
+    @include('layouts.breadcrumb')
+@endsection
+
+@section('backbutton')
+    @include('layouts.back-button')
+@endsection
+
 @section('content')
     <div class="container mx-auto min-h-screen py-12 px-4 md:px-6 lg:px-8 pb-32">
 
@@ -34,9 +42,6 @@
                         frameborder="0"></iframe>
                 @endif
             @endif
-
-            <a href="{{ route('mahasiswa.pengumuman') }}" class="mt-6 inline-block text-blue-600 hover:underline">←
-                @lang('users.back')</a>
         </div>
     </div>
 @endsection

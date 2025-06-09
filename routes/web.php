@@ -66,8 +66,6 @@ Route::middleware('auth:web')->prefix('mahasiswa')->as('mahasiswa.')->group(func
     Route::post('/reset-password/{nim}', [MahasiswaController::class, 'resetPassword'])->name('resetPassword');
     // 📝 Pengumuman (Hanya bisa diakses oleh pengguna yang login)
     Route::get('/get-prodi/{id_jurusan}', [MahasiswaController::class, 'getProdiByJurusan']);
-    Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
-    Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('show-pengumuman');
 
     // 📅 Jadwal & Pendaftar (Harus login)
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
@@ -118,7 +116,9 @@ Route::post('/pengajuan', [PengajuanSuratController::class, 'store'])->name('sur
 // Panduan
 Route::view('/panduan', 'panduan')->name('panduan');
 Route::view('/contacts', 'contacts')->name('contacts');
-
+// Pengumuman
+Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
+Route::get('/pengumuman/{id}', [PengumumanController::class, 'show'])->name('show-pengumuman');
 
 
 Route::post('/go-back', function () {
