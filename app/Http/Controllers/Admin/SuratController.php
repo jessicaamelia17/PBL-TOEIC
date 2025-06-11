@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StatusSuratMail;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class SuratController extends Controller
 {
@@ -127,6 +129,17 @@ class SuratController extends Controller
     }
     
     
+    public function exportPdf()
+    {
+        $pengajuan = SuratPengajuan::with('mahasiswa')
+            ->orderByRaw("FIELD(status_verifikasi, 'menunggu', 'disetujui', 'ditolak')")
+            ->orderBy('tanggal_pengajuan', 'desc')
+            ->get();
+
+        $pdf = PDF::loadView('admin.surat.export-pdf', compact('pengajuan'))->setPaper('A4', 'portrait');
+
+        return $pdf->download('data_surat_pengajuan.pdf');
+    }
     
 
 }

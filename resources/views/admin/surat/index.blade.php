@@ -8,6 +8,12 @@
     <div class="card card-outline card-primary">
         <div class="card-header d-flex align-items-center">
             <h3 class="card-title mb-0">Daftar Pengajuan Surat TOEIC</h3>
+            <div class="d-flex gap-2 ml-auto">
+                <a href="{{ route('admin.surat.export.pdf') }}" target="_blank" class="btn btn-danger mb-3">
+                    <i class="fas fa-file-pdf"></i> Export PDF
+                </a>
+                
+            </div>
         </div>
 
         <div class="card-body">

@@ -164,6 +164,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::put('/{id}', [SuratController::class, 'update'])->name('update');
         Route::delete('/{id}', [SuratController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/update_status', [SuratController::class, 'updateStatus'])->name('update_status'); // Untuk status verifikasi
+        Route::get('/export/pdf', [SuratController::class, 'exportPdf'])->name('export.pdf');
+
     });
 
 
