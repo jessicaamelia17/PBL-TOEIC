@@ -16,7 +16,7 @@ class HasilUjianController extends Controller
 {
     public function index()
     {
-        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal_ujian'])
+        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal'])
             ->join('pendaftaran_toeic', 'hasil_ujian.id_pendaftaran', '=', 'pendaftaran_toeic.id_pendaftaran')
             ->join('mahasiswa', 'pendaftaran_toeic.nim', '=', 'mahasiswa.nim')
             ->orderBy('mahasiswa.nama', 'asc')

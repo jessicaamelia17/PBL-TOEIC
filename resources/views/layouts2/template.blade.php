@@ -31,13 +31,16 @@
         .brand-text {
             color: white !important;
         }
+        .content-wrapper {
+        padding-left: 15px; /* atau gunakan margin-left jika kamu mau jarak dari luar */
+    }
     </style>
 
 </head>
 
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
-    <div class="wrapper">
+    <div class="wrapper ">
         <!-- Navbar -->
         @include('layouts2.header')
         <!-- /.navbar -->
@@ -57,7 +60,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper ">
             <!-- Content Header (Page header) -->
             @include('layouts2.breadcrumb')
 

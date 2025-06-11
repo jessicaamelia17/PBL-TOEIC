@@ -12,11 +12,11 @@ class AdminSeeder extends Seeder
     {
         DB::table('admin')->insert([
             [
-                'nama'       => 'Admin TOEIC',
-                'email'      => 'admin@toeic.com',
+                'nama'       => 'Admin1 TOEIC',
+                'email'      => 'admin1@toeic.com',
                 'no_hp'      => '081234567890',
-                'username'   => 'admin222',
-                'password'   => bcrypt('admin222'), // menggunakan bcrypt
+                'username'   => 'admin1',
+                'password'   => bcrypt('admin123'), // menggunakan bcrypt
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
