@@ -22,7 +22,7 @@
 
         <!-- Form Section -->
         <div
-            class="md:w-1/2 bg-gradient-to-br from-blue-700 to-blue-500 text-white px-10 py-16 flex flex-col justify-center">
+            class="md:w-1/2 bg-gradient-to-br from-blue-700 to-blue-500 text-white px-10 py-24 flex flex-col justify-center">
             <div class="flex items-center mb-6">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo"
                     class="w-10 h-10 mr-3 rounded-full bg-white p-1 shadow" />

@@ -125,7 +125,7 @@ return [
     'toeic_registration_form' => 'Formulir Pendaftaran TOEIC',
     'registered_done' => 'Anda sudah terdaftar!',
     'exam_date_notif' => 'Tanggal ujian yang Anda dapatkan:',
-    'regist_detail' => 'Silakan tunggu pengumuman sesi dan room melalui WhatsApp atau Email Anda.',
+    'regist_detail' => 'Silakan tunggu pengumuman sesi dan room melalui email Anda.',
     'quota_full' => 'Kuota Sudah Penuh',
     'quota_full_desc' => 'Maaf, kuota pendaftaran TOEIC sudah habis. Silakan tunggu periode berikutnya.',
     'view' => 'Lihat',
@@ -140,6 +140,14 @@ return [
     'awaiting_exam_results' => 'Menunggu Hasil Ujian',
     'retrieved_on' => 'Diambil pada',
     'not_yet_taken' => 'Belum Diambil',
-    'non_history_toeic' => 'Belum ada riwayat pendaftaran TOEIC.'
-
+    'non_history_toeic' => 'Belum ada riwayat pendaftaran TOEIC.',
+    'status_menunggu' => 'Menunggu',
+    'status_disetujui' => 'Disetujui',
+    'status_ditolak' => 'Ditolak',
+    'preview_certificate' => 'Pratinjau Surat Keterangan Telah Mengikuti Tes TOEIC dan Sertifikat TOEIC',
+    'download_certificate_letter' => 'Preview / Download Sertifikat TOEIC',
+    'certificate2x' => 'Sertifikat TOEIC 2x',
+    'app_rejection' => 'Pengajuan Anda Ditolak',
+    'note' => 'Catatan',
+    'reupload' => 'Upload Ulang Sertifikat TOEIC (PDF, maksimal 5MB)',
 ];

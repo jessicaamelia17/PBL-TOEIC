@@ -227,6 +227,25 @@
 
     {{-- Testimoni --}}
 
+    {{-- Daftar Mandiri ke ITC --}}
+    <section class="max-w-5xl mx-auto bg-yellow-100 rounded-2xl shadow-lg p-10 mb-12" data-aos="zoom-in-left"
+        data-aos-duration="1000">
+        <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+            <img src="{{ asset('mandiri.png') }}" alt="Pendaftaran ITC"
+                class="w-40 md:w-56 h-auto mx-auto md:mx-0 rounded-lg shadow">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-yellow-900">@lang('users.itc_registration')</h2>
+                <p class="text-gray-800 mt-2 text-lg leading-relaxed">
+                    @lang('users.itc_registration_desc')
+                </p>
+                <a href="https://itc-indonesia.com/" target="_blank"
+                    class="inline-block mt-4 bg-yellow-500 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
+                    @lang('users.itc_registration_button')
+                </a>
+            </div>
+        </div>
+    </section>
+
 
     {{-- Pengajuan Surat --}}
     <section class="max-w-5xl mx-auto bg-blue-100 rounded-2xl shadow-lg p-10 mb-12" data-aos="zoom-in-up"
@@ -247,24 +266,7 @@
         </div>
     </section>
 
-    {{-- Daftar Mandiri ke ITC --}}
-    <section class="max-w-5xl mx-auto bg-yellow-100 rounded-2xl shadow-lg p-10 mb-12" data-aos="zoom-in-left"
-        data-aos-duration="1000">
-        <div class="flex flex-col md:flex-row-reverse items-center gap-8">
-            <img src="{{ asset('mandiri.png') }}" alt="Pendaftaran ITC"
-                class="w-40 md:w-56 h-auto mx-auto md:mx-0 rounded-lg shadow">
-            <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-yellow-900">@lang('users.itc_registration')</h2>
-                <p class="text-gray-800 mt-2 text-lg leading-relaxed">
-                    @lang('users.itc_registration_desc')
-                </p>
-                <a href="https://itc-indonesia.com/" target="_blank"
-                    class="inline-block mt-4 bg-yellow-500 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
-                    @lang('users.itc_registration_button')
-                </a>
-            </div>
-        </div>
-    </section>
+
 
 
 
