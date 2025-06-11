@@ -44,7 +44,7 @@ class RegistrasiController extends Controller
             ['label' => __('users.toeic_registration'), 'url' => null],
         ];
 
-        return view('registrasi.index', compact('jurusan', 'mahasiswa', 'pendaftaran','breadcrumb'));
+        return view('registrasi.index', compact('jurusan', 'mahasiswa', 'pendaftaran', 'breadcrumb'));
     }
 
 
@@ -126,7 +126,7 @@ class RegistrasiController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Pendaftaran berhasil untuk tanggal ujian: ' . date('d-m-Y', strtotime($jadwal->Tanggal_Ujian)) . '. Silakan tunggu pengumuman sesi dan room melalui WhatsApp atau Email.'
+            'message' => __('users.regis_notif') . '' . date('d-m-Y', strtotime($jadwal->Tanggal_Ujian))
         ]);
     }
 

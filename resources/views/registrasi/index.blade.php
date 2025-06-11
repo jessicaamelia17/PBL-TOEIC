@@ -165,8 +165,8 @@
             e.preventDefault();
 
             Swal.fire({
-                title: 'Memproses pendaftaran',
-                html: 'Mohon tunggu sebentar...',
+                title: "@lang('users.processing_registration')",
+                html: "@lang('users.wait_processing')",
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
@@ -195,7 +195,7 @@
                     if (data.success) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Pendaftaran Berhasil!',
+                            title: "@lang('users.registered_done')",
                             text: data.message,
                             confirmButtonText: 'OK',
                             customClass: {
@@ -209,16 +209,16 @@
                             infoDiv.className =
                                 'mt-8 p-6 bg-green-50 border border-green-200 rounded text-green-800 text-center';
                             infoDiv.innerHTML = `
-                        <h3 class="text-xl font-bold mb-2">Pendaftaran Berhasil!</h3>
+                        <h3 class="text-xl font-bold mb-2">@lang('users.registered_done_notif')</h3>
                         <p>${data.message}</p>
-                        <p class="mt-4">Silakan tunggu pengumuman sesi dan room melalui WhatsApp atau Email Anda.</p>
+                        <p class="mt-4">@lang('users.regist_detail')</p>
                     `;
                             document.querySelector('.max-w-xl').appendChild(infoDiv);
                         });
                     } else {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal',
+                            title: "@lang('users.fail')",
                             text: data.message || 'Terjadi kesalahan saat pendaftaran'
                         });
                     }

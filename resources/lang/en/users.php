@@ -123,6 +123,7 @@ return [
     'format' => 'Format: jpg, jpeg, png. Max 2MB.',
     'photo_pass' => 'Photo Pass',
     'toeic_registration_form' => 'TOEIC Registration Form',
+    'registered_done_notif' => 'You have successfully registered!',
     'registered_done' => 'You are registered!',
     'exam_date_notif' => 'The exam date you got:',
     'regist_detail' => 'Please wait for the session and room announcement via Email.',
@@ -150,4 +151,10 @@ return [
     'app_rejection' => 'Your application has been rejected',
     'note' => 'Note',
     'reupload' => 'Reupload TOEIC Certificate (PDF, maximum 5MB)',
+    'fail' => 'Failed',
+    'error_registration' => 'Error during registration',
+    'processing_registration' => 'Processing Registration',
+    'wait_processing' => 'Please wait a moment...',
+    'regis_notif' => 'Successful registration for the exam date: '
+
 ];

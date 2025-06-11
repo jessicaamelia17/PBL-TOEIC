@@ -123,6 +123,7 @@ return [
     'format' => 'Format: jpg, jpeg, png. Maks 2MB.',
     'photo_pass' => 'Photo Pass',
     'toeic_registration_form' => 'Formulir Pendaftaran TOEIC',
+    'registered_done_notif' => 'Anda Berhasil Daftar!',
     'registered_done' => 'Anda sudah terdaftar!',
     'exam_date_notif' => 'Tanggal ujian yang Anda dapatkan:',
     'regist_detail' => 'Silakan tunggu pengumuman sesi dan room melalui email Anda.',
@@ -150,4 +151,10 @@ return [
     'app_rejection' => 'Pengajuan Anda Ditolak',
     'note' => 'Catatan',
     'reupload' => 'Upload Ulang Sertifikat TOEIC (PDF, maksimal 5MB)',
+    'fail' => 'Gagal',
+    'error_registration' => 'Terjadi kesalahan saat pendaftaran',
+    'processing_registration' => 'Memproses pendaftaran',
+    'wait_processing' => 'Mohon tunggu sebentar...',
+    'regis_notif' => 'SPendaftaran berhasil untuk tanggal ujian: '
+
 ];
