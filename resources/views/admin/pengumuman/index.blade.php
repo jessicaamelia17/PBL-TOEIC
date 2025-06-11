@@ -34,11 +34,11 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#table_pengumuman').DataTable({
+            var table = $('#table_pengumuman').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('admin.pengumuman.list') }}", // Buat route ini di web.php & controller
+                    url: "{{ route('admin.pengumuman.list') }}",
                     type: "POST",
                     dataType: "json",
                     headers: {
@@ -78,6 +78,26 @@
                         searchable: false
                     }
                 ]
+            });
+
+            // SweetAlert konfirmasi hapus
+            $('#table_pengumuman').on('submit', 'form', function(e) {
+                e.preventDefault();
+                var form = this;
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: "Data pengumuman akan dihapus!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>

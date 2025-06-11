@@ -42,7 +42,7 @@ class ControllerPengumuman extends Controller
                 $deleteUrl = route('admin.pengumuman.destroy', $row->Id_Pengumuman);
                 return '
         <a href="' . $editUrl . '" class="btn btn-warning btn-sm me-1">Edit</a>
-        <form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Yakin hapus?\')">
+           <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
             ' . csrf_field() . method_field('DELETE') . '
             <button class="btn btn-danger btn-sm">Hapus</button>
         </form>
