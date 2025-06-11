@@ -47,11 +47,10 @@
         <button class="btn btn-success mb-2 mr-2" onclick="bagiPeserta({{ $jadwal->id_jadwal }})">
             Bagi Peserta ke Sesi & Room
         </button>
-        <form action="{{ route('admin.sesi-jadwal.reset', $jadwal->id_jadwal) }}" method="POST" 
-            onsubmit="return confirm('Yakin ingin me-reset pembagian peserta?')" class="d-inline">
+        <form action="{{ route('admin.sesi-jadwal.reset', $jadwal->id_jadwal) }}" method="POST" class="d-inline" id="form-reset">
             @csrf
-            <button type="submit" class="btn btn-danger mb-2 mr-2">Reset Pembagian Peserta</button>
-        </form>
+            <button type="button" class="btn btn-danger mb-2 mr-2" onclick="konfirmasiReset()">Reset Pembagian Peserta</button>
+        </form>        
         <a href="{{ route('admin.sesi-jadwal.pembagian', $jadwal->id_jadwal) }}" class="btn btn-info mb-2">
             Lihat Pembagian Peserta
         </a>
@@ -176,25 +175,55 @@
 </div>
 
 <script>
-    function bagiPeserta(idJadwal) {
-        if (!confirm("Yakin ingin membagi peserta ke sesi & room?")) return;
+function bagiPeserta(idJadwal) {
+    Swal.fire({
+        title: 'Bagikan Peserta?',
+        text: 'Peserta akan dibagikan ke sesi & room secara otomatis.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, lanjutkan',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/sesi-jadwal/${idJadwal}/bagi-peserta`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                Swal.fire({
+                    title: data.success ? 'Berhasil' : 'Gagal',
+                    text: data.message,
+                    icon: data.success ? 'success' : 'error',
+                }).then(() => {
+                    if (data.success) location.reload();
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire('Error', 'Terjadi kesalahan saat membagi peserta.', 'error');
+            });
+        }
+    });
+}
+function konfirmasiReset() {
+    Swal.fire({
+        title: 'Reset Pembagian?',
+        text: 'Seluruh pembagian peserta ke sesi dan room akan dihapus.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, reset',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('form-reset').submit();
+        }
+    });
+}
 
-        fetch(`/admin/sesi-jadwal/${idJadwal}/bagi-peserta`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert(data.message);
-            if (data.success) location.reload();
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Terjadi kesalahan saat membagi peserta.');
-        });
-    }
+
 </script>
 @endsection

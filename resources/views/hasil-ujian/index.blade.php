@@ -7,8 +7,13 @@
     @include('layouts.back-button')
 @endsection
 @section('content')
-<div class="max-w-7xl mx-auto mt-32 bg-white p-8 rounded shadow-md animate-fadeIn">
-    <h2 class="text-4xl font-bold mb-6 text-blue-800 text-center">@lang('users.toeic_score')</h2>
+<div class="min-h-screen bg-blue-100 py-10 px-4">
+    <div class="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+
+        <h1 class="text-3xl font-bold text-blue-700 text-center">{{ __('users.toeic_score') }}</h1>
+
+        <hr class="my-6 border-t border-gray-300">
+        
 
     {{-- Tombol Aksi atas --}}
     <div class="flex justify-end mb-4 space-x-2">
@@ -23,10 +28,11 @@
     </div>
 
     {{-- Tabel Hasil Ujian --}}
-    <div class="overflow-x-auto mt-4">
-        <table id="resultTable" class="min-w-full text-sm text-gray-700 border border-gray-300">
+    <div class="overflow-x-auto mt-10">
+        <table id="resultTable" class="min-w-full bg-white rounded-xl overflow-hidden">
             <thead class="bg-blue-100 text-gray-800 font-semibold">
-                <tr>
+                <tr class="bg-blue-200 text-xs text-blue-800 uppercase">
+
                     <th class="px-4 py-2">@lang('users.name')</th>
                     <th class="px-4 py-2">NIM</th>
                     <th class="px-4 py-2">Listening 1</th>
@@ -71,6 +77,7 @@
         </table>
     </div>
 </div>
+</div>
 @endsection
 
 @push('css')
@@ -81,6 +88,12 @@
 @push('js')
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <style>
+        #resultTable_wrapper .dataTables_filter {
+            margin-bottom: 1rem;
+        }
+    </style>
+    
     <script>
         $(document).ready(function () {
             $('#resultTable').DataTable({

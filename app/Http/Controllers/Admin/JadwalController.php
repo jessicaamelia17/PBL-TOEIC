@@ -126,5 +126,31 @@ public function create()
     ]);
 }
 
+public function store(Request $request)
+{
+    $request->validate([
+        'Tanggal_Ujian' => 'required|date',
+        'kuota_max' => 'required|integer|min:1',
+    ]);
+
+    $kuota = KuotaModel::first(); // hanya satu kuota aktif
+
+    // Hitung total kuota jadwal yang sudah ada
+    $totalKuotaJadwal = JadwalUjianModel::where('id_kuota', $kuota->id)->sum('kuota_max');
+
+    if (($totalKuotaJadwal + $request->kuota_max) > $kuota->kuota_total) {
+        return back()->withErrors(['kuota_max' => 'Total kuota seluruh jadwal melebihi kuota total ('.$kuota->kuota_total.')!'])->withInput();
+    }
+
+    // Simpan jadwal baru
+    JadwalUjianModel::create([
+        'Tanggal_Ujian' => $request->Tanggal_Ujian,
+        'kuota_max' => $request->kuota_max,
+        'id_kuota' => $kuota->id
+    ]);
+
+    return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
+}
+
 
 }
