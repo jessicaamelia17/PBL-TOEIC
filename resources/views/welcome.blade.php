@@ -5,8 +5,8 @@
     {{-- Global background color (e.g., light gray) --}}
     <section class="relative w-full min-h-screen text-white overflow-hidden bg-blue-100 pt-20">
         {{-- Full background image --}}
-        <img src="{{ asset('/homepage.png') }}" alt="TOEIC Banner"
-            class="absolute inset-0 w-full h-full object-cover object-center z-0" />
+        <img src="{{ asset('toeic.png') }}" alt="TOEIC Banner"
+            class="absolute left-0 bottom-0 w-full h-2/3 object-cover object-center z-0" />
 
         {{-- Dark overlay for contrast --}}
         <div class="absolute inset-0 bg-grey/40 z-10"></div>
@@ -15,7 +15,7 @@
         <div
             class="absolute inset-0 flex flex-col items-center justify-start text-blue-900 px-2 text-center z-10 pt-20 space-y-4">
             <h2 class="text-4xl md:text-5xl font-bold drop-shadow-lg" data-aos="fade-down" data-aos-duration="1200">
-                @lang('users.toeic_service')</h2>
+                Polinema TOEIC Center</h2>
 
             <h3 class="text-2xl md:text-3xl font-semibold drop-shadow-md" data-aos="fade-down" data-aos-delay="200"
                 data-aos-duration="1000">@lang('users.polinema')</h3>

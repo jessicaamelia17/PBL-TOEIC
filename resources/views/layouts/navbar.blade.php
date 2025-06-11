@@ -4,7 +4,7 @@
         <!-- Logo -->
         <div class="flex items-center bg-white px-4 py-2 rounded-full">
             <img src="{{ asset('polinema.png') }}" alt="TOEIC Logo" class="h-8 mr-3">
-            <h1 class="text-2xl font-bold text-blue-600">TOEIC</h1>
+            <h1 class="text-2xl font-bold text-blue-600">PTC</h1>
         </div>
 
         <!-- Mobile Menu Button -->
