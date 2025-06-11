@@ -5,9 +5,9 @@
       <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">{{ $page->title ?? 'Data Pendaftar' }}</h3>
         <div class="d-flex justify-content-end w-100" style="gap: 8px;">
-            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
+            {{-- <button class="btn btn-success mr-2" data-toggle="modal" data-target="#importCSVModal">
                 <i class="fas fa-file-import"></i> Import CSV
-            </button>
+            </button> --}}
             <button class="btn btn-success" data-toggle="modal" data-target="#exportCSVModal">
                 <i class="fas fa-file-export"></i> Export CSV
             </button>
@@ -122,17 +122,17 @@
                 dataType: "json"
             },
             columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'NIM', name: 'NIM' },
-                { data: 'nama', name: 'nama' },
-                { data: 'no_hp', name: 'no_hp' },
-                { data: 'email', name: 'email' },
-                { data: 'Nama_Prodi', name: 'Nama_Prodi' },
-                { data: 'Nama_Jurusan', name: 'Nama_Jurusan' },
-                { data: 'Tanggal_Pendaftaran', name: 'Tanggal_Pendaftaran' },
-                { data: 'Jadwal', name: 'Jadwal' }, // Tambahkan ini
-                { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
-            ]
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'NIM', name: 'mahasiswa.nim' },
+            { data: 'nama', name: 'mahasiswa.nama' },
+            { data: 'no_hp', name: 'mahasiswa.no_hp' }, // Fixed typo here
+            { data: 'email', name: 'mahasiswa.email' },
+            { data: 'Nama_Prodi', name: 'prodi.Nama_Prodi' }, // Adjusted relationship
+            { data: 'Nama_Jurusan', name: 'jurusan.Nama_Jurusan' }, // Adjusted relationship
+            { data: 'Tanggal_Pendaftaran', name: 'pendaftaran_toeic.Tanggal_Pendaftaran' },
+            { data: 'Jadwal', name: 'jadwal_ujian.Tanggal_Ujian' }, // Assuming this comes from jadwal_ujian
+            { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
+        ]
         });
     });
 </script>
