@@ -97,8 +97,8 @@ class PendaftarController extends Controller
     
         $results = DB::table('pendaftaran_toeic')
             ->join('mahasiswa', 'pendaftaran_toeic.NIM', '=', 'mahasiswa.nim')
-            ->leftJoin('prodi', 'mahasiswa.id_prodi', '=', 'prodi.id')
-            ->leftJoin('jurusan', 'mahasiswa.id_jurusan', '=', 'jurusan.id')
+            ->leftJoin('prodi', 'mahasiswa.id_prodi', '=', 'prodi.id_prodi')
+            ->leftJoin('jurusan', 'mahasiswa.id_jurusan', '=', 'jurusan.id_jurusan')
             ->select(
                 'pendaftaran_toeic.NIM',
                 'mahasiswa.nama',
@@ -139,7 +139,7 @@ class PendaftarController extends Controller
                     $row->Scan_KTP,
                     $row->Scan_KTM,
                     $row->Pas_Foto,
-                    $row->Tanggal_Pendaftaran,
+                    Carbon::parse($row->Tanggal_Pendaftaran)->format('d/m/Y'),
                     $row->ID_Jadwal
                 ]);
             }

@@ -39,8 +39,8 @@
                     <td>{{ $row->Reading_2 }}</td>
                     <td>{{ $row->total_skor_2 }}</td>
                     <td>
-                        {{ optional($row->pendaftaran->jadwal_ujian)->Tanggal_Ujian 
-                            ? \Carbon\Carbon::parse($row->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
+                        {{ optional($row->pendaftaran->jadwal)->Tanggal_Ujian 
+                            ? \Carbon\Carbon::parse($row->pendaftaran->jadwal->Tanggal_Ujian)->format('d-m-Y') 
                             : '-' }}
                     </td>
                     <td>{{ $row->Status }}</td>

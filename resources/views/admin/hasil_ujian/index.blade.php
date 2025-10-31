@@ -64,8 +64,8 @@
                         </span>
                     </td>
                         <td>
-                            {{ optional($item->pendaftaran->jadwal_ujian)->Tanggal_Ujian
-                                ? \Carbon\Carbon::parse($item->pendaftaran->jadwal_ujian->Tanggal_Ujian)->format('d-m-Y') 
+                            {{ optional($item->pendaftaran->jadwal)->Tanggal_Ujian
+                                ? \Carbon\Carbon::parse($item->pendaftaran->jadwal->Tanggal_Ujian)->format('d-m-Y') 
                                 : '-' }}
                         </td>
                         <td>

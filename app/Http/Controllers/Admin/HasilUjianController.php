@@ -148,7 +148,7 @@ class HasilUjianController extends Controller
     {
         $filename = 'hasil_ujian_export_' . date('Ymd_His') . '.csv';
 
-        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal_ujian'])->get();
+        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal'])->get();
 
         $headers = [
             'Content-Type' => 'text/csv',
@@ -167,7 +167,7 @@ class HasilUjianController extends Controller
 
             foreach ($results as $row) {
                 $mhs = optional($row->pendaftaran->mahasiswa);
-                $jadwal = optional($row->pendaftaran->jadwal_ujian);
+                $jadwal = optional($row->pendaftaran->jadwal);
 
                 fputcsv($file, [
                     $mhs->nama ?? '-',
@@ -193,7 +193,7 @@ class HasilUjianController extends Controller
 
     public function exportPdf()
     {
-        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal_ujian'])->get();
+        $results = HasilUjian::with(['pendaftaran.mahasiswa', 'pendaftaran.jadwal'])->get();
 
         $pdf = Pdf::loadView('admin.hasil_ujian.exportPDF', compact('results'))
             ->setPaper('A4', 'landscape');
